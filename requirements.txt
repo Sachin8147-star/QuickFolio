@@ -1,0 +1,5 @@
+flask>=3.0.0
+gunicorn
+psycopg2-binary
+flask-sqlalchemy
+reportlab>=4.2.0
