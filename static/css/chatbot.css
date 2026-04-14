@@ -1,0 +1,54 @@
+/* ════════ CHATBOT CSS ════════ */
+.cb-fab{position:fixed;bottom:26px;right:26px;width:56px;height:56px;border-radius:50%;border:none;font-size:1.3rem;display:flex;align-items:center;justify-content:center;z-index:900;cursor:pointer;background:var(--grad);box-shadow:0 8px 28px rgba(0,229,255,.4);animation:float 3.5s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.cb-fab:hover{transform:scale(1.12)!important;animation:none;box-shadow:0 12px 40px rgba(0,229,255,.55)}
+.cb-fab .cb-notif{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);font-size:.5rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.cb-win{display:none;position:fixed;bottom:96px;right:26px;width:clamp(280px,90vw,360px);height:500px;background:var(--surface);border:1px solid var(--border);border-radius:22px;z-index:901;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.cb-win.open{display:flex;animation:fadeUp .28s cubic-bezier(.34,1.56,.64,1)}
+.cb-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(180,79,255,.12));border-bottom:1px solid var(--border);flex-shrink:0}
+.cb-head-l{display:flex;align-items:center;gap:10px}
+.cb-avatar-wrap{position:relative}
+.cb-av{width:36px;height:36px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.cb-online{position:absolute;bottom:0;right:0;width:9px;height:9px;border-radius:50%;background:#22c55e;border:2px solid var(--surface)}
+.cb-head-info .cb-name{font-weight:800;font-size:.88rem}
+.cb-head-info .cb-status{font-size:.67rem;color:var(--muted);display:flex;align-items:center;gap:3px}
+.cb-close{background:none;border:none;font-size:1rem;color:var(--muted);cursor:pointer;padding:4px 6px;border-radius:6px;transition:var(--t)}
+.cb-close:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.cb-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.cb-messages::-webkit-scrollbar{width:3px}
+.cb-messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.cb-msg{max-width:86%;padding:9px 13px;border-radius:16px;font-size:.81rem;line-height:1.55;animation:fadeUp .22s ease}
+.cb-bot-msg{background:var(--card);border:1px solid var(--border);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px}
+.cb-user-msg{background:var(--grad);color:#000;font-weight:600;align-self:flex-end;border-bottom-right-radius:4px}
+.cb-bot-msg strong{color:var(--accent)}
+.cb-typing-wrap{display:flex;gap:4px;align-items:center;padding:2px 0}
+.cb-typing-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:dot-bounce 1.4s ease-in-out infinite}
+.cb-typing-dot:nth-child(2){animation-delay:.16s}.cb-typing-dot:nth-child(3){animation-delay:.32s}
+@keyframes dot-bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+.cb-quick-wrap{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.cb-q{font-size:.69rem;padding:4px 9px;border-radius:10px;cursor:pointer;font-weight:700;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);color:var(--accent);transition:var(--t)}
+.cb-q:hover{background:rgba(0,229,255,.16)}
+.cb-suggestions{padding:0 14px 10px;display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0}
+.cb-sug{font-size:.7rem;padding:5px 10px;border-radius:10px;cursor:pointer;font-weight:700;background:var(--card);border:1px solid var(--border);color:var(--muted);transition:var(--t);white-space:nowrap}
+.cb-sug:hover{border-color:var(--accent);color:var(--accent)}
+.cb-foot{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;background:var(--bg)}
+.cb-inp{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:9px 13px;color:var(--text);font-size:.81rem;outline:none;transition:var(--t);resize:none;line-height:1.4}
+.cb-inp:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,229,255,.1)}
+.cb-send{background:var(--grad);border:none;border-radius:10px;padding:9px 14px;font-size:.9rem;cursor:pointer;transition:transform .2s;color:#000;font-weight:700;flex-shrink:0}
+.cb-send:hover{transform:scale(1.08)}
+.cb-send:active{transform:scale(.96)}
+
+/* Portfolio chatbot (same but attached to bottom of portfolio) */
+.pf-cb-fab{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;border:none;font-size:1.2rem;display:flex;align-items:center;justify-content:center;z-index:900;cursor:pointer;animation:float 3.5s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.pf-cb-fab:hover{transform:scale(1.1)!important;animation:none}
+.pf-cb-win{display:none;position:fixed;bottom:88px;right:24px;width:clamp(265px,88vw,330px);height:430px;border-radius:18px;z-index:901;flex-direction:column;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.6)}
+.pf-cb-win.open{display:flex;animation:fadeUp .25s ease}
+
+/* Portfolio view */
+.pf-ct-success{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;padding:9px 12px;border-radius:8px;font-size:.78rem;font-weight:600;text-align:center;animation:fadeUp .3s ease;margin-bottom:9px}
+.pf-ct-error{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:9px 12px;border-radius:8px;font-size:.78rem;font-weight:600;text-align:center;margin-bottom:9px}
+.pf-ct-loading{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);color:var(--accent);padding:9px 12px;border-radius:8px;font-size:.78rem;font-weight:600;text-align:center;margin-bottom:9px}
+.scroll-top-pf{position:fixed;bottom:24px;left:24px;width:38px;height:38px;border-radius:50%;border-width:1.5px;border-style:solid;font-size:.88rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.22s;z-index:800}
+.skill-anim{transition:width 1.5s ease!important}
+
+/* Portfolio view CSS variables (set by JS) */
+#pf-root{--bg:#0a0a0f;--surface:#11111c;--card:#18182a;--border:#28284a;--accent:#00ffcc;--a2:#ff00aa;--text:#dde0ff;--muted:#6060a0;--grad:linear-gradient(135deg,#00ffcc,#ff00aa);--fn:'Orbitron',monospace;--fb:'Outfit',sans-serif}

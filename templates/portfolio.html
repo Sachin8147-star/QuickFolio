@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+{% set canonical_url = request.url_root.rstrip('/') ~ '/p/' ~ portfolio.slug %}
+<title>{{ portfolio.title }}</title>
+<meta name="description" content="Portfolio of {{ owner.name }}"/>
+<meta name="theme-color" content="#0b1220"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="developer portfolio, software engineer portfolio, projects, {{ owner.name }}, {{ portfolio.title }}"/>
+<link rel="canonical" href="{{ canonical_url }}"/>
+<meta property="og:site_name" content="QuickFolio"/>
+<meta property="og:title" content="{{ portfolio.title }}"/>
+<meta property="og:description" content="Portfolio of {{ owner.name }}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{{ canonical_url }}"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="{{ portfolio.title }}"/>
+<meta name="twitter:description" content="Portfolio of {{ owner.name }}"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;600;700;800&family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet"/>
+<link rel="preload" href="/static/css/portfolio-view.css?v=20260414quickfolio3" as="style"/>
+<script type="application/ld+json">{{ {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  'name': portfolio.title,
+  'url': canonical_url,
+  'description': 'Portfolio of ' ~ (owner.name or 'Developer'),
+  'mainEntity': {
+    '@type': 'Person',
+    'name': owner.name or 'Developer',
+    'url': canonical_url
+  }
+} | tojson }}</script>
+<script type="application/json" id="portfolio-data-json">{{ {'portfolio': portfolio, 'sections': sections, 'owner': owner, 'slug': portfolio.slug} | tojson }}</script>
+<script>
+let portfolioPayload = {};
+try {
+  portfolioPayload = JSON.parse(document.getElementById('portfolio-data-json')?.textContent || '{}');
+} catch (e) {
+  portfolioPayload = {};
+}
+
+window.PORTFOLIO_DATA = {
+  portfolio: portfolioPayload.portfolio || {},
+  sections: Array.isArray(portfolioPayload.sections) ? portfolioPayload.sections : [],
+  owner: portfolioPayload.owner || {},
+  slug: portfolioPayload.slug || ''
+};
+</script>
+<link rel="stylesheet" href="/static/css/portfolio-view.css?v=20260414quickfolio3"/>
+</head>
+<body>
+<div id="portfolio-root"></div>
+<script defer src="/static/js/utils.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/data.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/renderer.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/chatbot.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/portfolio-view.js?v=20260414quickfolio3"></script>
+</body>
+</html>

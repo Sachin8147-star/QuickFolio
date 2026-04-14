@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-page="{{ page }}">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+{% set page_meta = {
+  'landing': {
+    'title': 'QuickFolio - Build Portfolios That Get You Hired',
+    'description': 'Full-stack developer portfolio builder with AI chatbot, analytics, resume tailoring, and publish workflows.',
+    'robots': 'index,follow'
+  },
+  'templates': {
+    'title': 'Templates - QuickFolio',
+    'description': 'Explore production-ready portfolio templates and launch your site faster with QuickFolio.',
+    'robots': 'index,follow'
+  },
+  'pricing': {
+    'title': 'Pricing - QuickFolio',
+    'description': 'Compare QuickFolio plans and pick the right workflow for your portfolio growth goals.',
+    'robots': 'index,follow'
+  },
+  'manual': {
+    'title': 'Manual - QuickFolio',
+    'description': 'QuickFolio documentation for builder, resume editor, publishing, analytics, and billing.',
+    'robots': 'index,follow'
+  },
+  'about': {
+    'title': 'About - QuickFolio',
+    'description': 'Learn about the QuickFolio mission, team, and full-stack platform for developer portfolios.',
+    'robots': 'index,follow'
+  },
+  'privacy': {
+    'title': 'Privacy Policy - QuickFolio',
+    'description': 'Read how QuickFolio collects, stores, and protects user and visitor data.',
+    'robots': 'index,follow'
+  },
+  'terms': {
+    'title': 'Terms of Service - QuickFolio',
+    'description': 'Review the QuickFolio service terms for acceptable use, billing, and account policies.',
+    'robots': 'index,follow'
+  },
+  'login': {
+    'title': 'Login - QuickFolio',
+    'description': 'Sign in to access your QuickFolio dashboard and portfolio builder.',
+    'robots': 'noindex,nofollow'
+  },
+  'signup': {
+    'title': 'Sign Up - QuickFolio',
+    'description': 'Create your QuickFolio account and publish your developer portfolio.',
+    'robots': 'noindex,nofollow'
+  },
+  'dashboard': {
+    'title': 'Dashboard - QuickFolio',
+    'description': 'Manage your QuickFolio portfolio analytics, contacts, and publishing settings.',
+    'robots': 'noindex,nofollow'
+  },
+  'builder': {
+    'title': 'Builder - QuickFolio',
+    'description': 'Edit portfolio sections, design, and content in the QuickFolio builder.',
+    'robots': 'noindex,nofollow'
+  },
+  'resume-editor': {
+    'title': 'Resume Editor - QuickFolio',
+    'description': 'Create and export recruiter-ready resume PDFs with QuickFolio.',
+    'robots': 'noindex,nofollow'
+  },
+  'billing': {
+    'title': 'Billing - QuickFolio',
+    'description': 'Manage your QuickFolio subscription, invoices, and payment details.',
+    'robots': 'noindex,nofollow'
+  },
+  'admin': {
+    'title': 'Admin - QuickFolio',
+    'description': 'QuickFolio admin moderation and platform controls.',
+    'robots': 'noindex,nofollow'
+  }
+} %}
+{% set meta = page_meta.get(page, page_meta['landing']) %}
+{% set canonical_url = request.base_url %}
+{% set site_root = request.url_root.rstrip('/') %}
+
+<title>{{ meta.title }}</title>
+<meta name="description" content="{{ meta.description }}"/>
+<meta name="robots" content="{{ meta.robots }}"/>
+<meta name="keywords" content="developer portfolio builder, resume builder, recruiter mode, portfolio analytics, QuickFolio"/>
+<link rel="canonical" href="{{ canonical_url }}"/>
+<meta property="og:site_name" content="QuickFolio"/>
+<meta property="og:title" content="{{ meta.title }}"/>
+<meta property="og:description" content="{{ meta.description }}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{{ canonical_url }}"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="{{ meta.title }}"/>
+<meta name="twitter:description" content="{{ meta.description }}"/>
+<meta name="theme-color" content="#0b1220"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&family=Manrope:wght@400;600;700;800&family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet"/>
+<link rel="preload" href="/static/css/main.css?v=20260414quickfolio3" as="style"/>
+<link rel="stylesheet" href="/static/css/main.css?v=20260414quickfolio3"/>
+{% if meta.robots == 'index,follow' %}
+<script type="application/ld+json">{{ {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  'name': 'QuickFolio',
+  'url': site_root,
+  'description': meta.description
+} | tojson }}</script>
+<script type="application/ld+json">{{ {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  'name': 'QuickFolio',
+  'url': site_root,
+  'applicationCategory': 'BusinessApplication',
+  'operatingSystem': 'Web',
+  'description': 'Full-stack portfolio and resume platform for developers.',
+  'offers': {
+    '@type': 'Offer',
+    'price': '0',
+    'priceCurrency': 'INR'
+  }
+} | tojson }}</script>
+{% endif %}
+<script type="application/json" id="app-config-json">{{ {'page': page, 'user': user if user is defined else none} | tojson }}</script>
+<script>
+  // Pass server data to JS
+  let parsedConfig = {};
+  try {
+    parsedConfig = JSON.parse(document.getElementById('app-config-json')?.textContent || '{}');
+  } catch (e) {
+    parsedConfig = {};
+  }
+
+  window.APP_CONFIG = {
+    page: parsedConfig.page || 'landing',
+    user: parsedConfig.user || null,
+    baseUrl: window.location.origin
+  };
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">
+      <div class="nav-logo-icon">⚡</div>
+      <span class="grad-text">QuickFolio</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a class="nav-link {% if page=='landing' %}active{% endif %}" href="/">Home</a>
+      <a class="nav-link {% if page=='templates' %}active{% endif %}" href="/templates">Templates</a>
+      <a class="nav-link {% if page=='pricing' %}active{% endif %}" href="/pricing">Pricing</a>
+      <a class="nav-link {% if page=='billing' %}active{% endif %}" href="/billing">Billing</a>
+      <a class="nav-link {% if page in ['manual','docs'] %}active{% endif %}" href="/manual">Manual</a>
+      <a class="nav-link {% if page=='about' %}active{% endif %}" href="/about">About</a>
+      <a class="nav-link" href="mailto:Ks6911843@gmail.com?subject=QuickFolio%20Website%20Inquiry">Mail</a>
+    </div>
+    <div class="nav-actions" id="nav-actions">
+      <!-- Filled by JS based on auth state -->
+    </div>
+    <button class="mob-btn" id="mob-btn" onclick="toggleMob()" aria-label="Toggle mobile menu" aria-controls="mob-menu" aria-expanded="false">
+      <div class="ham"><span></span><span></span><span></span></div>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu" aria-hidden="true">
+  <a class="mob-link" href="/">🏠 Home</a>
+  <a class="mob-link" href="/templates">🎨 Templates</a>
+  <a class="mob-link" href="/pricing">💎 Pricing</a>
+  <a class="mob-link" href="/billing">💳 Billing</a>
+  <a class="mob-link" href="/manual">📖 Manual</a>
+  <a class="mob-link" href="/about">👥 About</a>
+  <a class="mob-link" href="mailto:Ks6911843@gmail.com?subject=QuickFolio%20Website%20Inquiry">✉ Mail</a>
+  <div id="mob-auth-links" style="padding:8px 0 4px"></div>
+</div>
+
+<!-- PAGE CONTENT — rendered by JS -->
+<main id="main-content"></main>
+
+<!-- GLOBAL CHATBOT -->
+<div id="global-chatbot"></div>
+
+<!-- QUICK ACTIONS ROOT -->
+<div id="command-center-root"></div>
+
+<!-- TOAST NOTIFICATIONS -->
+<div id="toast-container"></div>
+
+<!-- SCRIPTS -->
+<script defer src="/static/js/utils.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/auth.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/chatbot.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/data.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/renderer.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/builder.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/pages.js?v=20260414quickfolio3"></script>
+<script defer src="/static/js/app.js?v=20260414quickfolio3"></script>
+</body>
+</html>
