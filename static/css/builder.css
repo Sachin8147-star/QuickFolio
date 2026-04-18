@@ -1,5 +1,5 @@
 /* ════════ BUILDER CSS ════════ */
-.builder-wrap{display:flex;height:calc(100vh - var(--nav-h));margin-top:var(--nav-h);overflow:hidden}
+.builder-wrap{display:flex;height:calc(100vh - var(--nav-h));height:calc(100dvh - var(--nav-h));margin-top:var(--nav-h);overflow:hidden}
 .b-side{width:var(--sw);min-width:250px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;transition:width var(--t),min-width var(--t)}
 .b-side.collapsed{width:0;min-width:0;overflow:hidden}
 .b-side-head{padding:12px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}

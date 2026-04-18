@@ -1833,23 +1833,50 @@ function buildCanvasHTML(t, visible) {
     .pf-reveal.is-visible{opacity:1;transform:none}
     .pf-card-hover{transition:transform .3s var(--pf-ease),border-color .3s var(--pf-ease),box-shadow .3s var(--pf-ease);will-change:transform}
     .pf-card-hover:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+    .pf-preview-nav-links{display:flex;align-items:center;gap:clamp(8px,2vw,16px);max-width:72%;min-width:0;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+    .pf-preview-nav-links::-webkit-scrollbar{display:none}
+    .pf-preview-nav-menu{display:none;width:30px;height:30px;border-radius:8px;border:1px solid ${t.border};background:${t.card};color:${t.accent};align-items:center;justify-content:center;font-size:.95rem;line-height:1;cursor:pointer}
+    .pf-preview-mobile-menu{display:none;padding:8px 12px;gap:7px;flex-wrap:wrap;background:${t.bg}f2;border-bottom:1px solid ${t.border};backdrop-filter:blur(10px)}
+    .pf-preview-mobile-menu.open{display:flex;animation:fadeUp .18s ease}
+    .pf-preview-mobile-link{background:${t.card};border:1px solid ${t.border};color:${t.muted};border-radius:999px;padding:6px 11px;font-size:.66rem;font-weight:700;letter-spacing:.35px;text-transform:uppercase;cursor:pointer;transition:.2s}
+    .pf-preview-mobile-link:hover{color:${t.accent};border-color:${t.accent}55}
+    .canvas-wrap.mobile #portfolio-canvas .pf-preview-nav-links{display:none}
+    .canvas-wrap.mobile #portfolio-canvas .pf-preview-nav-menu{display:inline-flex}
+    .canvas-wrap.mobile #portfolio-canvas .pf-preview-nav{padding:0 12px}
     [data-inline-edit].inline-editable{cursor:text;outline:1px dashed transparent;outline-offset:2px;transition:outline-color .18s ease,background .18s ease}
     [data-inline-edit].inline-editable:hover{outline-color:${t.accent}77;background:${t.accent}12}
     [data-inline-edit].is-inline-editing{outline-color:${t.accent};background:${t.accent}1f;border-radius:6px;padding:1px 3px}
-    .cb-win{display:none;position:fixed;bottom:86px;right:22px;width:clamp(255px,85vw,320px);height:415px;border-radius:16px;z-index:901;flex-direction:column;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.6);background:${t.surface};border:1px solid ${t.border}}
+    .cb-fab{position:fixed;bottom:22px;right:22px;width:50px;height:50px;padding:0;border-radius:50%;border:none;font-size:1.18rem;line-height:1;display:flex;align-items:center;justify-content:center;z-index:1901;cursor:pointer;background:${t.grad};color:#000;box-shadow:0 10px 28px rgba(0,0,0,.42);animation:float 3.5s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+    .cb-fab:hover{transform:scale(1.08)!important;animation:none}
+    .cb-win{display:none;position:fixed;bottom:86px;right:22px;width:clamp(255px,85vw,320px);height:415px;border-radius:16px;z-index:1902;flex-direction:column;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.6);background:${t.surface};border:1px solid ${t.border}}
     .cb-win.open{display:flex;animation:fadeUp .22s ease}
+    .cb-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;background:${t.grad}}
+    .cb-msgs{flex:1;overflow-y:auto;padding:11px;display:flex;flex-direction:column;gap:8px}
+    .cb-msgs::-webkit-scrollbar{width:4px}
+    .cb-msgs::-webkit-scrollbar-thumb{background:${t.border};border-radius:2px}
     .cb-msg{max-width:84%;padding:7px 10px;border-radius:11px;line-height:1.5;animation:fadeUp .2s ease}
     .cb-bot{background:${t.card};border:1px solid ${t.border};color:${t.text};align-self:flex-start;border-bottom-left-radius:3px}
     .cb-usr{background:${t.grad};color:#000;font-weight:600;align-self:flex-end;border-bottom-right-radius:3px}
+    .cb-footer{padding:8px 10px;border-top:1px solid ${t.border};display:flex;gap:7px;background:${t.surface}}
+    .cb-inp{flex:1;background:${t.card};border:1.5px solid ${t.border};border-radius:8px;padding:8px 11px;color:${t.text};font-size:.78rem;outline:none;transition:.2s}
+    .cb-inp:focus{border-color:${t.accent}}
+    .cb-send{background:${t.grad};border:none;border-radius:7px;padding:8px 11px;font-size:.85rem;cursor:pointer;transition:transform .2s;color:#000;font-weight:700}
+    .cb-send:hover{transform:scale(1.08)}
+    .cb-quick-wrap{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+    .cb-q{font-size:.67rem;padding:3px 8px;border-radius:8px;cursor:pointer;font-weight:700;background:${t.accent}12;border:1px solid ${t.accent}30;color:${t.accent};transition:.15s}
+    .cb-q:hover{background:${t.accent}22}
     .skill-bar-inner{transition:width 1.5s ease!important}
     @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}.pf-reveal{opacity:1!important;transform:none!important}}
   </style>
-  <nav style="position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(16px);border-bottom:1px solid ${t.border};height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(12px,4vw,24px)">
+  <nav class="pf-preview-nav" style="position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(16px);border-bottom:1px solid ${t.border};height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(12px,4vw,24px)">
     <div style="font-family:${t.font};font-size:clamp(.8rem,1.6vw,1rem);font-weight:700;background:${t.grad};-webkit-background-clip:text;-webkit-text-fill-color:transparent">&lt;${firstName}/&gt;</div>
-    <div style="display:flex;gap:clamp(8px,2vw,16px)">
-      ${visible.map(s=>`<button onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'})" style="background:none;border:none;font-size:clamp(.55rem,.7vw+.4rem,.73rem);font-weight:700;color:${t.muted};cursor:pointer;text-transform:uppercase;letter-spacing:.4px;transition:.2s" onmouseover="this.style.color='${t.accent}'" onmouseout="this.style.color='${t.muted}'">${SECTION_INFO[s.id].label.split(' ')[0]}</button>`).join('')}
+    <div class="pf-preview-nav-links">
+      ${visible.map(s=>`<button onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'})" style="background:none;border:none;font-size:clamp(.55rem,.7vw+.4rem,.73rem);font-weight:700;color:${t.muted};cursor:pointer;text-transform:uppercase;letter-spacing:.4px;transition:.2s;white-space:nowrap" onmouseover="this.style.color='${t.accent}'" onmouseout="this.style.color='${t.muted}'">${SECTION_INFO[s.id].label.split(' ')[0]}</button>`).join('')}
     </div>
+    <button class="pf-preview-nav-menu" type="button" aria-label="Preview navigation" aria-expanded="false" aria-controls="pf-mobile-nav-menu" onclick="const m=document.getElementById('pf-mobile-nav-menu');if(!m)return;const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');this.textContent=o?'✕':'☰';">☰</button>
   </nav>`;
+
+  html += `<div id="pf-mobile-nav-menu" class="pf-preview-mobile-menu">${visible.map(s=>`<button class="pf-preview-mobile-link" onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'});const m=document.getElementById('pf-mobile-nav-menu');if(m)m.classList.remove('open');const b=document.querySelector('.pf-preview-nav-menu');if(b){b.textContent='☰';b.setAttribute('aria-expanded','false');}">${SECTION_INFO[s.id].label}</button>`).join('')}</div>`;
 
   visible.forEach(sec => {
     html += renderSection(sec.id, data, t, { builderMode: true });
