@@ -1,0 +1,79 @@
+[
+  {
+    "title": "SMS Spam Detector",
+    "description": "ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation.",
+    "tech": [
+      "ML pipeline",
+      "evaluation.",
+      "evaluation",
+      "Scikit-Learn."
+    ],
+    "links": [
+      "https://github.com/Sachin8147-star/SMS-Spam-Detecter.git"
+    ]
+  },
+  {
+    "title": "Python Chatbot",
+    "description": "NLP chatbot using NLTK library to process and respond to user input intelligently.",
+    "tech": [
+      "NLP chatbot",
+      "NLTK library to process"
+    ],
+    "links": [
+      "https://github.com/Sachin8147-star/chatbot.git"
+    ]
+  },
+  {
+    "title": "Weather Forecast",
+    "description": "Python program using OpenWeather API with beautiful data visualizations.",
+    "tech": [
+      "Python program"
+    ],
+    "links": [
+      "https://github.com/Sachin8147-star/weather-forecast.git"
+    ]
+  },
+  {
+    "title": "Calculator",
+    "description": "Clean and responsive calculator with smooth UI built using vanilla JavaScript.",
+    "tech": [
+      "Clean",
+      "vanilla JavaScript."
+    ],
+    "links": [
+      "https://github.com/Sachin8147-star/calculator.git",
+      "https://sachin8147-star.github.io/calculator/"
+    ]
+  },
+  {
+    "title": "Sales Report Project",
+    "description": "Reads CSV sales data, performs analysis, and auto-generates a formatted PDF report.",
+    "tech": [
+      "Reads CSV sales data",
+      "performs analysis"
+    ],
+    "links": [
+      "https://github.com/Sachin8147-star/sales-report-project-python.git"
+    ]
+  },
+  {
+    "title": "Stone Paper Scissors",
+    "description": "Classic interactive game with score tracking — my very first frontend project!",
+    "tech": [],
+    "links": [
+      "https://github.com/Sachin8147-star/stone-paper-scissors-game.git",
+      "https://sachin8147-star.github.io/stone-paper-scissors-game/"
+    ]
+  },
+  {
+    "title": "Portfolio Website",
+    "description": "This portfolio — built with HTML, CSS, JavaScript, and Tailwind. Fully responsive.",
+    "tech": [
+      "This portfolio",
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "links": []
+  }
+]

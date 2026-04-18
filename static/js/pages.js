@@ -6,6 +6,335 @@ function getQuickFolioMailHref(subject = 'QuickFolio Inquiry') {
   return `mailto:${QUICKFOLIO_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
 
+const SACHIN_PORTFOLIO_PROFILE = {
+  intro: "Hi all 👋 I'm SACHIN.",
+  headline: 'Turning logic into digital poetry.',
+  role: 'Future Data Scientist 📊',
+  resume: 'https://sachin8147-star.github.io/Portfolio-website/resume.pdf',
+  location: 'Remote / Earth',
+  availability: 'Available for new opportunities',
+  about: [
+    'I am a Computer Science student preparing for internships and building a strong foundation in programming and software development.',
+    'Currently working as a Python Development Intern at Cyber Defence Zone, building automation scripts and practical tools.',
+    'I stay focused on hands-on projects, clean implementation quality, and continuous growth through real-world problem solving.'
+  ],
+  stats: ['03+ Months Experience', '1k+ Lines of Code', 'Internship Ready'],
+  skills: [
+    {
+      group: 'Programming',
+      note: 'Building efficient logic in C++ and versatile scripts in Python.',
+      items: ['C++', 'Python', 'HTML', 'CSS']
+    },
+    {
+      group: 'Visual Design',
+      note: 'Comfortable with vector illustration, visual polish, and UI composition.',
+      items: ['Photoshop', 'CorelDRAW', 'UI/UX']
+    },
+    {
+      group: 'Workflow',
+      note: 'Version control and document automation for smoother collaboration.',
+      items: ['Git', 'GitHub', 'MS-Office']
+    },
+    {
+      group: 'Frontend',
+      note: 'Building responsive interfaces and practical interaction flows.',
+      items: ['React', 'JavaScript', 'Tailwind', 'HTML/CSS']
+    }
+  ],
+  projects: [
+    {
+      title: 'SMS Spam Detector',
+      desc: 'ML pipeline using Scikit-Learn from preprocessing to model training and evaluation.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/SMS-Spam-Detecter',
+      tech: ['Python', 'Pandas', 'Seaborn', 'Scikit-Learn'],
+      links: [
+        { label: 'GitHub', type: 'github', href: 'https://github.com/Sachin8147-star/SMS-Spam-Detecter.git' }
+      ]
+    },
+    {
+      title: 'Python Chatbot',
+      desc: 'NLP chatbot using NLTK to process and respond to user input intelligently.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/chatbot',
+      tech: ['Python', 'NLTK', 'NLP'],
+      links: [
+        { label: 'GitHub', type: 'github', href: 'https://github.com/Sachin8147-star/chatbot.git' }
+      ]
+    },
+    {
+      title: 'Weather Forecast',
+      desc: 'Python program using OpenWeather API with clear weather data visualizations.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/weather-forecast',
+      tech: ['Python', 'OpenWeather API', 'Data Visualization'],
+      links: [
+        { label: 'GitHub', type: 'github', href: 'https://github.com/Sachin8147-star/weather-forecast.git' }
+      ]
+    },
+    {
+      title: 'Calculator',
+      desc: 'Clean and responsive calculator with smooth UI built using vanilla JavaScript.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/calculator',
+      tech: ['HTML', 'CSS', 'JavaScript'],
+      links: [
+        { label: 'GitHub', type: 'github', href: 'https://github.com/Sachin8147-star/calculator.git' },
+        { label: 'Live', type: 'demo', href: 'https://sachin8147-star.github.io/calculator/' }
+      ]
+    },
+    {
+      title: 'Sales Report Project',
+      desc: 'Reads CSV sales data, performs analysis, and auto-generates a formatted PDF report.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/sales-report-project-python',
+      tech: ['Python', 'CSV', 'PDF Automation'],
+      links: [
+        { label: 'GitHub', type: 'github', href: 'https://github.com/Sachin8147-star/sales-report-project-python.git' }
+      ]
+    },
+    {
+      title: 'Stone Paper Scissors',
+      desc: 'Classic interactive game with score tracking and polished gameplay flow.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/stone-paper-scissors-game',
+      tech: ['HTML', 'CSS', 'JavaScript'],
+      links: [
+        { label: 'GitHub', type: 'github', href: 'https://github.com/Sachin8147-star/stone-paper-scissors-game.git' },
+        { label: 'Live', type: 'demo', href: 'https://sachin8147-star.github.io/stone-paper-scissors-game/' }
+      ]
+    },
+    {
+      title: 'Portfolio Website',
+      desc: 'Personal portfolio built with HTML, CSS, JavaScript, and Tailwind with responsive layout.',
+      cover: 'https://opengraph.githubassets.com/1/Sachin8147-star/Portfolio-website',
+      tech: ['HTML', 'CSS', 'JavaScript', 'Tailwind'],
+      links: [
+        { label: 'Live', type: 'demo', href: 'https://sachin8147-star.github.io/Portfolio-website/' }
+      ]
+    }
+  ],
+  experience: [
+    {
+      role: 'Python Development Intern',
+      company: 'Cyber Defence Zone — Remote, IN',
+      period: 'Dec 2025 — Present',
+      bullets: [
+        'Developed Python scripts for automation and problem-solving tasks.',
+        'Worked with core Python concepts: functions, loops, and data structures.',
+        'Built utilities related to cybersecurity workflows and debugging quality.'
+      ]
+    },
+    {
+      role: 'Frontend Developer',
+      company: 'Learning Online — Delhi, IN',
+      period: 'Jan 2026 — Present',
+      bullets: [
+        'Built Stone Paper Scissors game projects and a clean calculator UI.',
+        'Developed portfolio-focused frontend flows with HTML, CSS, and JavaScript.'
+      ]
+    }
+  ],
+  education: ['Bachelor of Computer Science — Currently Pursuing'],
+  links: {
+    github: 'https://github.com/Sachin8147-star',
+    linkedin: 'https://linkedin.com/in/sachin-98573a332',
+    email: 'mailto:ks6911843@gmail.com',
+    instagram: 'https://www.instagram.com/_sachin.sachin_0000',
+    x: 'https://www.x.com/TechGam54440224',
+    portfolio: 'https://sachin8147-star.github.io/Portfolio-website/',
+    projects: 'https://sachin8147-star.github.io/Portfolio-website/projects.html'
+  }
+};
+
+let _sachinShowcaseCleanup = null;
+
+function getBrandIconSvg(brand) {
+  const icons = {
+    github: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12.18c0 5.12 3.29 9.46 7.86 11 .58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.55-3.88-1.55-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.35.95.1-.74.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.25.45-2.29 1.18-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18A11 11 0 0 1 12 5.76c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.18 1.84 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.15 0 .31.21.67.8.56a11.5 11.5 0 0 0 7.84-11A11.5 11.5 0 0 0 12 .5Z"/></svg>',
+    linkedin: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.79 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0Zm-14.2 20.45H4.48V9h3.55v11.46ZM6.26 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm14.2 13.02h-3.55v-5.57c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.86 3.37-1.86 3.61 0 4.28 2.38 4.28 5.46v6.29Z"/></svg>',
+    mail: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.2l9 5.4 9-5.4V7H3Zm18 10V9.53l-8.49 5.09a1 1 0 0 1-1.02 0L3 9.53V17h18Z"/></svg>',
+    external: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M14 3h7v7h-2V6.41l-8.29 8.3-1.42-1.42 8.3-8.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"/></svg>'
+  };
+  return icons[brand] || icons.external;
+}
+
+function getProjectCardMediaBackground(project) {
+  const titleSeed = String(project?.title || 'Project');
+  const baseHue = [...titleSeed].reduce((sum, char) => sum + char.charCodeAt(0), 0) % 360;
+  const accentHue = (baseHue + 80) % 360;
+  const toneLayer = `linear-gradient(138deg, hsla(${baseHue}, 88%, 48%, .46), hsla(${accentHue}, 88%, 44%, .46))`;
+  const fallbackSeed = titleSeed.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'project';
+  const fallbackCover = `https://picsum.photos/seed/${encodeURIComponent(fallbackSeed)}/1200/675`;
+  const cover = typeof project?.cover === 'string' ? project.cover.trim() : '';
+
+  if (!cover) {
+    return `linear-gradient(180deg, rgba(7,11,24,.22), rgba(7,11,24,.74)), ${toneLayer}, url('${fallbackCover}')`;
+  }
+
+  const safeCover = cover.replace(/'/g, '%27');
+  return `linear-gradient(180deg, rgba(7,11,24,.22), rgba(7,11,24,.74)), ${toneLayer}, url('${safeCover}'), url('${fallbackCover}')`;
+}
+
+function getProjectPrimaryHref(project) {
+  if (!project || !Array.isArray(project.links) || !project.links.length) {
+    return SACHIN_PORTFOLIO_PROFILE.links.projects;
+  }
+
+  const preferred = project.links.find((link) => link.type === 'demo') || project.links[0];
+  return preferred?.href || SACHIN_PORTFOLIO_PROFILE.links.projects;
+}
+
+function renderSachinSpotlightSection(context = 'landing') {
+  const profile = SACHIN_PORTFOLIO_PROFILE;
+  const embedded = context === 'about-embedded';
+  const eyeLabel = embedded ? 'About Developer' : 'Developer Spotlight';
+
+  const block = `
+    <div class="sachin-spotlight-head">
+      <div class="sec-eye">${eyeLabel}</div>
+      <h2 class="sec-h2 font-h">${profile.intro}<br><span class="grad-text">${profile.headline}</span></h2>
+      <p class="sec-sub tm" style="max-width:760px">${profile.about[0]} ${profile.about[1]}</p>
+    </div>
+
+    <div class="sachin-spotlight-grid">
+      <article class="card card-h card-line sachin-prism-card">
+        <div class="sachin-profile-top">
+          <div class="sachin-role-tag">${profile.role}</div>
+          <p class="sachin-bio-line">${profile.about[2]}</p>
+          <div class="sachin-mini-meta">📍 ${profile.location} · 🟢 ${profile.availability}</div>
+        </div>
+        <div class="sachin-stat-row">
+          ${profile.stats.map((item) => `<span class="sachin-stat-pill">${item}</span>`).join('')}
+        </div>
+        <div class="sachin-contact-row">
+          <a class="sachin-contact-link" href="${profile.links.github}" target="_blank" rel="noopener" aria-label="Sachin GitHub">${getBrandIconSvg('github')}<span>GitHub</span></a>
+          <a class="sachin-contact-link" href="${profile.links.linkedin}" target="_blank" rel="noopener" aria-label="Sachin LinkedIn">${getBrandIconSvg('linkedin')}<span>LinkedIn</span></a>
+          <a class="sachin-contact-link" href="${profile.links.email}" aria-label="Sachin Email">${getBrandIconSvg('mail')}<span>Email</span></a>
+          <a class="sachin-contact-link" href="${profile.resume}" target="_blank" rel="noopener" aria-label="Sachin Resume">${getBrandIconSvg('external')}<span>Resume</span></a>
+        </div>
+      </article>
+
+      <article class="card card-h card-line sachin-prism-card">
+        <div class="sachin-skill-grid">
+          ${profile.skills.map((group) => `
+            <div class="sachin-skill-group">
+              <h3 class="sachin-skill-title">${group.group}</h3>
+              <div class="sachin-skill-chips">${group.items.map((item) => `<span class="sachin-skill-chip">${item}</span>`).join('')}</div>
+              <p class="sachin-skill-note">${group.note}</p>
+            </div>
+          `).join('')}
+        </div>
+      </article>
+    </div>
+
+    <div class="sachin-project-grid">
+      ${profile.projects.map((project) => `
+        <article class="card card-h card-line sachin-project-card">
+          <a class="sachin-project-media" href="${getProjectPrimaryHref(project)}" target="_blank" rel="noopener" aria-label="${project.title} project preview" style="background-image:${getProjectCardMediaBackground(project)}">
+            <span class="sachin-project-media-badge">Preview</span>
+          </a>
+          <h3 class="sachin-project-title font-h">${project.title}</h3>
+          <p class="sachin-project-desc">${project.desc}</p>
+          <div class="sachin-project-tech">${project.tech.map((tech) => `<span class="tag tag-c">${tech}</span>`).join('')}</div>
+          <div class="sachin-project-links">
+            ${project.links.map((link) => `<a class="btn btn-ghost btn-sm" href="${link.href}" target="_blank" rel="noopener">${link.type === 'github' ? getBrandIconSvg('github') : getBrandIconSvg('external')}<span>${link.label}</span></a>`).join('')}
+          </div>
+        </article>
+      `).join('')}
+
+      <article class="card card-h card-line sachin-project-card">
+        <h3 class="sachin-project-title font-h">Experience + Education</h3>
+        <div class="sachin-exp-list">
+          ${profile.experience.map((exp) => `
+            <div class="sachin-exp-item">
+              <div class="sachin-exp-role">${exp.role}</div>
+              <div class="sachin-exp-meta">${exp.company} · ${exp.period}</div>
+              <ul class="sachin-exp-bullets">${exp.bullets.map((item) => `<li>${item}</li>`).join('')}</ul>
+            </div>
+          `).join('')}
+          <div class="sachin-edu-wrap">${profile.education.map((edu) => `<div class="sachin-edu-item">🎓 ${edu}</div>`).join('')}</div>
+        </div>
+        <div class="sachin-project-links" style="margin-top:10px">
+          <a class="btn btn-outline btn-sm" href="${profile.links.projects}" target="_blank" rel="noopener">${getBrandIconSvg('external')}<span>View All Projects</span></a>
+          <a class="btn btn-primary btn-sm" href="${profile.links.portfolio}" target="_blank" rel="noopener">${getBrandIconSvg('external')}<span>Open Live Portfolio</span></a>
+        </div>
+      </article>
+    </div>
+  `;
+
+  if (embedded) {
+    return `<div class="sachin-spotlight-embed">${block}</div>`;
+  }
+
+  return `
+  <section class="sachin-spotlight-sec">
+    <div class="wrap">${block}</div>
+  </section>`;
+}
+
+function initSachinShowcaseMotion() {
+  if (typeof _sachinShowcaseCleanup === 'function') {
+    _sachinShowcaseCleanup();
+  }
+  _sachinShowcaseCleanup = null;
+
+  const cards = [...document.querySelectorAll('.sachin-prism-card')];
+  if (!cards.length) return;
+
+  const prefersReduced = document.body.classList.contains('perf-mode')
+    || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  if (prefersReduced) {
+    cards.forEach((card) => {
+      card.classList.remove('is-motion');
+      card.style.removeProperty('--tilt-x');
+      card.style.removeProperty('--tilt-y');
+      card.style.removeProperty('--glow-x');
+      card.style.removeProperty('--glow-y');
+    });
+    return;
+  }
+
+  const cleanupList = [];
+
+  cards.forEach((card) => {
+    card.classList.add('is-motion');
+
+    const onMove = (event) => {
+      const rect = card.getBoundingClientRect();
+      const nx = ((event.clientX - rect.left) / Math.max(rect.width, 1)) - 0.5;
+      const ny = ((event.clientY - rect.top) / Math.max(rect.height, 1)) - 0.5;
+
+      card.style.setProperty('--tilt-x', `${(nx * 9).toFixed(2)}deg`);
+      card.style.setProperty('--tilt-y', `${(ny * -9).toFixed(2)}deg`);
+      card.style.setProperty('--glow-x', `${((nx + 0.5) * 100).toFixed(2)}%`);
+      card.style.setProperty('--glow-y', `${((ny + 0.5) * 100).toFixed(2)}%`);
+    };
+
+    const onLeave = () => {
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+      card.style.setProperty('--glow-x', '50%');
+      card.style.setProperty('--glow-y', '50%');
+    };
+
+    card.addEventListener('pointermove', onMove, { passive: true });
+    card.addEventListener('pointerleave', onLeave);
+    card.addEventListener('pointerup', onLeave);
+    onLeave();
+
+    cleanupList.push(() => {
+      card.removeEventListener('pointermove', onMove);
+      card.removeEventListener('pointerleave', onLeave);
+      card.removeEventListener('pointerup', onLeave);
+      card.classList.remove('is-motion');
+      card.style.removeProperty('--tilt-x');
+      card.style.removeProperty('--tilt-y');
+      card.style.removeProperty('--glow-x');
+      card.style.removeProperty('--glow-y');
+    });
+  });
+
+  _sachinShowcaseCleanup = () => {
+    cleanupList.forEach((fn) => fn());
+  };
+}
+
 function renderDirectMailSection(options = {}) {
   const eyebrow = options.eyebrow || 'Direct Mail';
   const title = options.title || 'Prefer email? Reach us directly.';
@@ -32,22 +361,41 @@ function renderDirectMailSection(options = {}) {
 function renderLanding() {
   const pricingSection = renderPricingSection('landing');
   return `
-  <section class="hero home-hero-2026" style="padding-top:var(--nav-h)">
-    <div class="hero-grid"></div>
-    <div class="blob" style="top:7%;left:4%"></div>
-    <div class="blob" style="bottom:4%;right:3%;animation-delay:-4s"></div>
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
+  <section class="hero home-hero-2026 cinematic-hero" style="padding-top:var(--nav-h)">
+    <div class="hero-cinematic-layer" aria-hidden="true">
+      <canvas id="hero-canvas" class="hero-canvas"></canvas>
+      <div class="hero-vignette"></div>
+      <div class="hero-noise"></div>
+      <div class="hero-light hero-light-a hero-parallax-layer" data-depth="-12"></div>
+      <div class="hero-light hero-light-b hero-parallax-layer" data-depth="9"></div>
+    </div>
+    <div class="hero-grid hero-parallax-layer" data-depth="-4"></div>
+    <div class="blob hero-parallax-layer" data-depth="-18" style="top:7%;left:4%"></div>
+    <div class="blob hero-parallax-layer" data-depth="16" style="bottom:4%;right:3%;animation-delay:-4s"></div>
+    <div class="hero-orb hero-orb-1 hero-parallax-layer" data-depth="-24"></div>
+    <div class="hero-orb hero-orb-2 hero-parallax-layer" data-depth="24"></div>
+    <div class="hero-content-wrap hero-parallax-layer" data-depth="10">
     <div class="hero-content">
       <div class="hero-eye">
         <div style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse-dot 2s infinite"></div>
         2026 Creator Stack
       </div>
-      <h1 class="hero-h1 font-h">Your Portfolio, but<br><span class="grad-text">Productized for Hiring</span></h1>
+      <h1 class="hero-h1 font-h hero-title-split">
+        <span class="hero-line">
+          <span class="hero-word">Your</span>
+          <span class="hero-word">Portfolio,</span>
+          <span class="hero-word">but</span>
+        </span>
+        <span class="hero-line hero-line-accent">
+          <span class="hero-word grad-text">Productized</span>
+          <span class="hero-word grad-text">for</span>
+          <span class="hero-word grad-text">Hiring</span>
+        </span>
+      </h1>
       <p class="hero-sub">QuickFolio helps developers ship portfolio sites that convert viewers into interviews, leads, and paid work. Build once, adapt for every role, and track what actually gets attention.</p>
       <div class="hero-actions">
-        <a href="/signup" class="btn btn-primary btn-xl anim-glow">⚡ Start Free</a>
-        <a href="/templates" class="btn btn-ghost btn-xl">🧩 Explore Templates</a>
+        <span class="hero-btn-wrap"><a href="/signup" class="btn btn-primary btn-xl anim-glow">⚡ Start Free</a></span>
+        <span class="hero-btn-wrap"><a href="/templates" class="btn btn-ghost btn-xl">🧩 Explore Templates</a></span>
       </div>
       <div class="hero-stats">
         <div class="hs"><span class="hs-n" data-count="12400">0</span><span class="hs-l">Portfolios Published</span></div>
@@ -59,6 +407,7 @@ function renderLanding() {
         ${['Resume Tailoring', 'Recruiter Mode', 'Live Analytics', 'One-click Publish', 'AI Chatbot'].map((chip) => `<span class="home-signal-chip">${chip}</span>`).join('')}
       </div>
       <p style="margin-top:12px;color:var(--muted2);font-size:.72rem;letter-spacing:.2px;text-align:center">Illustrative demo metrics are shown in this preview. Live values depend on real account activity.</p>
+    </div>
     </div>
   </section>
 
@@ -1338,12 +1687,12 @@ function renderAbout() {
           <div style="color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:1px;font-weight:700">${lbl}</div>
         </div>`).join('')}
       </div>
+      ${renderSachinSpotlightSection('about-embedded')}
       <h2 style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:800;text-align:center;margin-bottom:28px">Meet the <span class="grad-text">team</span></h2>
       <div class="team-g">
         ${[
-          {s:'Sachin',n:'Sachin Kumar',r:'Founder & Lead Dev',b:'CS student and Python Dev Intern. Built QuickFolio to help developers land better opportunities faster.'},
-          {s:'Neha',n:'Neha Singh',r:'UI/UX Designer',b:'Designs stunning interfaces that balance beauty with function. Expert in design systems and motion design.'},
-          {s:'Rohan',n:'Rohan Gupta',r:'Backend Engineer',b:'Builds the Flask backend, API design, and database architecture. Loves performance optimization.'},
+          {s:'Sachin',n:'Sachin',r:'Founder & Lead Dev',b:'CS student and Python Dev Intern. Built QuickFolio to help developers land better opportunities faster.'},
+         
         ].map(m=>`
         <div class="card card-h team-card">
           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${m.s}" class="team-av" alt="${m.n}">
@@ -3139,11 +3488,11 @@ function renderFooter() {
             <span class="foot-badge">Analytics-Driven</span>
           </div>
           <div class="foot-socials">
-            <a class="foot-social" href="${getQuickFolioMailHref('QuickFolio Footer Inquiry')}" title="Email">✉</a>
-            <a class="foot-social" href="https://github.com/sachin8147-star" title="GitHub">⚡</a>
-            <a class="foot-social" href="#" title="Twitter">🐦</a>
-            <a class="foot-social" href="https://linkedin.com/in/sachin-98573a332" title="LinkedIn">💼</a>
-            <a class="foot-social" href="#" title="Discord">💬</a>
+            <a class="foot-social" href="${getQuickFolioMailHref('QuickFolio Footer Inquiry')}" title="Email" aria-label="Email">${getBrandIconSvg('mail')}</a>
+            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.github}" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">${getBrandIconSvg('github')}</a>
+            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.x}" target="_blank" rel="noopener" title="Twitter / X" aria-label="Twitter / X">𝕏</a>
+            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.linkedin}" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">${getBrandIconSvg('linkedin')}</a>
+            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.instagram}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">◎</a>
           </div>
         </div>
         <div>

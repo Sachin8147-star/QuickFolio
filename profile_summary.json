@@ -1,0 +1,328 @@
+{
+  "name": "Hi all 👋 I'm SACHIN.",
+  "headline": "Turning logic into digital poetry.",
+  "about": "The Developer",
+  "skills": [
+    "loops",
+    "data structures.",
+    "Python",
+    "and web development.",
+    "Python • NLTK • NLP",
+    "Earth."
+  ],
+  "projects": [
+    {
+      "name": "SMS Spam Detector",
+      "description": "ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation.",
+      "links": [
+        {
+          "type": "github",
+          "url": "https://github.com/Sachin8147-star/SMS-Spam-Detecter.git"
+        },
+        {
+          "type": "github",
+          "url": "https://github.com/Sachin8147-star/chatbot.git"
+        }
+      ],
+      "evidence": "🛡️ SMS Spam Detector ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation. Python • Pandas • Seaborn • Scikit-Learn GitHub "
+    },
+    {
+      "name": "SMS Spam Detector",
+      "description": "ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation.",
+      "links": [
+        {
+          "type": "github",
+          "url": "https://github.com/Sachin8147-star/SMS-Spam-Detecter.git"
+        }
+      ],
+      "evidence": "🛡️ SMS Spam Detector ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation. Python • Pandas • Seaborn • Scikit-Learn GitHub"
+    },
+    {
+      "name": "SMS Spam Detector",
+      "description": "ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation.",
+      "links": [
+        {
+          "type": "github",
+          "url": "https://github.com/Sachin8147-star/SMS-Spam-Detecter.git"
+        }
+      ],
+      "evidence": "SMS Spam Detector ML pipeline using Scikit-Learn — from data preprocessing to model training and evaluation. Python • Pandas • Seaborn • Scikit-Learn GitHub"
+    },
+    {
+      "name": "Python Chatbot",
+      "description": "NLP chatbot using NLTK library to process and respond to user input intelligently.",
+      "links": [
+        {
+          "type": "github",
+          "url": "https://github.com/Sachin8147-star/chatbot.git"
+        }
+      ],
+      "evidence": "🤖 Python Chatbot NLP chatbot using NLTK library to process and respond to user input intelligently. Python • NLTK • NLP GitHub"
+    },
+    {
+      "name": "Python Chatbot",
+      "description": "NLP chatbot using NLTK library to process and respond to user input intelligently.",
+      "links": [
+        {
+          "type": "github",
+          "url": "https://github.com/Sachin8147-star/chatbot.git"
+        }
+      ],
+      "evidence": "Python Chatbot NLP chatbot using NLTK library to process and respond to user input intelligently. Python • NLTK • NLP GitHub"
+    }
+  ],
+  "education": [
+    {
+      "text": "Bachelor of Computer Science Currently Pursuing",
+      "evidence": "education."
+    }
+  ],
+  "experience": [
+    {
+      "text": "Python Development Intern Cyber Defence Zone — Remote, IN Dec 2025 — Present → Developed Python scripts for automation and problem-solving tasks. → Wo",
+      "evidence": "work experience."
+    },
+    {
+      "text": "Python Development Intern Cyber Defence Zone — Remote, IN Dec 2025 — Present",
+      "evidence": "work experience."
+    },
+    {
+      "text": "Python Development Intern Cyber Defence Zone — Remote, IN",
+      "evidence": "work experience."
+    },
+    {
+      "text": "Version control and document automation.",
+      "evidence": "workflow"
+    }
+  ],
+  "contact": {
+    "email": [],
+    "phone": [],
+    "location": [],
+    "linkedin": [
+      "https://linkedin.com/in/sachin-98573a332"
+    ],
+    "github": [
+      "https://github.com/Sachin8147-star/SMS-Spam-Detecter.git",
+      "https://github.com/Sachin8147-star/chatbot.git",
+      "https://github.com/Sachin8147-star"
+    ],
+    "other": [
+      "https://sachin8147-star.github.io/Portfolio-website/resume.pdf"
+    ]
+  },
+  "extras": [],
+  "evidence": {
+    "title": "Sachin — Portfolio",
+    "headings": [
+      "Hi all 👋 I'm SACHIN.",
+      "Turning logic into digital poetry.",
+      "My Skills / Arsenal.",
+      "Programming",
+      "Visual Design",
+      "Workflow",
+      "Frontend",
+      "Work Experience."
+    ],
+    "paragraphs": [
+      "The Developer",
+      "I am a Computer Science student preparing for internships and building a strong foundation in programming and software development. I enjoy working with C++, Python, and web development.",
+      "Currently working as a Python Development Intern at Cyber Defence Zone , developing Python scripts and automation tools.",
+      "Motivated to continuously improve my coding skills and grow as a software developer through hands-on projects and industry exposure.",
+      "Technical & Creative"
+    ],
+    "list_items": [
+      "→ Developed Python scripts for automation and problem-solving tasks.",
+      "→ Worked with core Python: functions, loops, data structures.",
+      "→ Built small tools and utilities related to cybersecurity workflows.",
+      "→ Improved debugging skills and code readability through regular practice.",
+      "→ Stone Paper Scissors Game",
+      "→ Calculator with clean UI",
+      "→ Portfolio Website"
+    ],
+    "anchors": [
+      {
+        "text": "About",
+        "href": "#about",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#about"
+      },
+      {
+        "text": "Skills",
+        "href": "#skills",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#skills"
+      },
+      {
+        "text": "Work",
+        "href": "#experience",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#experience"
+      },
+      {
+        "text": "Projects",
+        "href": "#projects",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#projects"
+      },
+      {
+        "text": "Contact",
+        "href": "#contact",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#contact"
+      },
+      {
+        "text": "S SACHIN .",
+        "href": "#",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#"
+      },
+      {
+        "text": "About",
+        "href": "#about",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#about"
+      },
+      {
+        "text": "Skills",
+        "href": "#skills",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#skills"
+      },
+      {
+        "text": "Work",
+        "href": "#experience",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#experience"
+      },
+      {
+        "text": "Projects",
+        "href": "#projects",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#projects"
+      },
+      {
+        "text": "Education",
+        "href": "#education",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#education"
+      },
+      {
+        "text": "Contact",
+        "href": "#contact",
+        "url": "https://sachin8147-star.github.io/Portfolio-website/#contact"
+      }
+    ],
+    "sections": [
+      {
+        "tag": "nav",
+        "id": "",
+        "class": "glass"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "div",
+        "id": "",
+        "class": "glass-card"
+      },
+      {
+        "tag": "div",
+        "id": "desk-nav",
+        "class": ""
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link"
+      },
+      {
+        "tag": "button",
+        "id": "theme-toggle",
+        "class": ""
+      },
+      {
+        "tag": "i",
+        "id": "sun-icon",
+        "class": ""
+      },
+      {
+        "tag": "i",
+        "id": "moon-icon",
+        "class": ""
+      },
+      {
+        "tag": "button",
+        "id": "mob-btn",
+        "class": ""
+      },
+      {
+        "tag": "div",
+        "id": "mobile-menu",
+        "class": "glass-card"
+      },
+      {
+        "tag": "a",
+        "id": "",
+        "class": "nav-link mobile-link"
+      }
+    ],
+    "asset_hits": [
+      {
+        "asset": "https://sachin8147-star.github.io/Portfolio-website/script.js",
+        "keywords": [
+          "about",
+          "skill",
+          "project"
+        ],
+        "evidence": "projects-grid').foreach(g => {"
+      },
+      {
+        "asset": "https://sachin8147-star.github.io/Portfolio-website/style.css",
+        "keywords": [
+          "about",
+          "skill",
+          "project"
+        ],
+        "evidence": "skill tags ══ */"
+      }
+    ]
+  }
+}

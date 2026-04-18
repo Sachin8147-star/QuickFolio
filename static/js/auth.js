@@ -83,67 +83,369 @@ const Auth = {
   }
 };
 
+let _authMascotController = null;
+
+function renderAuthMascotMarkup() {
+  return `
+  <div class="auth-mascot-wrap" aria-hidden="true">
+    <div class="auth-mascot" data-auth-mascot="1" data-mood="neutral" data-blink="0" data-cover-eyes="0" data-wave="0">
+      <div class="auth-mascot-antenna"></div>
+      <div class="auth-mascot-head">
+        <div class="auth-mascot-eye auth-mascot-eye-left"><span class="auth-mascot-pupil"></span></div>
+        <div class="auth-mascot-eye auth-mascot-eye-right"><span class="auth-mascot-pupil"></span></div>
+        <div class="auth-mascot-mouth"></div>
+        <div class="auth-mascot-cheek auth-mascot-cheek-left"></div>
+        <div class="auth-mascot-cheek auth-mascot-cheek-right"></div>
+      </div>
+      <div class="auth-mascot-body">
+        <div class="auth-mascot-core"></div>
+      </div>
+      <div class="auth-mascot-arm auth-mascot-arm-left"><span class="auth-mascot-hand"></span></div>
+      <div class="auth-mascot-arm auth-mascot-arm-right"><span class="auth-mascot-hand"></span></div>
+      <div class="auth-mascot-status"><span class="auth-mascot-status-dot"></span><span class="auth-mascot-status-text">Ready</span></div>
+    </div>
+  </div>`;
+}
+
+function renderAuthMascotPanel(mode = 'login') {
+  const helperText = mode === 'signup'
+    ? 'Your robo buddy checks each field so signup feels smooth.'
+    : 'Your robo buddy stays alert while you sign in safely.';
+
+  return `
+  <aside class="auth-mascot-panel" aria-hidden="true">
+    <div class="auth-mascot-panel-badge">AI Buddy</div>
+    ${renderAuthMascotMarkup()}
+    <p class="auth-mascot-panel-copy">${helperText}</p>
+  </aside>`;
+}
+
+function queueAuthMascotInit(mode) {
+  if (typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(() => initAuthMascot(mode));
+    return;
+  }
+  setTimeout(() => initAuthMascot(mode), 0);
+}
+
+function authMascotReact(mood, message, holdMs = 1200) {
+  if (!_authMascotController || typeof _authMascotController.setMood !== 'function') return;
+  _authMascotController.setMood(mood, message, holdMs);
+}
+
+function authMascotCelebrate(message, holdMs = 1400) {
+  if (!_authMascotController || typeof _authMascotController.celebrate !== 'function') return;
+  _authMascotController.celebrate(message, holdMs);
+}
+
+function initAuthMascot(mode = 'login') {
+  const mascot = document.querySelector('.auth-mascot[data-auth-mascot="1"]');
+  if (!mascot) return;
+
+  if (_authMascotController && _authMascotController.root === mascot) return;
+  if (_authMascotController && typeof _authMascotController.destroy === 'function') {
+    _authMascotController.destroy();
+  }
+
+  const card = mascot.closest('.auth-card');
+  const formId = mode === 'signup' ? 'signup-form' : 'login-form';
+  const form = document.getElementById(formId);
+  if (!card || !form) return;
+
+  const head = mascot.querySelector('.auth-mascot-head');
+  const pupils = [...mascot.querySelectorAll('.auth-mascot-pupil')];
+  const statusText = mascot.querySelector('.auth-mascot-status-text');
+  const fields = [...form.querySelectorAll('input:not([type="hidden"]), textarea, select')]
+    .filter((el) => !el.disabled);
+  const passwordFields = fields.filter((field) => String(field.type || '').toLowerCase() === 'password');
+
+  const defaultStatus = mode === 'signup'
+    ? 'Let us build your profile'
+    : 'Good to see you again';
+  let holdTimer = 0;
+  let blinkTimer = 0;
+  let blinkEndTimer = 0;
+  let waveTimer = 0;
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function setStatus(value) {
+    if (statusText) statusText.textContent = value || defaultStatus;
+  }
+
+  function setCoverEyes(enabled) {
+    mascot.dataset.coverEyes = enabled ? '1' : '0';
+    if (enabled) mascot.dataset.blink = '0';
+  }
+
+  function triggerWave(durationMs = 1200) {
+    clearTimeout(waveTimer);
+    mascot.dataset.wave = '1';
+    waveTimer = setTimeout(() => {
+      mascot.dataset.wave = '0';
+    }, durationMs);
+  }
+
+  function triggerBlink(durationMs = 120) {
+    if (mascot.dataset.coverEyes === '1') return;
+    clearTimeout(blinkEndTimer);
+    mascot.dataset.blink = '1';
+    blinkEndTimer = setTimeout(() => {
+      mascot.dataset.blink = '0';
+    }, durationMs);
+  }
+
+  function scheduleBlink() {
+    clearTimeout(blinkTimer);
+    const delay = 2200 + Math.floor(Math.random() * 1800);
+    blinkTimer = setTimeout(() => {
+      triggerBlink(95 + Math.floor(Math.random() * 90));
+      scheduleBlink();
+    }, delay);
+  }
+
+  function hasAnyInput() {
+    return fields.some((field) => String(field.value || '').trim().length > 0);
+  }
+
+  function allFilled() {
+    return fields.length > 0 && fields.every((field) => String(field.value || '').trim().length > 0);
+  }
+
+  function hasInvalidField() {
+    return fields.some((field) => {
+      const value = String(field.value || '').trim();
+      if (!value) return false;
+      return typeof field.checkValidity === 'function' && !field.checkValidity();
+    });
+  }
+
+  function syncMoodFromInputs() {
+    if (hasInvalidField()) {
+      mascot.dataset.mood = 'sad';
+      setStatus('Tiny fix needed');
+      return;
+    }
+    if (allFilled() && hasAnyInput()) {
+      mascot.dataset.mood = 'happy';
+      setStatus(mode === 'signup' ? 'Looks great! Ready to launch' : 'All set to sign in');
+      return;
+    }
+    mascot.dataset.mood = 'neutral';
+    setStatus(defaultStatus);
+  }
+
+  function setMood(nextMood, message, holdMs = 0) {
+    clearTimeout(holdTimer);
+    mascot.dataset.mood = nextMood || 'neutral';
+
+    const moodLabel = {
+      neutral: defaultStatus,
+      focus: 'I am watching closely',
+      happy: 'Great! That looks perfect',
+      sad: 'Oops, something is off',
+      weird: 'Hmm... that seems incorrect',
+    };
+
+    setStatus(message || moodLabel[nextMood] || defaultStatus);
+
+    if (nextMood === 'happy' && !message) {
+      triggerWave(980);
+    }
+
+    if (holdMs > 0) {
+      holdTimer = setTimeout(() => {
+        syncMoodFromInputs();
+      }, holdMs);
+    }
+  }
+
+  function updateEyeTracking(clientX, clientY) {
+    if (!head || !pupils.length) return;
+    if (mascot.dataset.coverEyes === '1') {
+      if (head) head.style.transform = 'translateZ(0) rotate(0deg)';
+      return;
+    }
+
+    const rect = head.getBoundingClientRect();
+    const dx = clamp((clientX - (rect.left + (rect.width / 2))) / 28, -1, 1);
+    const dy = clamp((clientY - (rect.top + (rect.height / 2))) / 24, -1, 1);
+    const mood = mascot.dataset.mood || 'neutral';
+    const wobble = mood === 'weird' ? Math.sin(Date.now() / 95) * 1.2 : 0;
+
+    pupils.forEach((pupil, idx) => {
+      const shiftX = (dx * 4.8) + wobble + (mood === 'weird' && idx === 1 ? 2.3 : 0);
+      const shiftY = (dy * 3.8) + (mood === 'sad' ? 1.9 : 0) + (mood === 'weird' && idx === 0 ? -1.2 : 0);
+      pupil.style.transform = `translate(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px)`;
+    });
+
+    const tilt = (dx * 6) + (mood === 'weird' ? Math.sin(Date.now() / 140) * 2 : 0);
+    head.style.transform = `translateZ(0) rotate(${tilt.toFixed(2)}deg)`;
+  }
+
+  function resetEyeTracking() {
+    pupils.forEach((pupil) => {
+      pupil.style.transform = 'translate(0px, 0px)';
+    });
+    if (head) head.style.transform = 'translateZ(0) rotate(0deg)';
+  }
+
+  const fieldListeners = [];
+  fields.forEach((field) => {
+    const onFocus = () => setMood('focus', 'I am watching closely');
+    const onInput = () => {
+      const value = String(field.value || '').trim();
+      if (value && typeof field.checkValidity === 'function' && !field.checkValidity()) {
+        setMood('sad', 'Oops, check this field', 1100);
+        return;
+      }
+      syncMoodFromInputs();
+    };
+    const onBlur = () => {
+      const value = String(field.value || '').trim();
+      if (value && typeof field.checkValidity === 'function' && !field.checkValidity()) {
+        setMood('sad', 'That does not look right', 1200);
+        return;
+      }
+      syncMoodFromInputs();
+    };
+
+    field.addEventListener('focus', onFocus);
+    field.addEventListener('input', onInput);
+    field.addEventListener('blur', onBlur);
+
+    fieldListeners.push([field, 'focus', onFocus]);
+    fieldListeners.push([field, 'input', onInput]);
+    fieldListeners.push([field, 'blur', onBlur]);
+  });
+
+  passwordFields.forEach((field) => {
+    const onPwdFocus = () => {
+      setCoverEyes(true);
+      setMood('focus', 'Password mode: eyes covered');
+    };
+    const onPwdBlur = () => {
+      setCoverEyes(false);
+      triggerBlink(140);
+      syncMoodFromInputs();
+    };
+
+    field.addEventListener('focus', onPwdFocus);
+    field.addEventListener('blur', onPwdBlur);
+    fieldListeners.push([field, 'focus', onPwdFocus]);
+    fieldListeners.push([field, 'blur', onPwdBlur]);
+  });
+
+  const onSubmit = () => {
+    setMood('focus', mode === 'signup' ? 'Checking your details...' : 'Checking credentials...');
+  };
+  const onPointerMove = (event) => updateEyeTracking(event.clientX, event.clientY);
+  const onPointerLeave = () => resetEyeTracking();
+
+  form.addEventListener('submit', onSubmit);
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  window.addEventListener('pointerleave', onPointerLeave);
+
+  scheduleBlink();
+  syncMoodFromInputs();
+
+  _authMascotController = {
+    root: mascot,
+    mode,
+    setMood,
+    celebrate(message, holdMs = 1400) {
+      setMood('happy', message || 'Amazing! Success confirmed', holdMs);
+      triggerWave(Math.min(holdMs, 1600));
+    },
+    syncMoodFromInputs,
+    destroy() {
+      clearTimeout(holdTimer);
+      clearTimeout(blinkTimer);
+      clearTimeout(blinkEndTimer);
+      clearTimeout(waveTimer);
+      fieldListeners.forEach(([node, event, handler]) => {
+        node.removeEventListener(event, handler);
+      });
+      form.removeEventListener('submit', onSubmit);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerleave', onPointerLeave);
+      resetEyeTracking();
+      mascot.dataset.wave = '0';
+      mascot.dataset.blink = '0';
+      mascot.dataset.coverEyes = '0';
+    }
+  };
+}
+
 // ── SIGNUP PAGE ──
 function renderSignupPage() {
+  queueAuthMascotInit('signup');
   return `
   <div class="auth-page" style="padding-top:var(--nav-h)">
     <div class="auth-bg"></div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:1.1rem;font-weight:700">
-          <div style="width:32px;height:32px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000">⚡</div>
-          <span class="grad-text">QuickFolio</span>
+    <div class="auth-card auth-card-mascot">
+      <div class="auth-layout">
+        ${renderAuthMascotPanel('signup')}
+        <div class="auth-main">
+          <div class="auth-logo">
+            <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:1.1rem;font-weight:700">
+              <div style="width:32px;height:32px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000">⚡</div>
+              <span class="grad-text">QuickFolio</span>
+            </div>
+          </div>
+          <h2 class="auth-title">Create your account</h2>
+          <p class="auth-sub">Build a portfolio that gets you hired in minutes</p>
+
+          <!-- Social Auth -->
+          <div style="display:flex;flex-direction:column;gap:0">
+            <button class="social-btn" onclick="socialAuth('github')">
+              <div class="social-btn-icon">⚡</div>
+              <span>Continue with GitHub</span>
+            </button>
+            <button class="social-btn" onclick="socialAuth('google')">
+              <div class="social-btn-icon">🔵</div>
+              <span>Continue with Google</span>
+            </button>
+            <button class="social-btn" onclick="socialAuth('linkedin')">
+              <div class="social-btn-icon">💼</div>
+              <span>Continue with LinkedIn</span>
+            </button>
+          </div>
+
+          <div class="auth-divider">or sign up with email</div>
+
+          <form id="signup-form" onsubmit="submitSignup(event)">
+            <div class="inp-2col">
+              <div class="inp-group">
+                <label class="inp-label">Full Name *</label>
+                <input class="inp" id="su-name" placeholder="Sachin Kumar" required>
+              </div>
+              <div class="inp-group">
+                <label class="inp-label">Username *</label>
+                <input class="inp" id="su-username" placeholder="sachin_dev" required>
+              </div>
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Email Address *</label>
+              <input class="inp" type="email" id="su-email" placeholder="you@email.com" required>
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Password *</label>
+              <div class="inp-icon-wrap">
+                <span class="inp-ico">🔒</span>
+                <input class="inp" type="password" id="su-pass" placeholder="Min 6 characters" minlength="6" required>
+              </div>
+            </div>
+            <div id="su-error" style="display:none;color:#ef4444;font-size:.8rem;margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px"></div>
+            <button type="submit" class="btn btn-primary w100" id="su-btn" style="width:100%;padding:13px">🚀 Create Free Account</button>
+          </form>
+
+          <div class="auth-footer">Already have an account? <a href="/login">Sign in →</a></div>
+          <div style="margin-top:14px;color:var(--muted2);font-size:.72rem;text-align:center">By signing up you agree to our <a href="/terms" style="color:var(--accent)">Terms</a> and <a href="/privacy" style="color:var(--accent)">Privacy Policy</a></div>
         </div>
       </div>
-      <h2 class="auth-title">Create your account</h2>
-      <p class="auth-sub">Build a portfolio that gets you hired in minutes</p>
-
-      <!-- Social Auth -->
-      <div style="display:flex;flex-direction:column;gap:0">
-        <button class="social-btn" onclick="socialAuth('github')">
-          <div class="social-btn-icon">⚡</div>
-          <span>Continue with GitHub</span>
-        </button>
-        <button class="social-btn" onclick="socialAuth('google')">
-          <div class="social-btn-icon">🔵</div>
-          <span>Continue with Google</span>
-        </button>
-        <button class="social-btn" onclick="socialAuth('linkedin')">
-          <div class="social-btn-icon">💼</div>
-          <span>Continue with LinkedIn</span>
-        </button>
-      </div>
-
-      <div class="auth-divider">or sign up with email</div>
-
-      <form id="signup-form" onsubmit="submitSignup(event)">
-        <div class="inp-2col">
-          <div class="inp-group">
-            <label class="inp-label">Full Name *</label>
-            <input class="inp" id="su-name" placeholder="Sachin Kumar" required>
-          </div>
-          <div class="inp-group">
-            <label class="inp-label">Username *</label>
-            <input class="inp" id="su-username" placeholder="sachin_dev" required>
-          </div>
-        </div>
-        <div class="inp-group">
-          <label class="inp-label">Email Address *</label>
-          <input class="inp" type="email" id="su-email" placeholder="you@email.com" required>
-        </div>
-        <div class="inp-group">
-          <label class="inp-label">Password *</label>
-          <div class="inp-icon-wrap">
-            <span class="inp-ico">🔒</span>
-            <input class="inp" type="password" id="su-pass" placeholder="Min 6 characters" required>
-          </div>
-        </div>
-        <div id="su-error" style="display:none;color:#ef4444;font-size:.8rem;margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px"></div>
-        <button type="submit" class="btn btn-primary w100" id="su-btn" style="width:100%;padding:13px">🚀 Create Free Account</button>
-      </form>
-
-      <div class="auth-footer">Already have an account? <a href="/login">Sign in →</a></div>
-      <div style="margin-top:14px;color:var(--muted2);font-size:.72rem;text-align:center">By signing up you agree to our <a href="/terms" style="color:var(--accent)">Terms</a> and <a href="/privacy" style="color:var(--accent)">Privacy Policy</a></div>
     </div>
   </div>`;
 }
@@ -160,18 +462,22 @@ async function submitSignup(e) {
   const password = document.getElementById('su-pass').value;
 
   if (!Validate.minLen(password, 6)) {
+    authMascotReact('sad', 'Password needs at least 6 characters', 1800);
     errEl.textContent = 'Password must be at least 6 characters'; errEl.style.display = 'block'; return;
   }
 
+  authMascotReact('focus', 'Checking your details...');
   btn.classList.add('btn-loading'); btn.textContent = 'Creating account...';
   const res = await API.post('/api/auth/signup', { name, username, email, password });
   btn.classList.remove('btn-loading'); btn.textContent = '🚀 Create Free Account';
 
   if (res.ok) {
+    authMascotCelebrate('Yay! Account created successfully', 1600);
     Auth.user = res.data.user;
     Toast.success('Account created! Welcome to QuickFolio! 🎉');
     setTimeout(() => window.location.href = '/dashboard', 1000);
   } else {
+    authMascotReact('weird', 'Hmm... those details did not work', 1900);
     errEl.textContent = res.data.error || 'Something went wrong. Please try again.';
     errEl.style.display = 'block';
   }
@@ -179,50 +485,50 @@ async function submitSignup(e) {
 
 // ── LOGIN PAGE ──
 function renderLoginPage() {
+  queueAuthMascotInit('login');
   return `
   <div class="auth-page" style="padding-top:var(--nav-h)">
     <div class="auth-bg"></div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:1.1rem;font-weight:700">
-          <div style="width:32px;height:32px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000">⚡</div>
-          <span class="grad-text">QuickFolio</span>
-        </div>
-      </div>
-      <h2 class="auth-title">Welcome back</h2>
-      <p class="auth-sub">Sign in to continue building your portfolio</p>
-
-      <div style="display:flex;flex-direction:column;gap:0">
-        <button class="social-btn" onclick="socialAuth('github')"><div class="social-btn-icon">⚡</div><span>Continue with GitHub</span></button>
-        <button class="social-btn" onclick="socialAuth('google')"><div class="social-btn-icon">🔵</div><span>Continue with Google</span></button>
-        <button class="social-btn" onclick="socialAuth('linkedin')"><div class="social-btn-icon">💼</div><span>Continue with LinkedIn</span></button>
-      </div>
-
-      <div class="auth-divider">or sign in with email</div>
-
-      <form id="login-form" onsubmit="submitLogin(event)">
-        <div class="inp-group">
-          <label class="inp-label">Email Address</label>
-          <div class="inp-icon-wrap"><span class="inp-ico">📧</span><input class="inp" type="email" id="li-email" placeholder="you@email.com" required></div>
-        </div>
-        <div class="inp-group">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-            <label class="inp-label" style="margin:0">Password</label>
-            <button type="button" onclick="openForgotPasswordModal(event)" style="font-size:.72rem;color:var(--accent);background:none;border:none;padding:0;cursor:pointer">Forgot password?</button>
+    <div class="auth-card auth-card-mascot">
+      <div class="auth-layout">
+        ${renderAuthMascotPanel('login')}
+        <div class="auth-main">
+          <div class="auth-logo">
+            <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:1.1rem;font-weight:700">
+              <div style="width:32px;height:32px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000">⚡</div>
+              <span class="grad-text">QuickFolio</span>
+            </div>
           </div>
-          <div class="inp-icon-wrap"><span class="inp-ico">🔒</span><input class="inp" type="password" id="li-pass" placeholder="Your password" required></div>
+          <h2 class="auth-title">Welcome back</h2>
+          <p class="auth-sub">Sign in to continue building your portfolio</p>
+
+          <div style="display:flex;flex-direction:column;gap:0">
+            <button class="social-btn" onclick="socialAuth('github')"><div class="social-btn-icon">⚡</div><span>Continue with GitHub</span></button>
+            <button class="social-btn" onclick="socialAuth('google')"><div class="social-btn-icon">🔵</div><span>Continue with Google</span></button>
+            <button class="social-btn" onclick="socialAuth('linkedin')"><div class="social-btn-icon">💼</div><span>Continue with LinkedIn</span></button>
+          </div>
+
+          <div class="auth-divider">or sign in with email</div>
+
+          <form id="login-form" onsubmit="submitLogin(event)">
+            <div class="inp-group">
+              <label class="inp-label">Email Address</label>
+              <div class="inp-icon-wrap"><span class="inp-ico">📧</span><input class="inp" type="email" id="li-email" placeholder="you@email.com" required></div>
+            </div>
+            <div class="inp-group">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+                <label class="inp-label" style="margin:0">Password</label>
+                <button type="button" onclick="openForgotPasswordModal(event)" style="font-size:.72rem;color:var(--accent);background:none;border:none;padding:0;cursor:pointer">Forgot password?</button>
+              </div>
+              <div class="inp-icon-wrap"><span class="inp-ico">🔒</span><input class="inp" type="password" id="li-pass" placeholder="Your password" required></div>
+            </div>
+            <div id="li-error" style="display:none;color:#ef4444;font-size:.8rem;margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px"></div>
+            <button type="submit" class="btn btn-primary" id="li-btn" style="width:100%;padding:13px">🔑 Sign In</button>
+          </form>
+
+          <div class="auth-footer">Don't have an account? <a href="/signup">Sign up free →</a></div>
         </div>
-        <div id="li-error" style="display:none;color:#ef4444;font-size:.8rem;margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px"></div>
-        <button type="submit" class="btn btn-primary" id="li-btn" style="width:100%;padding:13px">🔑 Sign In</button>
-      </form>
-
-      <!-- Demo account -->
-      <div style="margin-top:14px;padding:11px;background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.15);border-radius:10px;font-size:.77rem;color:var(--muted);text-align:center">
-        🎯 <strong style="color:var(--accent)">Try demo:</strong> demo@quickfolio.app / demo123
-        <button onclick="fillDemo()" style="margin-left:6px;color:var(--accent);background:none;border:none;font-size:.77rem;font-weight:700;cursor:pointer">Fill →</button>
       </div>
-
-      <div class="auth-footer">Don't have an account? <a href="/signup">Sign up free →</a></div>
     </div>
 
     <div class="modal-ov" id="forgot-password-modal">
@@ -267,13 +573,6 @@ function renderLoginPage() {
       </div>
     </div>
   </div>`;
-}
-
-function fillDemo() {
-  const e = document.getElementById('li-email');
-  const p = document.getElementById('li-pass');
-  if (e) e.value = 'demo@quickfolio.app';
-  if (p) p.value = 'demo123';
 }
 
 function openForgotPasswordModal(event) {
@@ -438,15 +737,18 @@ async function submitLogin(e) {
   const email = document.getElementById('li-email').value.trim();
   const password = document.getElementById('li-pass').value;
 
+  authMascotReact('focus', 'Checking credentials...');
   btn.classList.add('btn-loading'); btn.textContent = 'Signing in...';
   const res = await API.post('/api/auth/login', { email, password });
   btn.classList.remove('btn-loading'); btn.textContent = '🔑 Sign In';
 
   if (res.ok) {
+    authMascotCelebrate('Welcome back! Access granted', 1600);
     Auth.user = res.data.user;
     Toast.success(`Welcome back, ${res.data.user.name}! 👋`);
     setTimeout(() => window.location.href = '/dashboard', 800);
   } else {
+    authMascotReact('weird', 'Oops... those credentials look wrong', 1900);
     errEl.textContent = res.data.error || 'Invalid credentials';
     errEl.style.display = 'block';
   }
@@ -466,6 +768,7 @@ function handleAuthQueryState() {
     unknown_provider: 'Selected social provider is not supported.'
   };
 
+  authMascotReact('sad', messages[oauthError] || 'Social login failed. Please try again.', 1800);
   Toast.error(messages[oauthError] || 'Social login failed. Please try again.', 5000);
   params.delete('oauth_error');
   const cleanQuery = params.toString();
@@ -488,6 +791,7 @@ function socialAuth(provider) {
     btn.style.opacity = '.75';
   });
 
+  authMascotReact('focus', `Opening ${label}...`);
   Toast.info(`Redirecting to ${label}...`, 1400);
   window.location.href = `/api/auth/social/${provider}`;
 }

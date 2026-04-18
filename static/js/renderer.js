@@ -136,8 +136,8 @@ function renderSection(id, data, t, options = {}) {
   const card = `background:${t.card};border:1px solid ${t.border};border-radius:${cardRadius}px;padding:clamp(15px,3vw,22px);transition:.3s`;
 
   function sectionWrap(id, content, altBg) {
-    return `<section id="pf-${id}" class="pf-section-shell pf-reveal" style="padding:clamp(${spacingMin}px,8vw,${sectionSpacing}px) clamp(16px,4.5vw,32px);${altBg?'background:'+t.surface:''}">
-      <div style="max-width:1100px;margin:0 auto;font-size:calc(1rem * ${bodyScale} * ${sectionScale});font-family:${sectionFont}">${content}</div>
+    return `<section id="pf-${id}" class="pf-section-shell pf-section pf-reveal" style="padding:clamp(${spacingMin}px,8vw,${sectionSpacing}px) clamp(16px,4.5vw,32px);${altBg?'background:'+t.surface:''}">
+      <div class="pf-section-inner" style="max-width:1100px;margin:0 auto;font-size:calc(1rem * ${bodyScale} * ${sectionScale});font-family:${sectionFont}">${content}</div>
     </section>`;
   }
 
@@ -174,7 +174,11 @@ function renderSection(id, data, t, options = {}) {
            </div>`
         : `<img src="${photoUrl}" alt="Profile photo" style="width:${photoSize}px;height:${photoSize}px;object-fit:cover;border-radius:${photoRadius};border:3px solid ${t.border2};box-shadow:0 20px 40px rgba(0,0,0,.35);margin:0 auto 18px;display:block;transform:translate(${photoOffsetX}px, ${photoOffsetY}px)">`)
       : '';
-    return `<section id="pf-hero" class="pf-section-shell pf-reveal is-visible" style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:clamp(60px,10vw,100px) clamp(16px,4vw,24px)">
+    const heroMinHeight = isBuilderMode ? 'clamp(430px,74vh,700px)' : '100vh';
+    const heroPadding = isBuilderMode
+      ? 'clamp(42px,8vw,74px) clamp(16px,4vw,24px)'
+      : 'clamp(60px,10vw,100px) clamp(16px,4vw,24px)';
+    return `<section id="pf-hero" class="pf-section-shell pf-hero-shell pf-reveal is-visible" style="min-height:${heroMinHeight};${isBuilderMode ? '' : 'min-height:100dvh;'}display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:${heroPadding}">
       <div style="position:absolute;inset:0;background-image:linear-gradient(${t.border} 1px,transparent 1px),linear-gradient(90deg,${t.border} 1px,transparent 1px);background-size:50px 50px;opacity:.25"></div>
       <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,${t.accent}14,transparent 70%);top:-15%;left:-12%;pointer-events:none;filter:blur(60px)"></div>
       <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,${t.accent2}12,transparent 70%);bottom:-12%;right:-10%;pointer-events:none;filter:blur(60px)"></div>
@@ -188,11 +192,11 @@ function renderSection(id, data, t, options = {}) {
         <p data-inline-edit="hero.title" style="font-size:clamp(.75rem,1.5vw,1rem);color:${t.muted};margin-bottom:8px;letter-spacing:2px;text-transform:uppercase">${d.title||'Your Title'}</p>
         <p data-inline-edit="hero.tagline" style="font-size:clamp(.9rem,1.8vw,1.1rem);color:${t.text};opacity:.8;margin-bottom:10px">${d.tagline||''}</p>
         <p data-inline-edit="hero.subtitle" style="font-size:.78rem;color:${t.muted};letter-spacing:2.5px;text-transform:uppercase;margin-bottom:28px">${d.subtitle||''}</p>
-        <div style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
+        <div class="pf-hero-actions" style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
           <button style="background:${G};color:#000;border:none;padding:12px 26px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.3s;letter-spacing:.4px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'"><span data-inline-edit="hero.cta">${d.cta||'View My Work'}</span> →</button>
           <button style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:12px 26px;border-radius:9px;font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s" onmouseover="this.style.background='${t.accent}14'" onmouseout="this.style.background='transparent'">Download CV</button>
         </div>
-        <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+        <div class="pf-social-row" style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
           ${[
             ['⚡', 'GitHub', d.github],
             ['💼', 'LinkedIn', d.linkedin],
@@ -216,7 +220,7 @@ function renderSection(id, data, t, options = {}) {
     const avatarSrc = profilePhoto || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(d.name||'dev')}`;
     return sectionWrap('about', `
       ${sectionTitle('About Me')}
-      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,5vw,48px);align-items:center">
+      <div class="pf-about-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,5vw,48px);align-items:center">
         <div style="text-align:center">
           <img src="${avatarSrc}" style="width:${avatarSize}px;height:${avatarSize}px;object-fit:cover;border-radius:${avatarRadius};border:2px solid ${t.border};animation:pf-float 3s ease-in-out infinite;margin:0 auto 14px">
           <div style="display:inline-flex;align-items:center;gap:5px;background:#22c55e14;border:1px solid #22c55e35;color:#22c55e;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700">
@@ -239,7 +243,7 @@ function renderSection(id, data, t, options = {}) {
   if(id==='skills') {
     return sectionWrap('skills', `
       ${sectionTitle('Skills & Stack')}
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px">
+      <div class="pf-skills-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px">
         ${(d.categories||[]).map((cat, cidx)=>`
         <div class="pf-card-hover" style="${cardStyle()}">
           <div data-inline-edit="skills.categories.${cidx}.name" style="font-family:${t.font};color:${t.accent};font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:17px">${cat.name}</div>
@@ -265,11 +269,11 @@ function renderSection(id, data, t, options = {}) {
     const techs = [...new Set((d.items||[]).flatMap(p=>p.tech||[]))];
     return sectionWrap('projects', `
       ${sectionTitle('Projects')}
-      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px" id="pf-proj-filters">
+      <div class="pf-project-filters" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px" id="pf-proj-filters">
         <button onclick="pfFilterProjects('all',this)" data-filter="all" style="padding:5px 13px;border-radius:20px;font-size:.73rem;font-weight:700;border:1.5px solid ${t.accent};background:${t.accent}14;color:${t.accent};cursor:pointer">All</button>
         ${techs.map(tech=>`<button onclick="pfFilterProjects('${tech}',this)" data-filter="${tech}" style="padding:5px 13px;border-radius:20px;font-size:.73rem;font-weight:700;border:1.5px solid ${t.border};background:transparent;color:${t.muted};cursor:pointer">${tech}</button>`).join('')}
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,295px),1fr));gap:17px" id="pf-proj-grid">
+      <div class="pf-project-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,295px),1fr));gap:17px" id="pf-proj-grid">
         ${(d.items||[]).map((p, idx)=>{
         const liveHref = normalizeUrl(p.link || p.demo || p.live);
         const codeHref = normalizeUrl(p.github || p.code || p.repo);
@@ -347,7 +351,7 @@ function renderSection(id, data, t, options = {}) {
   if(id==='stats') {
     return sectionWrap('stats', `
       ${sectionTitle('Numbers That Matter')}
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(130px,20vw,155px),1fr));gap:15px">
+      <div class="pf-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(130px,20vw,155px),1fr));gap:15px">
         ${(d.items||[]).map((s, sidx)=>`
         <div class="pf-stat-box pf-card-hover"
           style="text-align:center;padding:clamp(18px,3vw,26px) 15px;${cardStyle()}"
@@ -381,7 +385,7 @@ function renderSection(id, data, t, options = {}) {
   if(id==='testimonials') {
     return sectionWrap('testimonials', `
       ${sectionTitle('Testimonials')}
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,270px),1fr));gap:16px">
+      <div class="pf-testimonial-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,270px),1fr));gap:16px">
         ${(d.items||[]).map((t2, idx)=>`
         <div class="pf-card-hover" style="${cardStyle()}"
           onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='${t.accent}'"
@@ -405,7 +409,7 @@ function renderSection(id, data, t, options = {}) {
     return sectionWrap('contact', `
       ${sectionTitle("Let's Connect")}
       <p data-inline-edit="contact.message" style="color:${t.muted};margin-bottom:26px;font-size:.92rem">${d.message||''}</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:30px">
+      <div class="pf-contact-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:30px">
         <div>
           ${[
             { icon: '📧', label: 'Email', value: d.email || '', path: 'contact.email' },
@@ -424,7 +428,7 @@ function renderSection(id, data, t, options = {}) {
           </div>`).join('')}
         </div>
         <div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px">
+          <div class="pf-contact-dual" style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px">
             <div>
               <label style="display:block;font-size:.68rem;font-weight:700;color:${t.muted};text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Name *</label>
               <input id="pf-ct-name" style="width:100%;background:${t.surface};border:1.5px solid ${t.border};border-radius:7px;padding:9px 12px;color:${t.text};font-size:.83rem;outline:none;transition:.2s" placeholder="Your name"
@@ -501,14 +505,35 @@ body{background:${t.bg};color:${t.text};font-family:${t.body};font-size:${design
 .pf-reveal.is-visible{opacity:1;transform:none}
 .pf-card-hover{transition:transform .32s var(--pf-ease),border-color .32s var(--pf-ease),box-shadow .32s var(--pf-ease);will-change:transform}
 .pf-card-hover:hover{transform:translateY(-5px);box-shadow:0 16px 38px rgba(0,0,0,.34)}
-nav{position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(18px);border-bottom:1px solid ${t.border};height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,4vw,30px)}
-.nav-logo{font-family:${t.font};font-size:clamp(.85rem,1.8vw,1.05rem);font-weight:700;background:${t.grad};-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-links{display:flex;gap:clamp(10px,2.5vw,18px)}
+.pf-top-nav{position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(18px);border-bottom:1px solid ${t.border};height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,4vw,30px)}
+.pf-nav-logo{font-family:${t.font};font-size:clamp(.85rem,1.8vw,1.05rem);font-weight:700;background:${t.grad};-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.pf-top-links{display:flex;gap:clamp(10px,2.5vw,18px);min-width:0;overflow-x:auto;scrollbar-width:none}
+.pf-top-links::-webkit-scrollbar{display:none}
 .pf-nav-btn{background:none;border:none;font-size:clamp(.6rem,.8vw+.4rem,.76rem);font-weight:700;color:${t.muted};cursor:pointer;text-transform:uppercase;letter-spacing:.5px;padding:4px 0;transition:.2s;position:relative}
 .pf-nav-btn:hover{color:${t.accent}}
 .pf-nav-btn::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:2px;background:${t.accent};transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
 .pf-nav-btn:hover::after{transform:scaleX(1)}
-@media(max-width:600px){.nav-links{display:none}}
+@media(max-width:900px){
+  .pf-top-nav{height:auto;min-height:54px;padding:10px 14px;gap:8px;flex-wrap:wrap}
+  .pf-top-links{order:3;flex-basis:100%;padding-bottom:2px}
+  .pf-about-grid{grid-template-columns:1fr!important;gap:20px!important}
+  .pf-contact-grid{grid-template-columns:1fr!important;gap:18px!important}
+  .pf-contact-dual{grid-template-columns:1fr!important}
+}
+@media(max-width:700px){
+  body{background-attachment:scroll}
+  .pf-hero-shell{padding:clamp(72px,10vw,96px) 14px 42px!important}
+  .pf-hero-actions{flex-direction:column;align-items:stretch}
+  .pf-hero-actions > *{width:100%;text-align:center}
+  .pf-skills-grid,.pf-project-grid,.pf-stats-grid,.pf-testimonial-grid{grid-template-columns:1fr!important}
+  .pf-project-filters{overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:4px}
+  .pf-project-filters button{white-space:nowrap}
+  .cb-fab{right:14px;bottom:14px}
+  .cb-win{left:10px;right:10px;bottom:74px;width:auto;height:calc(100vh - 94px);max-height:430px}
+  .scroll-top-pf{left:12px;bottom:14px}
+}
+@supports (height: 100dvh){@media(max-width:700px){.cb-win{height:calc(100dvh - 94px)}}}
+@media(max-width:460px){.pf-top-nav{padding:8px 10px}.pf-top-links{gap:10px}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.pf-reveal{opacity:1!important;transform:none!important}}
 .ct-success{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;padding:9px 12px;border-radius:8px;font-size:.78rem;font-weight:600;text-align:center;animation:pf-fade .3s ease;margin-bottom:9px}
 .ct-error{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:9px 12px;border-radius:8px;font-size:.78rem;font-weight:600;text-align:center;animation:pf-fade .3s ease;margin-bottom:9px}
@@ -538,9 +563,9 @@ nav{position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(
 </style>
 </head>
 <body>
-<nav>
-  <div class="nav-logo">&lt;${firstName}/&gt;</div>
-  <div class="nav-links">
+<nav class="pf-top-nav">
+  <div class="pf-nav-logo">&lt;${firstName}/&gt;</div>
+  <div class="pf-top-links">
     ${visible.map(s=>`<button class="pf-nav-btn" onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'})">${SECTION_INFO[s.id].label.split(' ')[0]}</button>`).join('')}
   </div>
 </nav>

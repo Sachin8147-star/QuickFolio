@@ -11,6 +11,138 @@
   const sections  = PD.sections  || [];
   const owner     = PD.owner     || {};
   const slug      = PD.slug      || '';
+  const CINEMATIC_PROFILE_KEY = 'quickfolio.cinematic.profile';
+  const CINEMATIC_PROFILE_KEY_LEGACY = 'QuickFolio.cinematic.profile';
+  const CINEMATIC_PROFILES = {
+    subtle: {
+      id: 'subtle',
+      density: 0.72,
+      speed: 0.84,
+      glow: 0.74,
+      ambient: 0.68,
+      routeMs: 320,
+    },
+    balanced: {
+      id: 'balanced',
+      density: 1,
+      speed: 1,
+      glow: 1,
+      ambient: 1,
+      routeMs: 420,
+    },
+    extreme: {
+      id: 'extreme',
+      density: 1.45,
+      speed: 1.24,
+      glow: 1.28,
+      ambient: 1.2,
+      routeMs: 540,
+    },
+  };
+
+  function resolveCinematicProfileId() {
+    let stored = '';
+    try {
+      stored = localStorage.getItem(CINEMATIC_PROFILE_KEY) || localStorage.getItem(CINEMATIC_PROFILE_KEY_LEGACY) || '';
+    } catch (_) {
+      stored = '';
+    }
+
+    const normalized = String(stored || '').trim().toLowerCase();
+    return CINEMATIC_PROFILES[normalized] ? normalized : 'balanced';
+  }
+
+  const cinematicProfileId = resolveCinematicProfileId();
+  const cinematicProfile = CINEMATIC_PROFILES[cinematicProfileId] || CINEMATIC_PROFILES.balanced;
+  let routeTransitionLocked = false;
+
+  function applyPortfolioCinematicVariables() {
+    document.body.dataset.cinematicProfile = cinematicProfile.id;
+    document.body.style.setProperty('--pf-cine-glow-scale', cinematicProfile.glow.toFixed(3));
+    document.body.style.setProperty('--pf-cine-spotlight-scale', cinematicProfile.glow.toFixed(3));
+    document.body.style.setProperty('--pf-cine-heading-duration', `${(7 / Math.max(cinematicProfile.speed, 0.5)).toFixed(2)}s`);
+    document.body.style.setProperty('--pf-route-transition-duration', `${Math.round(cinematicProfile.routeMs)}ms`);
+  }
+
+  function getPortfolioRouteTransitionDuration() {
+    return Math.max(220, Number(cinematicProfile.routeMs || 420));
+  }
+
+  function ensurePortfolioRouteTransitionLayer() {
+    let layer = document.getElementById('pf-route-transition-layer');
+    if (!layer) {
+      layer = document.createElement('div');
+      layer.id = 'pf-route-transition-layer';
+      layer.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(layer);
+    }
+    return layer;
+  }
+
+  function initPortfolioRouteTransitions(disabled) {
+    const runEnter = () => {
+      if (disabled) return;
+      const layer = ensurePortfolioRouteTransitionLayer();
+      layer.classList.remove('pf-route-leave', 'pf-route-enter', 'is-active');
+      layer.classList.add('pf-route-enter');
+      requestAnimationFrame(() => {
+        layer.classList.add('is-active');
+      });
+      window.setTimeout(() => {
+        layer.classList.remove('pf-route-enter', 'is-active');
+      }, getPortfolioRouteTransitionDuration() + 90);
+    };
+
+    const onClick = (event) => {
+      const anchor = event.target?.closest?.('a[href]');
+      if (!anchor || event.defaultPrevented) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (anchor.dataset.noTransition === '1') return;
+      if (anchor.hasAttribute('download')) return;
+      if (anchor.target && anchor.target !== '_self') return;
+
+      const rawHref = anchor.getAttribute('href') || '';
+      if (!rawHref || rawHref.startsWith('#')) return;
+      if (/^(mailto:|tel:|javascript:)/i.test(rawHref)) return;
+
+      const url = new URL(rawHref, window.location.href);
+      if (url.origin !== window.location.origin) return;
+      if (url.pathname.toLowerCase().endsWith('.pdf')) return;
+
+      const samePath = url.pathname === window.location.pathname && url.search === window.location.search;
+      if (samePath && url.hash) return;
+
+      const destination = `${url.pathname}${url.search}${url.hash}`;
+      const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (destination === current) return;
+
+      event.preventDefault();
+
+      if (disabled || routeTransitionLocked) {
+        window.location.assign(destination);
+        return;
+      }
+
+      routeTransitionLocked = true;
+      const layer = ensurePortfolioRouteTransitionLayer();
+      layer.classList.remove('pf-route-enter', 'pf-route-leave', 'is-active');
+      layer.classList.add('pf-route-leave');
+      requestAnimationFrame(() => {
+        layer.classList.add('is-active');
+      });
+
+      window.setTimeout(() => {
+        window.location.assign(destination);
+      }, getPortfolioRouteTransitionDuration() + 30);
+    };
+
+    document.addEventListener('click', onClick, true);
+    runEnter();
+
+    return () => {
+      document.removeEventListener('click', onClick, true);
+    };
+  }
 
   /* ── resolve theme ── */
   const themeBank = (window.QUICKFOLIO_THEME_BANK && typeof window.QUICKFOLIO_THEME_BANK === 'object')
@@ -205,7 +337,9 @@
     background:${t.bg};color:${t.text};font-family:${t.body};font-size:${design.textScale || 100}%;
     ${bgStyle}
     min-height:100vh;
+    min-height:100dvh;
   `;
+  applyPortfolioCinematicVariables();
 
   const firstName = (sdata.hero?.name || owner.name || 'Developer').split(' ')[0];
   const resumeHref = slug ? `/p/${encodeURIComponent(slug)}/resume.pdf` : '';
@@ -344,8 +478,8 @@
     const bodyScale = design.bodyScale || 1;
     const sectionFontKey = (design.sectionFonts && design.sectionFonts[id]) ? design.sectionFonts[id] : 'default';
     const sectionFont = pickDesignFont(sectionFontKey, t.body);
-    return `<section id="pf-${id}" class="pf-section-shell pf-reveal" data-section="${id}" style="padding:clamp(${spacingMin}px,8vw,${sectionSpacing}px) clamp(16px,4.5vw,32px);${altBg ? 'background:' + t.surface : ''}">
-      <div style="max-width:1100px;margin:0 auto;font-size:calc(1rem * ${bodyScale} * ${sectionScale});font-family:${sectionFont}">${inner}</div>
+    return `<section id="pf-${id}" class="pf-section-shell pf-section pf-reveal" data-section="${id}" style="padding:clamp(${spacingMin}px,8vw,${sectionSpacing}px) clamp(16px,4.5vw,32px);${altBg ? 'background:' + t.surface : ''}">
+      <div class="pf-section-inner" style="max-width:1100px;margin:0 auto;font-size:calc(1rem * ${bodyScale} * ${sectionScale});font-family:${sectionFont}">${inner}</div>
     </section>`;
   }
 
@@ -362,11 +496,11 @@
     const photoRadius = d.photo_shape === 'rounded' ? '18px' : '50%';
     const photoOffsetX = clampDesignNumber(d.photo_offset_x ?? design.photoOffsetX, -160, 160, 0);
     const photoOffsetY = clampDesignNumber(d.photo_offset_y ?? design.photoOffsetY, -160, 160, 0);
-    return `<section id="pf-hero" class="pf-section-shell pf-reveal is-visible" style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:clamp(60px,10vw,100px) clamp(16px,4vw,24px)">
+    return `<section id="pf-hero" class="pf-section-shell pf-hero-shell pf-reveal is-visible" style="min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:clamp(60px,10vw,100px) clamp(16px,4vw,24px)">
       <div style="position:absolute;inset:0;background-image:linear-gradient(${t.border} 1px,transparent 1px),linear-gradient(90deg,${t.border} 1px,transparent 1px);background-size:50px 50px;opacity:.22"></div>
       <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,${t.accent}14,transparent 70%);top:-15%;left:-12%;pointer-events:none;filter:blur(60px)"></div>
       <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,${t.accent2}12,transparent 70%);bottom:-12%;right:-10%;pointer-events:none;filter:blur(60px)"></div>
-      <div style="position:relative;z-index:1;max-width:800px;animation:pf-fade .8s ease">
+      <div class="pf-hero-inner" style="position:relative;z-index:1;max-width:800px;animation:pf-fade .8s ease">
         ${photoUrl ? `<img src="${photoUrl}" alt="Profile photo" style="width:${photoSize}px;height:${photoSize}px;object-fit:cover;border-radius:${photoRadius};border:3px solid ${t.border2};box-shadow:0 20px 40px rgba(0,0,0,.35);margin:0 auto 18px;display:block;transform:translate(${photoOffsetX}px, ${photoOffsetY}px)">` : ''}
         <div style="display:inline-flex;align-items:center;gap:7px;padding:5px 15px;background:${t.accent}10;border:1px solid ${t.accent}30;border-radius:50px;font-size:.7rem;font-weight:700;color:${t.accent};letter-spacing:.8px;text-transform:uppercase;margin-bottom:24px">
           <div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pf-pulse 2s infinite"></div>
@@ -376,13 +510,13 @@
         <p style="font-size:clamp(.75rem,1.5vw,1rem);color:${t.muted};margin-bottom:8px;letter-spacing:2px;text-transform:uppercase">${d.title || 'Full-Stack Developer'}</p>
         <p class="pf-hero-tagline" style="font-size:clamp(.9rem,1.8vw,1.1rem);color:${t.text};opacity:.82;margin-bottom:10px">${d.tagline || ''}</p>
         <p class="pf-hero-subtitle" style="font-size:.77rem;color:${t.muted};letter-spacing:2.5px;text-transform:uppercase;margin-bottom:28px">${d.subtitle || ''}</p>
-        <div style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
+        <div class="pf-hero-actions" style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
           <button onclick="document.getElementById('pf-contact')?.scrollIntoView({behavior:'smooth'})" style="background:${G};color:#000;border:none;padding:12px 26px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.3s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">${d.cta || 'View My Work'} →</button>
           ${resumeHref
             ? `<a href="${resumeHref}" style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:12px 26px;border-radius:9px;font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s;display:inline-block" onmouseover="this.style.background='${t.accent}14'" onmouseout="this.style.background='transparent'">Download Resume PDF</a>`
             : `<span style="background:transparent;color:${t.muted};border:1.5px solid ${t.border};padding:12px 26px;border-radius:9px;font-weight:600;font-size:.88rem;display:inline-block">Resume unavailable</span>`}
         </div>
-        <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+        <div class="pf-social-row" style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
           ${[
             ['⚡', 'GitHub', d.github],
             ['💼', 'LinkedIn', d.linkedin],
@@ -406,7 +540,7 @@
     const avatarSrc = profilePhoto || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(d.name || firstName)}`;
     return sectionWrap('about', `
       ${sectionTitle('About Me')}
-      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,5vw,48px);align-items:center">
+      <div class="pf-about-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,5vw,48px);align-items:center">
         <div style="text-align:center">
           <img src="${avatarSrc}" style="width:${avatarSize}px;height:${avatarSize}px;object-fit:cover;border-radius:${avatarRadius};border:2px solid ${t.border};animation:pf-float 3s ease-in-out infinite;margin:0 auto 14px;display:block" alt="avatar">
           <div style="display:inline-flex;align-items:center;gap:5px;background:#22c55e14;border:1px solid #22c55e35;color:#22c55e;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700">
@@ -428,7 +562,7 @@
     d = d || { categories: [] };
     return sectionWrap('skills', `
       ${sectionTitle('Skills & Stack')}
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px">
+      <div class="pf-skills-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px">
         ${(d.categories || []).map(cat => `
         <div class="pf-card-hover" style="${cardStyle()}">
           <div style="font-family:${t.font};color:${t.accent};font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:17px">${cat.name}</div>
@@ -453,11 +587,11 @@
     const techs = [...new Set((d.items || []).flatMap(p => p.tech || []))];
     return sectionWrap('projects', `
       ${sectionTitle('Projects')}
-      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px" id="pf-proj-filters">
+      <div class="pf-project-filters" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px" id="pf-proj-filters">
         <button onclick="pfFilter('all',this)" data-f="all" style="padding:5px 13px;border-radius:20px;font-size:.73rem;font-weight:700;border:1.5px solid ${t.accent};background:${t.accent}14;color:${t.accent};cursor:pointer">All</button>
         ${techs.map(tech => `<button onclick="pfFilter('${tech}',this)" data-f="${tech}" style="padding:5px 13px;border-radius:20px;font-size:.73rem;font-weight:700;border:1.5px solid ${t.border};background:transparent;color:${t.muted};cursor:pointer">${tech}</button>`).join('')}
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,295px),1fr));gap:17px" id="pf-proj-grid">
+      <div class="pf-project-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,295px),1fr));gap:17px" id="pf-proj-grid">
         ${(d.items || []).map(p => {
         const liveHref = normalizeUrl(p.link || p.demo || p.live);
         const codeHref = normalizeUrl(p.github || p.code || p.repo);
@@ -532,7 +666,7 @@
     d = d || { items: [] };
     return sectionWrap('stats', `
       ${sectionTitle('Numbers That Matter')}
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(130px,20vw,155px),1fr));gap:15px">
+      <div class="pf-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(130px,20vw,155px),1fr));gap:15px">
         ${(d.items || []).map(s => `
         <div class="pf-stat-box pf-card-hover" data-target="${s.value}" data-suffix="${s.suffix || '+'}"
           style="text-align:center;padding:clamp(18px,3vw,26px) 15px;${cardStyle()}"
@@ -564,7 +698,7 @@
     d = d || { items: [] };
     return sectionWrap('testimonials', `
       ${sectionTitle('Testimonials')}
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,270px),1fr));gap:16px">
+      <div class="pf-testimonial-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(230px,30vw,270px),1fr));gap:16px">
         ${(d.items || []).map(ti => `
         <div class="pf-card-hover" style="${cardStyle()}"
           onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='${t.accent}'"
@@ -587,7 +721,7 @@
     return sectionWrap('contact', `
       ${sectionTitle("Let's Connect")}
       <p style="color:${t.muted};margin-bottom:26px;font-size:.92rem">${d.message || "Got a project in mind? Let's build something amazing together!"}</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:30px">
+      <div class="pf-contact-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:30px">
         <div>
           ${[['📧', 'Email', d.email || ''], ['📱', 'Phone', d.phone || ''], ['🌐', 'Portfolio', window.location.href], ['⏰', 'Status', '✅ Open to work']].map(([ic, lbl, val]) => `
           <div style="display:flex;align-items:center;gap:11px;padding:12px;background:${t.card};border:1px solid ${t.border};border-radius:9px;margin-bottom:9px;transition:.2s"
@@ -601,7 +735,7 @@
           </div>`).join('')}
         </div>
         <div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px">
+          <div class="pf-contact-dual" style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px">
             <div>
               <label style="display:block;font-size:.68rem;font-weight:700;color:${t.muted};text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Name *</label>
               <input id="pf-ct-name" style="width:100%;background:${t.surface};border:1.5px solid ${t.border};border-radius:7px;padding:9px 12px;color:${t.text};font-size:.83rem;outline:none;transition:.2s;font-family:inherit" placeholder="Your name"
@@ -647,9 +781,9 @@
   ───────────────────────────────────────── */
   function buildNav() {
     const recruiterLabel = recruiterMode ? 'Recruiter Mode: ON' : 'Recruiter Mode: OFF';
-    return `<nav style="position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(18px);border-bottom:1px solid ${t.border};height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,4vw,30px)">
+    return `<nav class="pf-top-nav" style="position:sticky;top:0;z-index:100;background:${t.bg}ee;backdrop-filter:blur(18px);border-bottom:1px solid ${t.border};height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,4vw,30px)">
       <div style="font-family:${t.font};font-size:clamp(.8rem,1.8vw,1.05rem);font-weight:700;${GT}">&lt;${firstName}/&gt;</div>
-      <div style="display:flex;gap:clamp(8px,2vw,16px)">
+      <div class="pf-top-links" style="display:flex;gap:clamp(8px,2vw,16px)">
         ${sections.filter(s => s.is_visible).map(s =>
           `<button onclick="document.getElementById('pf-${s.section_type}')?.scrollIntoView({behavior:'smooth'})"
             style="background:none;border:none;font-size:clamp(.55rem,.7vw+.4rem,.76rem);font-weight:700;color:${t.muted};cursor:pointer;text-transform:uppercase;letter-spacing:.4px;padding:4px 0;transition:.2s"
@@ -850,6 +984,7 @@
   };
 
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const disposePortfolioRouteTransitions = initPortfolioRouteTransitions(prefersReducedMotion);
   const revealSections = Array.from(document.querySelectorAll('section.pf-reveal'));
   revealSections.forEach((sec, idx) => {
     sec.style.setProperty('--pf-delay', (Math.min(idx * 70, 420)) + 'ms');
@@ -944,6 +1079,275 @@
     });
   }
 
+  const initPortfolioCinematicExperience = () => {
+    if (prefersReducedMotion) return () => {};
+
+    const densityMultiplier = cinematicProfile.density;
+    const speedMultiplier = cinematicProfile.speed;
+    const glowMultiplier = cinematicProfile.glow;
+    const ambientMultiplier = cinematicProfile.ambient;
+
+    document.body.classList.add('pf-cinematic-active');
+
+    const cleanups = [];
+
+    const existingRoot = document.getElementById('pf-cinematic-root');
+    if (existingRoot) existingRoot.remove();
+
+    const cineRoot = document.createElement('div');
+    cineRoot.id = 'pf-cinematic-root';
+    cineRoot.innerHTML = `
+      <canvas id="pf-cinematic-canvas"></canvas>
+      <div class="pf-cine-glow" aria-hidden="true"></div>
+      <div class="pf-cine-noise" aria-hidden="true"></div>
+    `;
+    document.body.appendChild(cineRoot);
+
+    const canvas = cineRoot.querySelector('#pf-cinematic-canvas');
+    const ctx = canvas && typeof canvas.getContext === 'function'
+      ? canvas.getContext('2d', { alpha: true })
+      : null;
+
+    if (ctx) {
+      let width = 0;
+      let height = 0;
+      let dpr = 1;
+      let rafId = 0;
+      let running = true;
+      let last = 0;
+      let dots = [];
+
+      const makeDot = () => {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = (0.03 + Math.random() * 0.12) * speedMultiplier;
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          r: (0.6 + Math.random() * 1.8) * (0.88 + (densityMultiplier * 0.12)),
+          a: Math.min(0.84, (0.12 + Math.random() * 0.34) * (0.78 + (glowMultiplier * 0.24))),
+          c: Math.random() > 0.5 ? 'cyan' : 'violet',
+        };
+      };
+
+      const resize = () => {
+        width = Math.max(window.innerWidth || 0, 320);
+        height = Math.max(window.innerHeight || 0, 320);
+        dpr = Math.min(window.devicePixelRatio || 1, 1.8);
+
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const count = Math.max(16, Math.min(110, Math.round(((width * height) / 36000) * densityMultiplier)));
+        dots = Array.from({ length: count }, makeDot);
+      };
+
+      const wrap = (dot) => {
+        if (dot.x < -18) dot.x = width + 18;
+        if (dot.x > width + 18) dot.x = -18;
+        if (dot.y < -18) dot.y = height + 18;
+        if (dot.y > height + 18) dot.y = -18;
+      };
+
+      const draw = (now) => {
+        if (!running) return;
+
+        const dt = Math.min(1.8, last ? (now - last) / 16.67 : 1);
+        last = now;
+
+        ctx.clearRect(0, 0, width, height);
+
+        const sweepY = ((now * 0.05) % (height + 280)) - 140;
+        const sweep = ctx.createLinearGradient(0, sweepY - 120, width, sweepY + 120);
+        sweep.addColorStop(0, 'rgba(0,0,0,0)');
+        sweep.addColorStop(0.5, `rgba(0,229,255,${(0.045 * glowMultiplier).toFixed(4)})`);
+        sweep.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sweep;
+        ctx.fillRect(0, sweepY - 120, width, 240);
+
+        const limit = Math.max(96, Math.round(130 * (0.84 + (densityMultiplier * 0.2))));
+        const limitSq = limit * limit;
+
+        for (let i = 0; i < dots.length; i += 1) {
+          const dot = dots[i];
+          dot.x += dot.vx * dt;
+          dot.y += dot.vy * dt;
+          dot.x += Math.sin((now * 0.00023) + i) * 0.05;
+          dot.y += Math.cos((now * 0.00021) + i) * 0.05;
+          wrap(dot);
+
+          ctx.beginPath();
+          ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
+          ctx.fillStyle = dot.c === 'cyan'
+            ? `rgba(0,229,255,${dot.a.toFixed(4)})`
+            : `rgba(180,79,255,${dot.a.toFixed(4)})`;
+          ctx.fill();
+        }
+
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < dots.length; i += 1) {
+          const a = dots[i];
+          for (let j = i + 1; j < dots.length; j += 1) {
+            const b = dots[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const d2 = (dx * dx) + (dy * dy);
+            if (d2 > limitSq) continue;
+
+            const d = Math.sqrt(d2);
+            const alpha = Math.pow(1 - (d / limit), 1.7) * 0.12 * glowMultiplier;
+            ctx.strokeStyle = `rgba(124,177,255,${alpha.toFixed(4)})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+
+        rafId = requestAnimationFrame(draw);
+      };
+
+      const onVisibility = () => {
+        running = !document.hidden;
+        if (!running && rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        } else if (running && !rafId) {
+          rafId = requestAnimationFrame(draw);
+        }
+      };
+
+      resize();
+      rafId = requestAnimationFrame(draw);
+
+      window.addEventListener('resize', resize, { passive: true });
+      document.addEventListener('visibilitychange', onVisibility);
+
+      cleanups.push(() => {
+        if (rafId) cancelAnimationFrame(rafId);
+        window.removeEventListener('resize', resize);
+        document.removeEventListener('visibilitychange', onVisibility);
+      });
+    }
+
+    let targetX = 50;
+    let targetY = 40;
+    let currentX = 50;
+    let currentY = 40;
+    let targetScroll = 0;
+    let currentScroll = 0;
+    let ambientRaf = 0;
+
+    const onPointerMove = (event) => {
+      const vw = Math.max(window.innerWidth || 1, 1);
+      const vh = Math.max(window.innerHeight || 1, 1);
+      const nextX = 50 + ((((event.clientX / vw) * 100) - 50) * ambientMultiplier);
+      const nextY = 50 + ((((event.clientY / vh) * 100) - 50) * ambientMultiplier);
+      targetX = Math.min(96, Math.max(4, nextX));
+      targetY = Math.min(96, Math.max(4, nextY));
+    };
+
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const max = Math.max(doc.scrollHeight - doc.clientHeight, 1);
+      targetScroll = Math.min(1, Math.max(0, window.scrollY / max));
+    };
+
+    const animateAmbient = () => {
+      const followStrength = Math.min(0.18, 0.045 + (speedMultiplier * 0.015));
+      currentX += (targetX - currentX) * followStrength;
+      currentY += (targetY - currentY) * followStrength;
+      currentScroll += (targetScroll - currentScroll) * Math.min(0.16, followStrength * 1.3);
+
+      document.body.style.setProperty('--pf-pointer-x', `${currentX.toFixed(3)}%`);
+      document.body.style.setProperty('--pf-pointer-y', `${currentY.toFixed(3)}%`);
+      document.body.style.setProperty('--pf-scroll-progress', currentScroll.toFixed(5));
+
+      ambientRaf = requestAnimationFrame(animateAmbient);
+    };
+
+    onScroll();
+    animateAmbient();
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    cleanups.push(() => {
+      if (ambientRaf) cancelAnimationFrame(ambientRaf);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      document.body.style.removeProperty('--pf-pointer-x');
+      document.body.style.removeProperty('--pf-pointer-y');
+      document.body.style.removeProperty('--pf-scroll-progress');
+    });
+
+    if (!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches)) {
+      const spotlightNodes = [
+        ...document.querySelectorAll('.pf-card-hover, .pf-share-main, .pf-share-btn, #pf-recruiter-toggle'),
+      ];
+
+      spotlightNodes.forEach((node) => {
+        node.classList.add('pf-cine-card');
+        node.style.setProperty('--pf-spot-strength', (0.72 + (glowMultiplier * 0.24)).toFixed(3));
+
+        const onMove = (event) => {
+          const rect = node.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / Math.max(rect.width, 1)) * 100;
+          const y = ((event.clientY - rect.top) / Math.max(rect.height, 1)) * 100;
+          node.style.setProperty('--pf-spot-x', `${x.toFixed(2)}%`);
+          node.style.setProperty('--pf-spot-y', `${y.toFixed(2)}%`);
+          node.style.setProperty('--pf-spot-o', '1');
+        };
+
+        const onLeave = () => {
+          node.style.setProperty('--pf-spot-o', '0');
+        };
+
+        node.addEventListener('pointermove', onMove, { passive: true });
+        node.addEventListener('pointerenter', onMove, { passive: true });
+        node.addEventListener('pointerleave', onLeave);
+
+        cleanups.push(() => {
+          node.removeEventListener('pointermove', onMove);
+          node.removeEventListener('pointerenter', onMove);
+          node.removeEventListener('pointerleave', onLeave);
+          node.classList.remove('pf-cine-card');
+          node.style.removeProperty('--pf-spot-x');
+          node.style.removeProperty('--pf-spot-y');
+          node.style.removeProperty('--pf-spot-o');
+          node.style.removeProperty('--pf-spot-strength');
+        });
+      });
+    }
+
+    document.querySelectorAll('#portfolio-root h1, #portfolio-root h2').forEach((heading) => {
+      heading.classList.add('pf-cine-heading');
+      heading.style.setProperty('--pf-cine-heading-duration', `${(7 / Math.max(speedMultiplier, 0.55)).toFixed(2)}s`);
+      cleanups.push(() => {
+        heading.classList.remove('pf-cine-heading');
+        heading.style.removeProperty('--pf-cine-heading-duration');
+      });
+    });
+
+    return () => {
+      cleanups.forEach((cleanup) => {
+        try {
+          cleanup();
+        } catch (_) {
+          // Ignore cleanup failures.
+        }
+      });
+      cineRoot.remove();
+      document.body.classList.remove('pf-cinematic-active');
+    };
+  };
+
   const optimizePortfolioMedia = () => {
     const images = [...document.querySelectorAll('img')];
     images.forEach((img, idx) => {
@@ -959,6 +1363,14 @@
   };
 
   optimizePortfolioMedia();
+
+  const disposePortfolioCinematic = initPortfolioCinematicExperience();
+  if (typeof disposePortfolioCinematic === 'function') {
+    window.addEventListener('beforeunload', disposePortfolioCinematic, { once: true });
+  }
+  if (typeof disposePortfolioRouteTransitions === 'function') {
+    window.addEventListener('beforeunload', disposePortfolioRouteTransitions, { once: true });
+  }
 
   if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
     setTimeout(() => {
