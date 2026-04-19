@@ -79,6 +79,9 @@ body.pf-cinematic-active #portfolio-root{position:relative;z-index:2}
 @media(max-width:900px){
 	.pf-top-nav{height:auto!important;min-height:54px;padding:10px 14px!important;gap:8px;flex-wrap:wrap}
 	.pf-top-links{order:3;flex-basis:100%;padding-bottom:2px}
+	.pf-top-links button{min-height:30px;padding:6px 0!important}
+	.pf-share-grid{grid-template-columns:1fr}
+	.pf-share-btn{text-align:center}
 	.pf-about-grid{grid-template-columns:1fr!important;gap:20px!important}
 	.pf-contact-grid{grid-template-columns:1fr!important;gap:18px!important}
 	.pf-contact-dual{grid-template-columns:1fr!important}
@@ -102,6 +105,7 @@ body.pf-cinematic-active #portfolio-root{position:relative;z-index:2}
 	.pf-share-dock{left:10px;right:10px;bottom:14px;align-items:stretch}
 	.pf-share-main{width:100%;text-align:center}
 	.pf-share-panel{min-width:0;max-width:none;width:100%}
+	.pf-share-btn{font-size:.72rem}
 }
 
 @supports (height: 100dvh){
@@ -113,8 +117,10 @@ body.pf-cinematic-active #portfolio-root{position:relative;z-index:2}
 @media(max-width:460px){
 	.pf-top-nav{padding:8px 10px!important}
 	.pf-top-links{gap:10px!important}
+	.pf-top-links button{font-size:.68rem!important}
 	.pf-hero-inner{max-width:100%!important}
 	#pf-recruiter-toggle{margin-left:auto}
+	.pf-share-main{font-size:.69rem;padding:8px 10px}
 }
 
 @media (prefers-reduced-motion: reduce){

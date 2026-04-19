@@ -244,9 +244,9 @@ const Toast = {
     const container = document.getElementById('toast-container');
     if (!container) return;
     const toast = document.createElement('div');
-    const icons = { success: '✅', error: '❌', info: '⚡' };
+    const icons = { success: 'OK', error: 'ERR', info: 'INFO' };
     toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<span style="font-size:1rem">${icons[type]||'ℹ️'}</span><span>${message}</span>`;
+    toast.innerHTML = `<span style="font-size:.72rem;font-weight:800;letter-spacing:.4px">${icons[type]||'INFO'}</span><span>${message}</span>`;
     container.appendChild(toast);
     setTimeout(() => {
       toast.classList.add('toast-exit');

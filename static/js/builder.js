@@ -28,8 +28,8 @@ function setBuilderPreviewOnlyMode(enabled) {
     btn.classList.toggle('active', next);
     btn.setAttribute('aria-pressed', next ? 'true' : 'false');
     btn.innerHTML = next
-      ? '🪟 <span>Show Forms</span>'
-      : '✍️ <span>Inline Only</span>';
+      ? '<span>Show Forms</span>'
+      : '<span>Inline Only</span>';
   }
 }
 
@@ -55,7 +55,7 @@ function renderSectionList() {
       <span class="si-ico">${SECTION_INFO[s.id].icon}</span>
       <span class="si-lbl">${SECTION_INFO[s.id].label}</span>
       <button class="si-toggle ${s.visible?'on':'off'}" onclick="event.stopPropagation();toggleSec('${s.id}')">${s.visible?'ON':'OFF'}</button>
-      ${(s.id!=='hero'&&s.id!=='contact')?`<button class="si-del" onclick="event.stopPropagation();removeSec('${s.id}')" title="Remove section">✕</button>`:''}
+      ${(s.id!=='hero'&&s.id!=='contact')?`<button class="si-del" onclick="event.stopPropagation();removeSec('${s.id}')" title="Remove section">X</button>`:''}
     </div>
   `).join('');
 
@@ -65,7 +65,7 @@ function renderSectionList() {
   const existing = new Set(APP.state.sections.map(s => s.id));
   const missing = Object.keys(SECTION_INFO).filter(id => !existing.has(id));
   addList.innerHTML = missing.length === 0
-    ? `<div style="color:var(--muted2);font-size:.75rem;padding:5px 2px">All sections added ✓</div>`
+    ? `<div style="color:var(--muted2);font-size:.75rem;padding:5px 2px">All sections added</div>`
     : missing.map(id => `
       <button class="add-sec-btn" onclick="addSec('${id}')">
         <span>${SECTION_INFO[id].icon}</span>
@@ -86,7 +86,7 @@ function renderThemeGrid() {
       <div class="b-th-prev" style="background:linear-gradient(135deg,${t.bg},${t.card})">
         <span style="color:${t.accent};font-family:${t.font}">${labelName.toUpperCase()}</span>
       </div>
-      <div class="b-th-name">${t.emoji} ${labelName}</div>
+      <div class="b-th-name">${labelName}</div>
       <div class="b-th-sw">
         ${[t.bg,t.accent,t.accent2,t.text].map(c=>`<div class="b-th-swatch" style="background:${c}"></div>`).join('')}
       </div>
@@ -182,7 +182,7 @@ function renderEditor() {
   } else if(id === 'contact') {
     html += makeFields('contact',[['email','Display Email',d.email],['phone','Phone',d.phone],['message','Section Message',d.message]]);
     html += `<div class="fg">
-      <label class="inp-label">📧 Your Email (receives contact notifications)</label>
+      <label class="inp-label">Your Email (receives contact notifications)</label>
       <input class="inp" value="${APP.state.ownerEmail}" oninput="APP.state.ownerEmail=this.value" placeholder="youremail@gmail.com">
       <div style="color:var(--muted2);font-size:.68rem;margin-top:4px">AI auto-replies sent to visitors from your portfolio</div>
     </div>`;
@@ -190,7 +190,7 @@ function renderEditor() {
     const allowsLooseText = ['skills','experience','education','stats','timeline','testimonials'].includes(id);
     html += `<div style="color:var(--muted);font-size:.74rem;margin-bottom:7px">Edit as JSON — changes apply live:</div>
     <textarea class="inp" rows="13" style="font-family:var(--font-m);font-size:.7rem" oninput="updateJSON('${id}',this.value)">${JSON.stringify(d,null,2)}</textarea>
-    <div style="color:var(--muted2);font-size:.67rem;margin-top:4px">${allowsLooseText ? '💡 Plain text is supported here and auto-converts to section items.' : '💡 Valid JSON only'}</div>`;
+    <div style="color:var(--muted2);font-size:.67rem;margin-top:4px">${allowsLooseText ? 'Plain text is supported here and auto-converts to section items.' : 'Valid JSON only'}</div>`;
   }
 
   html += '</div>';
@@ -460,7 +460,7 @@ function renderProjectsEditor(items) {
   if (!projects.length) {
     return `
       <div style="color:var(--muted);font-size:.75rem;margin-bottom:10px">No projects added yet.</div>
-      <button class="btn btn-primary btn-sm" onclick="addProjectItem()">➕ Add First Project</button>
+      <button class="btn btn-primary btn-sm" onclick="addProjectItem()">Add First Project</button>
     `;
   }
 
@@ -478,7 +478,7 @@ function renderProjectsEditor(items) {
         <div class="fg"><label class="inp-label">Demo Link (Live URL)</label><input class="inp" value="${escAttr(p.link || p.demo || p.live || '')}" placeholder="https://demo.example.com" oninput="updateProjectField(${idx},'link',this.value)"></div>
         <div class="fg"><label class="inp-label">GitHub/Code Link</label><input class="inp" value="${escAttr(p.github || p.code || p.repo || '')}" placeholder="https://github.com/username/repo" oninput="updateProjectField(${idx},'github',this.value)"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fg"><label class="inp-label">Emoji</label><input class="inp" value="${escAttr(p.emoji || '🚀')}" oninput="updateProjectField(${idx},'emoji',this.value)"></div>
+          <div class="fg"><label class="inp-label">Project Badge</label><input class="inp" value="${escAttr(p.emoji || 'PR')}" oninput="updateProjectField(${idx},'emoji',this.value)"></div>
           <div class="fg" style="display:flex;align-items:flex-end;justify-content:flex-start;padding-bottom:4px">
             <label style="display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.75rem;font-weight:700">
               <input type="checkbox" ${p.featured ? 'checked' : ''} onchange="updateProjectField(${idx},'featured',this.checked)"> Featured Project
@@ -486,7 +486,7 @@ function renderProjectsEditor(items) {
           </div>
         </div>
       </div>`).join('')}
-      <button class="btn btn-primary btn-sm" onclick="addProjectItem()">➕ Add Project</button>
+      <button class="btn btn-primary btn-sm" onclick="addProjectItem()">Add Project</button>
     </div>
   `;
 }
@@ -507,7 +507,7 @@ function addProjectItem() {
     title: 'New Project',
     desc: 'Project description',
     tech: ['React'],
-    emoji: '🚀',
+    emoji: 'PR',
     featured: false,
     link: '',
     github: ''
@@ -798,7 +798,7 @@ function renderSettings() {
     'Scroll Animations','Sticky Navigation',
     'Responsive (Mobile + Desktop)','GitHub Pages Export',
     '20+ Premium Themes','Drag & Drop Reorder',
-  ].map(f => `<div>✅ ${f}</div>`).join('');
+  ].map(f => `<div>${f}</div>`).join('');
 }
 
 function settingChanged(key, val) {
@@ -1726,7 +1726,7 @@ function applyBuilderInlineEdit(path, value) {
   } else if (/^stats\.items\.\d+\.suffix$/.test(cleanPath)) {
     normalizedValue = rawText.slice(0, 4);
   } else if (cleanPath === 'hero.cta') {
-    normalizedValue = rawText.replace(/\s*→\s*$/, '');
+    normalizedValue = rawText.replace(/\s*>\s*$/, '');
   }
 
   const ok = setNestedValueByPath(APP.state.data, cleanPath, normalizedValue);
@@ -1873,10 +1873,10 @@ function buildCanvasHTML(t, visible) {
     <div class="pf-preview-nav-links">
       ${visible.map(s=>`<button onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'})" style="background:none;border:none;font-size:clamp(.55rem,.7vw+.4rem,.73rem);font-weight:700;color:${t.muted};cursor:pointer;text-transform:uppercase;letter-spacing:.4px;transition:.2s;white-space:nowrap" onmouseover="this.style.color='${t.accent}'" onmouseout="this.style.color='${t.muted}'">${SECTION_INFO[s.id].label.split(' ')[0]}</button>`).join('')}
     </div>
-    <button class="pf-preview-nav-menu" type="button" aria-label="Preview navigation" aria-expanded="false" aria-controls="pf-mobile-nav-menu" onclick="const m=document.getElementById('pf-mobile-nav-menu');if(!m)return;const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');this.textContent=o?'✕':'☰';">☰</button>
+    <button class="pf-preview-nav-menu" type="button" aria-label="Preview navigation" aria-expanded="false" aria-controls="pf-mobile-nav-menu" onclick="const m=document.getElementById('pf-mobile-nav-menu');if(!m)return;const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');this.textContent=o?'Close':'Menu';">Menu</button>
   </nav>`;
 
-  html += `<div id="pf-mobile-nav-menu" class="pf-preview-mobile-menu">${visible.map(s=>`<button class="pf-preview-mobile-link" onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'});const m=document.getElementById('pf-mobile-nav-menu');if(m)m.classList.remove('open');const b=document.querySelector('.pf-preview-nav-menu');if(b){b.textContent='☰';b.setAttribute('aria-expanded','false');}">${SECTION_INFO[s.id].label}</button>`).join('')}</div>`;
+  html += `<div id="pf-mobile-nav-menu" class="pf-preview-mobile-menu">${visible.map(s=>`<button class="pf-preview-mobile-link" onclick="document.getElementById('pf-${s.id}')?.scrollIntoView({behavior:'smooth'});const m=document.getElementById('pf-mobile-nav-menu');if(m)m.classList.remove('open');const b=document.querySelector('.pf-preview-nav-menu');if(b){b.textContent='Menu';b.setAttribute('aria-expanded','false');}">${SECTION_INFO[s.id].label}</button>`).join('')}</div>`;
 
   visible.forEach(sec => {
     html += renderSection(sec.id, data, t, { builderMode: true });
@@ -2023,7 +2023,7 @@ window.toggleCB = function () {
   if (!win || !fab) return;
   const isOpen = win.classList.contains('open');
   win.classList.toggle('open', !isOpen);
-  fab.textContent = isOpen ? '💬' : '✕';
+  fab.textContent = isOpen ? 'CHAT' : 'X';
 };
 
 window.cbSend = function (text) {
@@ -2094,7 +2094,7 @@ function copyCode() {
   const code = generatePortfolioShell(APP.state);
   navigator.clipboard.writeText(code).then(() => {
     const btn = document.getElementById('copy-btn');
-    if(btn) { btn.textContent = '✅ Copied!'; setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2200); }
+    if(btn) { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy to Clipboard', 2200); }
   });
 }
 

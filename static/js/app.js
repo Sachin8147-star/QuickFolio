@@ -1,9 +1,11 @@
 /* ════════ APP.JS — main controller ════════ */
 
 const PAGE = window.APP_CONFIG?.page || 'landing';
-const ASSET_VERSION = '20260416quickfolio10';
+const ASSET_VERSION = '20260419crafted17';
 const PREFETCHED_PATHS = new Set();
 const LOADED_STYLE_IDS = new Set();
+const LOADED_SCRIPT_IDS = new Set();
+const CHATBOT_DISABLED_PAGES = new Set(['login', 'signup', 'builder', 'resume-editor']);
 const CINEMATIC_PROFILE_KEY = 'quickfolio.cinematic.profile';
 const CINEMATIC_PROFILE_KEY_LEGACY = 'QuickFolio.cinematic.profile';
 const CINEMATIC_PROFILES = {
@@ -209,23 +211,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyCinematicProfileToBody();
   initNavDynamics();
   initScrollProgressBar();
-  initCommandCenter();
-  initSmartLinkPrefetch();
   registerServiceWorker();
 
-  await ensurePageStyles();
+  await Promise.all([
+    ensurePageStyles(),
+    ensurePageScripts(),
+    Auth.init(),
+  ]);
 
-  // Init auth (updates nav)
-  await Auth.init();
   refreshCommandCenterActions();
 
   // Render page content
   await renderCurrentPage();
 
-  // Init global chatbot (not on auth pages or builder)
-  if (!['login','signup','builder','resume-editor'].includes(PAGE)) {
-    runWhenIdle(() => {
-      if (typeof Chatbot !== 'undefined' && Chatbot?.init) Chatbot.init('global-chatbot');
+  runWhenIdle(() => {
+    initSmartLinkPrefetch();
+    initCommandCenter();
+    refreshCommandCenterActions();
+  }, 900);
+
+  // Load chatbot assets only when the current page can actually show chatbot.
+  if (!CHATBOT_DISABLED_PAGES.has(PAGE)) {
+    runWhenIdle(async () => {
+      await ensureChatbotAssets();
+      if (typeof Chatbot !== 'undefined' && Chatbot?.init) {
+        Chatbot.init('global-chatbot');
+        refreshCommandCenterActions();
+      }
     }, 1400);
   }
 
@@ -313,14 +325,61 @@ function ensureStylesheet(id, href) {
   });
 }
 
+function ensureScript(id, src) {
+  if (!id || !src) return Promise.resolve();
+  if (LOADED_SCRIPT_IDS.has(id) || document.getElementById(id)) {
+    LOADED_SCRIPT_IDS.add(id);
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.id = id;
+    script.defer = true;
+    script.async = false;
+    script.src = `${src}${src.includes('?') ? '&' : '?'}v=${encodeURIComponent(ASSET_VERSION)}`;
+    script.onload = () => {
+      LOADED_SCRIPT_IDS.add(id);
+      resolve();
+    };
+    script.onerror = () => resolve();
+    document.head.appendChild(script);
+  });
+}
+
+function resolvePageScriptQueue() {
+  const queue = [];
+
+  if (!['builder', 'login', 'signup'].includes(PAGE)) {
+    queue.push({ id: 'pages-runtime-script', src: '/static/js/pages.js' });
+  }
+
+  if (PAGE === 'builder') {
+    queue.push({ id: 'renderer-runtime-script', src: '/static/js/renderer.js' });
+    queue.push({ id: 'builder-runtime-script', src: '/static/js/builder.js' });
+  }
+
+  return queue;
+}
+
+async function ensurePageScripts() {
+  const queue = resolvePageScriptQueue();
+  for (const item of queue) {
+    await ensureScript(item.id, item.src);
+  }
+}
+
 async function ensurePageStyles() {
   const needsBuilderStyles = ['builder', 'resume-editor'].includes(PAGE);
-  const needsChatStyles = !['login', 'signup', 'builder', 'resume-editor'].includes(PAGE);
 
   const tasks = [];
   if (needsBuilderStyles) tasks.push(ensureStylesheet('builder-page-styles', '/static/css/builder.css'));
-  if (needsChatStyles) tasks.push(ensureStylesheet('chatbot-page-styles', '/static/css/chatbot.css'));
   await Promise.all(tasks);
+}
+
+async function ensureChatbotAssets() {
+  await ensureStylesheet('chatbot-page-styles', '/static/css/chatbot.css');
+  await ensureScript('chatbot-runtime-script', '/static/js/chatbot.js');
 }
 
 function prefetchPath(path) {
@@ -427,7 +486,7 @@ function initCommandCenter() {
 
   root.dataset.ready = '1';
   root.innerHTML = `
-    <button id="command-fab" class="command-fab" type="button" aria-haspopup="dialog" aria-controls="command-center-modal" aria-label="Open quick actions">⚡ Quick Actions</button>
+    <button id="command-fab" class="command-fab" type="button" aria-haspopup="dialog" aria-controls="command-center-modal" aria-label="Open quick actions">Quick Actions</button>
     <div id="command-center-modal" class="command-modal" aria-hidden="true">
       <div class="command-overlay" id="command-overlay"></div>
       <div class="command-panel" role="dialog" aria-modal="true" aria-labelledby="command-title">
@@ -436,7 +495,7 @@ function initCommandCenter() {
             <div id="command-title" class="command-title">QuickFolio Command Center</div>
             <div class="command-sub">Shortcut: Ctrl + Shift + J</div>
           </div>
-          <button type="button" class="command-close" id="command-close" aria-label="Close quick actions">✕</button>
+          <button type="button" class="command-close" id="command-close" aria-label="Close quick actions">X</button>
         </div>
         <label class="command-search-wrap" for="command-search">
           <input id="command-search" class="command-search" type="search" placeholder="Search actions: builder, resume, billing, performance" autocomplete="off" />
@@ -766,7 +825,7 @@ async function renderCurrentPage() {
       main.innerHTML = renderTermsOfService();
       break;
     default:
-        main.innerHTML = `<div style="min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding-top:var(--nav-h)"><div class="tc"><h1 class="grad-text font-d" style="font-size:4rem">404</h1><p style="color:var(--muted)">Page not found</p><a href="/" class="btn btn-primary mt16">← Home</a></div></div>`;
+        main.innerHTML = `<div style="min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding-top:var(--nav-h)"><div class="tc"><h1 class="grad-text font-d" style="font-size:4rem">404</h1><p style="color:var(--muted)">Page not found</p><a href="/" class="btn btn-primary mt16">Home</a></div></div>`;
   }
 
   schedulePageMotionInit();
@@ -785,20 +844,20 @@ function renderBuilderShell() {
       <div class="b-side-head">
         <div class="b-side-title grad-text">Portfolio Editor</div>
         <div style="display:flex;gap:6px;align-items:center">
-          <div id="save-indicator" style="display:none;font-size:.68rem;color:var(--a3);font-weight:700">✓ Saved</div>
-          <button class="btn btn-primary btn-sm" onclick="openExportModal()" style="padding:5px 10px;font-size:.66rem">🚀 Export</button>
+          <div id="save-indicator" style="display:none;font-size:.68rem;color:var(--a3);font-weight:700">Saved</div>
+          <button class="btn btn-primary btn-sm" onclick="openExportModal()" style="padding:5px 10px;font-size:.66rem">Export</button>
         </div>
       </div>
       <div class="b-tabs">
-        <button class="b-tab active" data-tab="sections" onclick="switchBTab('sections',this)"><span class="b-tab-ico">⚡</span><span>Sections</span></button>
+        <button class="b-tab active" data-tab="sections" onclick="switchBTab('sections',this)"><span class="b-tab-ico">📚</span><span>Sections</span></button>
         <button class="b-tab" data-tab="themes" onclick="switchBTab('themes',this)"><span class="b-tab-ico">🎨</span><span>Themes</span></button>
-        <button class="b-tab" data-tab="content" onclick="switchBTab('content',this)"><span class="b-tab-ico">✏️</span><span>Edit</span></button>
+        <button class="b-tab" data-tab="content" onclick="switchBTab('content',this)"><span class="b-tab-ico">✍️</span><span>Edit</span></button>
         <button class="b-tab" data-tab="settings" onclick="switchBTab('settings',this)"><span class="b-tab-ico">⚙️</span><span>Config</span></button>
       </div>
       <div class="b-panel" id="panel-sections">
         <div style="font-size:.62rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px">Drag to reorder · Click to edit</div>
         <div id="sec-list"></div>
-        <div class="sec-add-hint">➕ Add Section</div>
+        <div class="sec-add-hint">Add Section</div>
         <div id="sec-add-list"></div>
       </div>
       <div class="b-panel hidden" id="panel-themes"><div style="font-size:.62rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Choose your aesthetic</div><div class="b-theme-g" id="theme-grid"></div></div>
@@ -812,7 +871,7 @@ function renderBuilderShell() {
         <div class="inp-group"><label class="inp-label">Location</label><input class="inp" id="set-loc" oninput="settingChanged('loc',this.value)"></div>
         <div class="inp-group"><label class="inp-label">Your Email (for notifications)</label><input class="inp" id="set-email" oninput="settingChanged('email',this.value)"></div>
         <div class="ep mt16">
-          <div class="ep-title">🖼 Profile & Design Controls</div>
+          <div class="ep-title">Profile and Design Controls</div>
           <div class="inp-group"><label class="inp-label">Profile Photo URL</label><input class="inp" id="set-photo-url" placeholder="/static/uploads/your-photo.jpg" oninput="settingChanged('photo_url',this.value)"></div>
           <div class="inp-group"><label class="inp-label">Upload Profile Photo</label><input class="inp" id="set-photo-file" type="file" accept="image/*" onchange="handleProfilePhotoUpload(this)"></div>
           <div class="inp-group"><label class="inp-label">Photo Size: <span id="set-photo-size-val">170</span>px</label><input class="inp" id="set-photo-size" type="range" min="90" max="280" step="1" oninput="settingChanged('photo_size',this.value)"></div>
@@ -888,7 +947,7 @@ function renderBuilderShell() {
               <input class="inp" id="set-preset-name" placeholder="e.g. Recruiter Clean">
             </div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-              <button class="btn btn-primary btn-sm" onclick="saveCurrentDesignPreset()">💾 Save Preset</button>
+              <button class="btn btn-primary btn-sm" onclick="saveCurrentDesignPreset()">Save Preset</button>
             </div>
             <div id="set-preset-list"></div>
           </div>
@@ -904,35 +963,35 @@ function renderBuilderShell() {
               <textarea class="inp" id="set-tailor-job-text" rows="4" placeholder="Paste role requirements here for more accurate tailoring..."></textarea>
             </div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-              <button class="btn btn-primary btn-sm" onclick="analyzeResumeTailoring()">🎯 Analyze Role Fit</button>
-              <button class="btn btn-outline btn-sm" onclick="downloadTailoredResumePdf()">📄 Download Tailored PDF</button>
-              <button class="btn btn-ghost btn-sm" onclick="applyTailoringToProfile()">⚡ Apply Suggestions</button>
+              <button class="btn btn-primary btn-sm" onclick="analyzeResumeTailoring()">Analyze Role Fit</button>
+              <button class="btn btn-outline btn-sm" onclick="downloadTailoredResumePdf()">Download Tailored PDF</button>
+              <button class="btn btn-ghost btn-sm" onclick="applyTailoringToProfile()">Apply Suggestions</button>
             </div>
             <div id="resume-tailor-output" style="color:var(--muted2);font-size:.71rem">Run analysis to get job-specific headline, summary, and skill-gap guidance.</div>
           </div>
 
-          <button class="btn btn-outline btn-sm" onclick="resetDesignControls()" style="margin-top:4px">↺ Reset Design Customization</button>
+          <button class="btn btn-outline btn-sm" onclick="resetDesignControls()" style="margin-top:4px">Reset Design Customization</button>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <button class="btn btn-success btn-sm" onclick="savePortfolioToServer()">💾 Save to Server</button>
-          <button class="btn btn-outline btn-sm" onclick="togglePublish()">🌐 Publish</button>
+          <button class="btn btn-success btn-sm" onclick="savePortfolioToServer()">Save to Server</button>
+          <button class="btn btn-outline btn-sm" onclick="togglePublish()">Publish</button>
         </div>
         <div class="ep mt16">
-          <div class="ep-title">✅ Active Features</div>
+          <div class="ep-title">Active Features</div>
           <div class="settings-feat" id="feat-list"></div>
         </div>
       </div>
     </aside>
     <main class="b-canvas">
       <div class="canvas-bar">
-        <button onclick="document.getElementById('b-sidebar').classList.toggle('collapsed')" class="dev-btn">☰</button>
+        <button onclick="document.getElementById('b-sidebar').classList.toggle('collapsed')" class="dev-btn">NAV</button>
         <span class="canvas-lbl">Live Preview</span>
-        <button class="dev-btn" id="preview-only-btn" onclick="toggleBuilderPreviewOnlyMode()" aria-pressed="false">✍️ <span>Inline Only</span></button>
-        <button class="dev-btn active" onclick="setDevice('desktop',this)">🖥 <span>Desktop</span></button>
-        <button class="dev-btn" onclick="setDevice('tablet',this)">📱 <span>Tablet</span></button>
-        <button class="dev-btn" onclick="setDevice('mobile',this)">📱 <span>Mobile</span></button>
+        <button class="dev-btn" id="preview-only-btn" onclick="toggleBuilderPreviewOnlyMode()" aria-pressed="false"><span>Inline Only</span></button>
+        <button class="dev-btn active" onclick="setDevice('desktop',this)"><span>Desktop</span></button>
+        <button class="dev-btn" onclick="setDevice('tablet',this)"><span>Tablet</span></button>
+        <button class="dev-btn" onclick="setDevice('mobile',this)"><span>Mobile</span></button>
         <div id="pub-status" style="margin-left:4px"></div>
-        <button class="btn btn-primary btn-sm" onclick="openExportModal()" style="margin-left:auto;flex-shrink:0">🚀 Export</button>
+        <button class="btn btn-primary btn-sm" onclick="openExportModal()" style="margin-left:auto;flex-shrink:0">Export</button>
       </div>
       <div class="canvas-frame">
         <div class="canvas-wrap desktop" id="canvas-wrap">
@@ -945,27 +1004,27 @@ function renderBuilderShell() {
   <!-- Export Modal -->
   <div class="modal-ov" id="export-modal">
     <div class="modal">
-      <div class="modal-head"><h3 class="modal-title grad-text">🚀 Export Portfolio</h3><button class="modal-close" onclick="document.getElementById('export-modal').classList.remove('open')">✕</button></div>
+      <div class="modal-head"><h3 class="modal-title grad-text">Export Portfolio</h3><button class="modal-close" onclick="document.getElementById('export-modal').classList.remove('open')">X</button></div>
       <div class="modal-body">
         <div style="display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" id="em-gh" onclick="setExportMode('github',this)">⚡ GitHub Pages</button>
-          <button class="btn btn-ghost btn-sm" id="em-code" onclick="setExportMode('code',this)">📋 Copy Code</button>
-          <button class="btn btn-ghost btn-sm" id="em-dl" onclick="setExportMode('download',this)">📦 Download</button>
+          <button class="btn btn-primary btn-sm" id="em-gh" onclick="setExportMode('github',this)">GitHub Pages</button>
+          <button class="btn btn-ghost btn-sm" id="em-code" onclick="setExportMode('code',this)">Copy Code</button>
+          <button class="btn btn-ghost btn-sm" id="em-dl" onclick="setExportMode('download',this)">Download</button>
         </div>
         <div id="export-github">
           <div class="export-step"><div class="exp-num">1</div><div class="exp-txt">Create repo: <span class="exp-code">yourusername.github.io</span></div></div>
           <div class="export-step"><div class="exp-num">2</div><div class="exp-txt">Download and save as <span class="exp-code">index.html</span></div></div>
           <div class="export-step"><div class="exp-num">3</div><div class="exp-txt"><span class="exp-code">git add . && git commit -m "Launch" && git push</span></div></div>
-          <div class="export-step"><div class="exp-num">4</div><div class="exp-txt"><span class="exp-code">Settings → Pages → main branch → Save</span></div></div>
-          <div class="export-step"><div class="exp-num">5</div><div class="exp-txt">🎉 Live at <span class="exp-code">https://yourusername.github.io</span></div></div>
-          <button class="btn btn-primary w100 mt16" onclick="downloadPortfolio()">⬇️ Download portfolio.html</button>
+          <div class="export-step"><div class="exp-num">4</div><div class="exp-txt"><span class="exp-code">Settings > Pages > main branch > Save</span></div></div>
+          <div class="export-step"><div class="exp-num">5</div><div class="exp-txt">Live at <span class="exp-code">https://yourusername.github.io</span></div></div>
+          <button class="btn btn-primary w100 mt16" onclick="downloadPortfolio()">Download portfolio.html</button>
         </div>
         <div id="export-code" style="display:none">
           <div class="code-prev" id="code-prev-content"></div>
-          <button class="btn btn-primary w100" id="copy-btn" onclick="copyPortfolioCode()">📋 Copy to Clipboard</button>
+          <button class="btn btn-primary w100" id="copy-btn" onclick="copyPortfolioCode()">Copy to Clipboard</button>
         </div>
         <div id="export-download" style="display:none">
-          <div class="tc" style="padding:20px 0"><div style="font-size:3rem;margin-bottom:10px">📦</div><p style="color:var(--muted);font-size:.88rem;margin-bottom:18px">Single HTML file. Host anywhere.</p><button class="btn btn-primary btn-lg w100" onclick="downloadPortfolio()">⬇️ Download portfolio.html</button></div>
+          <div class="tc" style="padding:20px 0"><div style="font-size:1.3rem;font-weight:800;margin-bottom:10px">HTML</div><p style="color:var(--muted);font-size:.88rem;margin-bottom:18px">Single HTML file. Host anywhere.</p><button class="btn btn-primary btn-lg w100" onclick="downloadPortfolio()">Download portfolio.html</button></div>
         </div>
       </div>
     </div>
@@ -1009,8 +1068,8 @@ async function initBuilder() {
     // Update publish status indicator
     const pubEl = document.getElementById('pub-status');
     if (pubEl) pubEl.innerHTML = APP.state.isPublished ?
-      '<span class="pub-badge published">🟢 Published</span>' :
-      '<span class="pub-badge draft">📝 Draft</span>';
+      '<span class="pub-badge published">Published</span>' :
+      '<span class="pub-badge draft">Draft</span>';
 
     // Update settings inputs
     if (document.getElementById('set-name')) document.getElementById('set-name').value = APP.state.data.hero?.name || '';
@@ -1236,11 +1295,11 @@ function renderAnalyticsTab(a, perfSummary) {
     <h2 class="dash-hello font-h">Analytics</h2>
     <p class="dash-sub">Track your portfolio performance</p>
     <div class="stat-cards">
-      <div class="stat-card"><div class="stat-ico">👁</div><span class="stat-num">${a?.total_views||0}</span><div class="stat-lbl">Total Views</div></div>
+      <div class="stat-card"><div class="stat-ico">👀</div><span class="stat-num">${a?.total_views||0}</span><div class="stat-lbl">Total Views</div></div>
       <div class="stat-card"><div class="stat-ico">📬</div><span class="stat-num">${a?.total_contacts||0}</span><div class="stat-lbl">Total Messages</div></div>
     </div>
     <div class="chart-wrap" style="margin-bottom:16px">
-      <div class="chart-title"><span>⚡ Core Web Vitals Health</span><span style="font-size:.72rem;color:var(--muted)">${Number(perf?.sample_size || 0)} samples / 14d</span></div>
+      <div class="chart-title"><span>Core Web Vitals Health</span><span style="font-size:.72rem;color:var(--muted)">${Number(perf?.sample_size || 0)} samples / 14d</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         ${vitalCard('LCP', 'lcp', (v) => v === null || v === undefined ? '--' : `${Math.round(Number(v))}ms`)}
         ${vitalCard('INP', 'inp', (v) => v === null || v === undefined ? '--' : `${Math.round(Number(v))}ms`)}
@@ -1251,13 +1310,13 @@ function renderAnalyticsTab(a, perfSummary) {
       <div style="margin-top:10px;color:var(--muted2);font-size:.72rem">Targets: LCP ≤ 2500ms, INP ≤ 200ms, CLS ≤ 0.1, FCP ≤ 1800ms, TTFB ≤ 800ms.</div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-title"><span>📈 Daily Views — Last 7 Days</span></div>
+      <div class="chart-title"><span>Daily Views - Last 7 Days</span></div>
       <div class="chart-bars">
         ${(a?.views_chart||[]).map(d=>{const m=Math.max(...(a?.views_chart||[]).map(x=>x.views),1);const p=Math.max((d.views/m)*100,2);return`<div class="chart-bar-wrap"><div class="chart-bar" data-val="${d.views}" style="height:${p}%" title="${d.views} views on ${d.date}"></div><div class="chart-lbl">${d.date?.slice(5)||''}</div></div>`}).join('')}
       </div>
     </div>
     <div class="chart-wrap" style="margin-top:16px">
-      <div class="chart-title"><span>🚦 Top Traffic Sources</span><span style="font-size:.72rem;color:var(--muted)">${sourceRows.reduce((acc, row) => acc + Number(row?.views || 0), 0)} tracked views</span></div>
+      <div class="chart-title"><span>Top Traffic Sources</span><span style="font-size:.72rem;color:var(--muted)">${sourceRows.reduce((acc, row) => acc + Number(row?.views || 0), 0)} tracked views</span></div>
       ${sourceRows.length ? `
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px">
           ${sourceRows.map((row) => {
@@ -1277,7 +1336,7 @@ function renderAnalyticsTab(a, perfSummary) {
       ` : `<div style="padding:16px;border:1px dashed rgba(0,229,255,.2);border-radius:12px;color:var(--muted);font-size:.82rem">No source data yet. Share your live URL using the social share tools from your public portfolio page.</div>`}
     </div>
     <div class="chart-wrap" style="margin-top:16px">
-      <div class="chart-title"><span>🏷 Campaign Insights</span></div>
+      <div class="chart-title"><span>Campaign Insights</span></div>
       ${campaignRows.length ? `
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           ${campaignRows.map((row) => `<span class="tag tag-c" style="font-size:.7rem">${esc(row?.campaign || 'campaign')}: ${Number(row?.views || 0)}</span>`).join('')}
@@ -1296,7 +1355,7 @@ function renderContactsTab(a) {
     <h2 class="dash-hello font-h">Messages</h2>
     <p class="dash-sub">${contacts.length} total message(s) received</p>
     ${contacts.length === 0 ?
-      `<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:3rem;margin-bottom:12px">📭</div><p>No messages yet. Publish your portfolio to start receiving inquiries!</p><a href="/builder" class="btn btn-primary mt16">🔧 Go to Builder</a></div>` :
+      `<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:1.2rem;font-weight:800;margin-bottom:12px">No Data</div><p>No messages yet. Publish your portfolio to start receiving inquiries.</p><a href="/builder" class="btn btn-primary mt16">Go to Builder</a></div>` :
       `<div style="overflow-x:auto"><table class="contacts-table">
         <tr><th>From</th><th>Subject / Message</th><th>Date</th><th></th></tr>
         ${contacts.map(c=>`<tr>
@@ -1323,22 +1382,22 @@ function renderSettingsTab(user, billing) {
     <h2 class="dash-hello font-h">Account Settings</h2>
     <p class="dash-sub">Manage your QuickFolio account</p>
     <div class="card" style="max-width:480px">
-      <div class="ep-title">👤 Profile</div>
+      <div class="ep-title">Profile</div>
       <div class="inp-group"><label class="inp-label">Full Name</label><input class="inp" id="prof-name" value="${user?.name||''}"></div>
       <div class="inp-group"><label class="inp-label">Bio</label><textarea class="inp" id="prof-bio" rows="3">${user?.bio||''}</textarea></div>
       <div class="inp-group"><label class="inp-label">Email</label><input class="inp" value="${user?.email||''}" disabled style="opacity:.6"></div>
-      <button class="btn btn-primary" onclick="saveProfile()">💾 Save Changes</button>
+      <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
     </div>
     <div class="card mt16" style="max-width:480px">
-      <div class="ep-title">🔑 Membership & Billing</div>
+      <div class="ep-title">Membership and Billing</div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
         <div><div style="font-weight:700">Current Plan</div><div style="color:var(--muted);font-size:.82rem">${planName}</div>${cancelState}</div>
         <span class="tag tag-c">${subscription?.plan_id || user?.plan || 'free'}</span>
       </div>
       <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Next renewal: ${renewsAt}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <a href="/billing" class="btn btn-primary btn-sm">💳 Manage Billing</a>
-        <a href="/pricing" class="btn btn-ghost btn-sm">📦 Compare Plans</a>
+        <a href="/billing" class="btn btn-primary btn-sm">Manage Billing</a>
+        <a href="/pricing" class="btn btn-ghost btn-sm">Compare Plans</a>
       </div>
     </div>
   </div>`;
@@ -2114,7 +2173,7 @@ function renderThemeShowcase() {
         <div class="th-preview-name" style="color:${t.accent};font-family:${t.font}">${t.name.toUpperCase()}</div>
         <div class="th-dots"><div class="th-dot" style="background:${t.bg}"></div><div class="th-dot" style="background:${t.accent}"></div><div class="th-dot" style="background:${t.accent2}"></div></div>
       </div>
-      <div class="th-foot"><span>${t.emoji} ${t.name}</span><span class="tag tag-c" style="font-size:.62rem">${t.label}</span></div>
+      <div class="th-foot"><span>${t.name}</span><span class="tag tag-c" style="font-size:.62rem">${t.label}</span></div>
     </div>
   `).join('');
 }

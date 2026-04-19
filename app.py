@@ -2,7 +2,7 @@
 QuickFolio - Full Stack Portfolio Builder
 Flask Backend with SQLite, JWT Auth, REST API
 """
-import os, json, uuid, hashlib, hmac, time, re, secrets, threading, smtplib
+import os, json, uuid, hashlib, hmac, time, re, secrets, threading, smtplib, gzip, importlib
 import html as html_lib
 from io import BytesIO
 from datetime import datetime, timedelta, timezone
@@ -14,6 +14,11 @@ from urllib.error import HTTPError, URLError
 from flask import (Flask, request, jsonify, render_template,
                    redirect, url_for, send_from_directory, session, make_response, g)
 import sqlite3
+try:
+    _brotli = importlib.import_module('brotli')
+except Exception:
+    _brotli = None
+
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -85,6 +90,16 @@ PUBLIC_CACHE_TTL_SECONDS = {
     'templates_public': 60,
     'stats_public': 45,
 }
+COMPRESSIBLE_MIME_PREFIXES = (
+    'text/',
+    'application/json',
+    'application/javascript',
+    'application/xml',
+    'application/xhtml+xml',
+    'image/svg+xml',
+)
+MIN_COMPRESS_BYTES = 1024
+ENABLE_DYNAMIC_COMPRESSION = not is_truthy_env(os.environ.get('DISABLE_DYNAMIC_COMPRESSION'))
 
 
 def get_public_cache_entry(cache_key):
@@ -171,6 +186,115 @@ def get_public_site_root():
     scheme = 'https' if request_uses_https() else (request.scheme or 'http')
     host = str(request.host or '').strip() or 'localhost:5000'
     return f'{scheme}://{host}'
+
+
+def add_vary_header(response, header_name):
+    name = str(header_name or '').strip()
+    if not name:
+        return
+
+    existing = str(response.headers.get('Vary') or '').strip()
+    if not existing:
+        response.headers['Vary'] = name
+        return
+
+    values = [part.strip() for part in existing.split(',') if part.strip()]
+    normalized = {part.lower() for part in values}
+    if name.lower() in normalized:
+        return
+
+    values.append(name)
+    response.headers['Vary'] = ', '.join(values)
+
+
+def get_preferred_content_encoding(accept_encoding_header):
+    if not ENABLE_DYNAMIC_COMPRESSION:
+        return None
+
+    accepted = str(accept_encoding_header or '').lower()
+    if not accepted:
+        return None
+
+    supports_br = _brotli is not None and 'br' in accepted
+    supports_gzip = 'gzip' in accepted
+
+    if supports_br:
+        return 'br'
+    if supports_gzip:
+        return 'gzip'
+    return None
+
+
+def should_compress_response(response, preferred_encoding):
+    if not preferred_encoding:
+        return False
+    if request.method != 'GET':
+        return False
+    if response.status_code < 200 or response.status_code >= 300:
+        return False
+    if response.direct_passthrough:
+        return False
+    if response.headers.get('Content-Encoding'):
+        return False
+
+    content_type = str(response.mimetype or '').lower()
+    if not content_type:
+        return False
+
+    if not any(
+        content_type.startswith(prefix) or content_type == prefix
+        for prefix in COMPRESSIBLE_MIME_PREFIXES
+    ):
+        return False
+
+    content_length = response.calculate_content_length()
+    if content_length is not None and content_length < MIN_COMPRESS_BYTES:
+        return False
+
+    return True
+
+
+def compress_response_payload(response):
+    preferred_encoding = get_preferred_content_encoding(request.headers.get('Accept-Encoding'))
+    if not should_compress_response(response, preferred_encoding):
+        return response
+
+    raw = response.get_data()
+    if not raw or len(raw) < MIN_COMPRESS_BYTES:
+        return response
+
+    compressed = None
+    if preferred_encoding == 'br' and _brotli is not None:
+        try:
+            compressed = _brotli.compress(raw, quality=5)
+        except Exception:
+            compressed = None
+    elif preferred_encoding == 'gzip':
+        try:
+            compressed = gzip.compress(raw, compresslevel=6)
+        except Exception:
+            compressed = None
+
+    if not compressed or len(compressed) >= len(raw):
+        return response
+
+    response.set_data(compressed)
+    response.headers['Content-Encoding'] = preferred_encoding
+    response.headers['Content-Length'] = str(len(compressed))
+    add_vary_header(response, 'Accept-Encoding')
+    response.headers.pop('Accept-Ranges', None)
+    return response
+
+
+def is_probable_bot_ua(user_agent):
+    ua = str(user_agent or '').strip().lower()
+    if not ua:
+        return False
+    signals = (
+        'bot', 'spider', 'crawler', 'slurp', 'bingpreview', 'facebookexternalhit',
+        'linkedinbot', 'whatsapp', 'telegrambot', 'discordbot', 'google-inspectiontool',
+    )
+    return any(signal in ua for signal in signals)
 
 
 def format_sitemap_lastmod(value):
@@ -265,10 +389,13 @@ def apply_cache_headers(response):
     path = str(request.path or '')
     if path.startswith('/static/'):
         if not response.headers.get('Cache-Control'):
-            # Keep static assets cacheable for repeat visits.
-            response.headers['Cache-Control'] = 'public, max-age=86400, stale-while-revalidate=43200'
+            # Versioned static assets can be cached aggressively.
+            if request.args.get('v'):
+                response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+            else:
+                response.headers['Cache-Control'] = 'public, max-age=604800, stale-while-revalidate=86400'
     elif response.mimetype == 'text/html':
-        response.headers.setdefault('Cache-Control', 'no-cache')
+        response.headers.setdefault('Cache-Control', 'public, max-age=0, must-revalidate')
 
     response.headers.setdefault('X-Content-Type-Options', 'nosniff')
     response.headers.setdefault('Referrer-Policy', 'strict-origin-when-cross-origin')
@@ -311,7 +438,8 @@ def apply_cache_headers(response):
 
     if request_uses_https():
         response.headers.setdefault('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
-    return response
+
+    return compress_response_payload(response)
 
 
 def parse_admin_emails(value):
@@ -593,6 +721,12 @@ def init_db():
         db.execute("CREATE INDEX IF NOT EXISTS idx_password_reset_user ON password_reset_tokens(user_id)")
         db.execute("CREATE INDEX IF NOT EXISTS idx_password_reset_email_created ON password_reset_tokens(email, created_at DESC)")
         db.execute("CREATE INDEX IF NOT EXISTS idx_password_reset_expires ON password_reset_tokens(expires_at)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_portfolios_user ON portfolios(user_id)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_portfolios_published_updated ON portfolios(is_published, updated_at DESC)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_portfolio_sections_portfolio_visible_order ON portfolio_sections(portfolio_id, is_visible, order_index)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_contacts_portfolio_created ON contacts(portfolio_id, created_at DESC)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_analytics_portfolio_event_created ON analytics(portfolio_id, event_type, created_at DESC)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_templates_public_status_updated ON templates(is_public, approval_status, updated_at DESC)")
 
         # Seed templates
         now = utcnow().isoformat()
@@ -2679,6 +2813,7 @@ def index():
 @app.route('/robots.txt')
 def robots_txt():
     site_root = get_public_site_root()
+    site_host = urlparse(site_root).netloc or str(request.host or '').strip()
     body = '\n'.join([
         'User-agent: *',
         'Allow: /',
@@ -2688,6 +2823,7 @@ def robots_txt():
         'Disallow: /resume-editor',
         'Disallow: /billing',
         'Disallow: /admin',
+        f'Host: {site_host}',
         f'Sitemap: {site_root}/sitemap.xml',
         '',
     ])
@@ -2700,14 +2836,15 @@ def robots_txt():
 @app.route('/sitemap.xml')
 def sitemap_xml():
     site_root = get_public_site_root()
+    today_iso = utcnow().date().isoformat()
     static_entries = [
-        ('/', utcnow().date().isoformat()),
-        ('/templates', utcnow().date().isoformat()),
-        ('/pricing', utcnow().date().isoformat()),
-        ('/manual', utcnow().date().isoformat()),
-        ('/about', utcnow().date().isoformat()),
-        ('/privacy', utcnow().date().isoformat()),
-        ('/terms', utcnow().date().isoformat()),
+        ('/', today_iso, 'daily', '1.00'),
+        ('/templates', today_iso, 'daily', '0.90'),
+        ('/pricing', today_iso, 'weekly', '0.80'),
+        ('/manual', today_iso, 'weekly', '0.70'),
+        ('/about', today_iso, 'monthly', '0.60'),
+        ('/privacy', today_iso, 'yearly', '0.30'),
+        ('/terms', today_iso, 'yearly', '0.30'),
     ]
 
     with get_db() as db:
@@ -2716,25 +2853,43 @@ def sitemap_xml():
         ).fetchall()
 
     entries = []
-    for path_suffix, lastmod in static_entries:
-        entries.append((f'{site_root}{path_suffix}', lastmod))
+    for path_suffix, lastmod, changefreq, priority in static_entries:
+        entries.append({
+            'loc': f'{site_root}{path_suffix}',
+            'lastmod': lastmod,
+            'changefreq': changefreq,
+            'priority': priority,
+        })
 
     for row in published_rows:
         slug = str(row['slug'] or '').strip()
         if not slug:
             continue
-        entries.append((f'{site_root}/p/{slug}', format_sitemap_lastmod(row['updated_at'])))
+        entries.append({
+            'loc': f'{site_root}/p/{slug}',
+            'lastmod': format_sitemap_lastmod(row['updated_at']),
+            'changefreq': 'weekly',
+            'priority': '0.80',
+        })
 
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
 
-    for loc, lastmod in entries:
+    for entry in entries:
+        loc = entry.get('loc')
+        lastmod = entry.get('lastmod')
+        changefreq = entry.get('changefreq')
+        priority = entry.get('priority')
         xml_lines.append('  <url>')
         xml_lines.append(f'    <loc>{html_lib.escape(loc, quote=True)}</loc>')
         if lastmod:
             xml_lines.append(f'    <lastmod>{html_lib.escape(lastmod, quote=True)}</lastmod>')
+        if changefreq:
+            xml_lines.append(f'    <changefreq>{html_lib.escape(changefreq, quote=True)}</changefreq>')
+        if priority:
+            xml_lines.append(f'    <priority>{html_lib.escape(priority, quote=True)}</priority>')
         xml_lines.append('  </url>')
 
     xml_lines.append('</urlset>')
@@ -2902,28 +3057,29 @@ def public_portfolio(slug):
         if not p:
             return render_template('404.html'), 404
 
-        db.execute("UPDATE portfolios SET views=views+1 WHERE id=?", (p['id'],))
-        traffic = extract_traffic_context(request)
-        db.execute(
-            """INSERT INTO analytics(
-                   id,portfolio_id,event_type,visitor_ip,user_agent,referrer,
-                   source_label,utm_source,utm_medium,utm_campaign,created_at
-               ) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
-            (
-                str(uuid.uuid4()),
-                p['id'],
-                'view',
-                request.remote_addr,
-                request.user_agent.string[:200],
-                traffic['referrer'],
-                traffic['source_label'],
-                traffic['utm_source'],
-                traffic['utm_medium'],
-                traffic['utm_campaign'],
-                utcnow().isoformat(),
-            ),
-        )
-        db.commit()
+        if not is_probable_bot_ua(request.user_agent.string):
+            db.execute("UPDATE portfolios SET views=views+1 WHERE id=?", (p['id'],))
+            traffic = extract_traffic_context(request)
+            db.execute(
+                """INSERT INTO analytics(
+                       id,portfolio_id,event_type,visitor_ip,user_agent,referrer,
+                       source_label,utm_source,utm_medium,utm_campaign,created_at
+                   ) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(uuid.uuid4()),
+                    p['id'],
+                    'view',
+                    get_request_ip(),
+                    request.user_agent.string[:200],
+                    traffic['referrer'],
+                    traffic['source_label'],
+                    traffic['utm_source'],
+                    traffic['utm_medium'],
+                    traffic['utm_campaign'],
+                    utcnow().isoformat(),
+                ),
+            )
+            db.commit()
 
         sections = db.execute(
             """SELECT * FROM portfolio_sections WHERE portfolio_id=? AND is_visible=1
