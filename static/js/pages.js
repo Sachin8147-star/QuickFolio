@@ -7,11 +7,11 @@ function getQuickFolioMailHref(subject = 'QuickFolio Inquiry') {
 }
 
 const SACHIN_PORTFOLIO_PROFILE = {
-  intro: "Hi all 👋 I'm SACHIN.",
-  headline: 'Turning logic into digital poetry.',
-  role: 'Future Data Scientist 📊',
+  intro: "Hi, I'm Sachin.",
+  headline: 'I build practical software with clear thinking and clean implementation.',
+  role: 'Python Developer and Data Science Learner',
   resume: 'https://sachin8147-star.github.io/Portfolio-website/resume.pdf',
-  location: 'Remote / Earth',
+  location: 'Delhi NCR, India',
   availability: 'Available for new opportunities',
   about: [
     'I am a Computer Science student preparing for internships and building a strong foundation in programming and software development.',
@@ -147,6 +147,8 @@ function getBrandIconSvg(brand) {
   const icons = {
     github: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12.18c0 5.12 3.29 9.46 7.86 11 .58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.55-3.88-1.55-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.35.95.1-.74.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.25.45-2.29 1.18-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18A11 11 0 0 1 12 5.76c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.18 1.84 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.15 0 .31.21.67.8.56a11.5 11.5 0 0 0 7.84-11A11.5 11.5 0 0 0 12 .5Z"/></svg>',
     linkedin: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.79 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0Zm-14.2 20.45H4.48V9h3.55v11.46ZM6.26 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm14.2 13.02h-3.55v-5.57c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.86 3.37-1.86 3.61 0 4.28 2.38 4.28 5.46v6.29Z"/></svg>',
+    x: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M18.244 2H21l-6.24 7.133L22.1 22h-5.73l-4.49-5.88L6.73 22H4l6.67-7.63L1.6 2h5.87l4.06 5.36L18.24 2Zm-1.01 18.3h1.52L5.73 3.62H4.1L17.23 20.3Z"/></svg>',
+    instagram: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.94 1.35a1.26 1.26 0 1 1 0 2.52 1.26 1.26 0 0 1 0-2.52ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8A3.2 3.2 0 1 0 12 15.2 3.2 3.2 0 0 0 12 8.8Z"/></svg>',
     mail: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.2l9 5.4 9-5.4V7H3Zm18 10V9.53l-8.49 5.09a1 1 0 0 1-1.02 0L3 9.53V17h18Z"/></svg>',
     external: '<svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M14 3h7v7h-2V6.41l-8.29 8.3-1.42-1.42 8.3-8.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"/></svg>'
   };
@@ -196,7 +198,7 @@ function renderSachinSpotlightSection(context = 'landing') {
         <div class="sachin-profile-top">
           <div class="sachin-role-tag">${profile.role}</div>
           <p class="sachin-bio-line">${profile.about[2]}</p>
-          <div class="sachin-mini-meta">📍 ${profile.location} · 🟢 ${profile.availability}</div>
+          <div class="sachin-mini-meta">Location: ${profile.location} · Availability: ${profile.availability}</div>
         </div>
         <div class="sachin-stat-row">
           ${profile.stats.map((item) => `<span class="sachin-stat-pill">${item}</span>`).join('')}
@@ -247,7 +249,7 @@ function renderSachinSpotlightSection(context = 'landing') {
               <ul class="sachin-exp-bullets">${exp.bullets.map((item) => `<li>${item}</li>`).join('')}</ul>
             </div>
           `).join('')}
-          <div class="sachin-edu-wrap">${profile.education.map((edu) => `<div class="sachin-edu-item">🎓 ${edu}</div>`).join('')}</div>
+          <div class="sachin-edu-wrap">${profile.education.map((edu) => `<div class="sachin-edu-item">Education: ${edu}</div>`).join('')}</div>
         </div>
         <div class="sachin-project-links" style="margin-top:10px">
           <a class="btn btn-outline btn-sm" href="${profile.links.projects}" target="_blank" rel="noopener">${getBrandIconSvg('external')}<span>View All Projects</span></a>
@@ -349,7 +351,7 @@ function renderDirectMailSection(options = {}) {
         <h2 class="sec-h2 font-h" style="font-size:clamp(1.45rem,3.5vw,2.2rem);margin-bottom:10px">${title}</h2>
         <p class="sec-sub tm" style="margin:0 auto 22px">${description}</p>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <a href="${getQuickFolioMailHref(subject)}" class="btn btn-primary btn-lg">✉ Mail QuickFolio</a>
+          <a href="${getQuickFolioMailHref(subject)}" class="btn btn-primary btn-lg">Email QuickFolio</a>
           <a href="mailto:${QUICKFOLIO_CONTACT_EMAIL}" class="btn btn-ghost btn-lg">${QUICKFOLIO_CONTACT_EMAIL}</a>
         </div>
       </div>
@@ -378,24 +380,25 @@ function renderLanding() {
     <div class="hero-content">
       <div class="hero-eye">
         <div style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse-dot 2s infinite"></div>
-        2026 Creator Stack
+        Built for Real Hiring Workflows
       </div>
       <h1 class="hero-h1 font-h hero-title-split">
         <span class="hero-line">
-          <span class="hero-word">Your</span>
-          <span class="hero-word">Portfolio,</span>
-          <span class="hero-word">but</span>
+          <span class="hero-word">Showcase</span>
+          <span class="hero-word">your</span>
+          <span class="hero-word">work</span>
         </span>
         <span class="hero-line hero-line-accent">
-          <span class="hero-word grad-text">Productized</span>
-          <span class="hero-word grad-text">for</span>
-          <span class="hero-word grad-text">Hiring</span>
+          <span class="hero-word grad-text">with</span>
+          <span class="hero-word grad-text">clarity</span>
+          <span class="hero-word grad-text">and</span>
+          <span class="hero-word grad-text">proof</span>
         </span>
       </h1>
-      <p class="hero-sub">QuickFolio helps developers ship portfolio sites that convert viewers into interviews, leads, and paid work. Build once, adapt for every role, and track what actually gets attention.</p>
+      <p class="hero-sub">QuickFolio helps developers present projects, context, and outcomes in a way recruiters can scan quickly. Start from structure, customize deeply, and improve based on what visitors actually read.</p>
       <div class="hero-actions">
-        <span class="hero-btn-wrap"><a href="/signup" class="btn btn-primary btn-xl anim-glow">⚡ Start Free</a></span>
-        <span class="hero-btn-wrap"><a href="/templates" class="btn btn-ghost btn-xl">🧩 Explore Templates</a></span>
+        <span class="hero-btn-wrap"><a href="/signup" class="btn btn-primary btn-xl anim-glow">Start Free</a></span>
+        <span class="hero-btn-wrap"><a href="/templates" class="btn btn-ghost btn-xl">Browse Templates</a></span>
       </div>
       <div class="hero-stats">
         <div class="hs"><span class="hs-n" data-count="12400">0</span><span class="hs-l">Portfolios Published</span></div>
@@ -404,7 +407,7 @@ function renderLanding() {
         <div class="hs"><span class="hs-n" data-count="12">0</span><span class="hs-l">Role-fit Signals</span></div>
       </div>
       <div class="home-signal-row">
-        ${['Resume Tailoring', 'Recruiter Mode', 'Live Analytics', 'One-click Publish', 'AI Chatbot'].map((chip) => `<span class="home-signal-chip">${chip}</span>`).join('')}
+        ${['Role-Specific Resume', 'Recruiter Mode', 'Live Analytics', 'Custom Sections', 'Smart Assistant'].map((chip) => `<span class="home-signal-chip">${chip}</span>`).join('')}
       </div>
       <p style="margin-top:12px;color:var(--muted2);font-size:.72rem;letter-spacing:.2px;text-align:center">Illustrative demo metrics are shown in this preview. Live values depend on real account activity.</p>
     </div>
@@ -429,12 +432,12 @@ function renderLanding() {
       </div>
       <div class="grid-auto mt32">
         ${[
-          ['🎯','Role-fit Tailoring','Generate JD-aligned summaries and skill-gap insights before interviews.'],
-          ['🧲','Recruiter Mode','Condensed scan layout for fast hiring review flows.'],
-          ['📊','Performance Analytics','Track views, message intent, and content hotspots.'],
-          ['⚙️','Full-stack Persistence','Your data is stored in real backend tables, not just browser memory.'],
-          ['🧩','Template Intelligence','Start from proven layouts by style and audience.'],
-          ['🚀','Deployment Flexibility','Use hosted publishing or export to your own stack.']
+          ['01','Role-fit Tailoring','Generate JD-aligned summaries and skill-gap insights before interviews.'],
+          ['02','Recruiter Mode','Condensed scan layout for fast hiring review flows.'],
+          ['03','Performance Analytics','Track views, message intent, and content hotspots.'],
+          ['04','Full-stack Persistence','Your data is stored in backend tables, not only in browser memory.'],
+          ['05','Template Library','Start from proven layouts by style and audience.'],
+          ['06','Deployment Flexibility','Use hosted publishing or export to your own stack.']
         ].map(([ico,title,desc]) => `
           <div class="card card-h card-line home-feature-card">
             <div class="feat-icon" style="background:rgba(0,229,255,.08)">${ico}</div>
@@ -525,7 +528,7 @@ function renderLanding() {
           {s:'Arjun',n:'Arjun Mehta',r:'Freelance Full-Stack Dev',t:'Switching to role-tailored resume + portfolio flow increased warm inbound messages in a week.'},
         ].map(t=>`
         <div class="card card-h testi-card">
-          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-stars">Rated 5/5</div>
           <p class="testi-text">"${t.t}"</p>
           <div class="testi-author">
             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${t.s}" class="testi-av" alt="${t.n}">
@@ -543,8 +546,8 @@ function renderLanding() {
       <h2 class="sec-h2 font-h tc" style="font-size:clamp(1.9rem,4vw,3rem)">Turn your work into<br><span class="grad-text">clear hiring signals</span></h2>
       <p class="sec-sub tm tc" style="margin:14px auto 32px">Launch free, then upgrade only when your inbound starts growing.</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a href="/signup" class="btn btn-primary btn-xl anim-glow">⚡ Build My Portfolio</a>
-        <a href="/pricing" class="btn btn-ghost btn-xl">💎 See Full Pricing</a>
+        <a href="/signup" class="btn btn-primary btn-xl anim-glow">Build My Portfolio</a>
+        <a href="/pricing" class="btn btn-ghost btn-xl">See Full Pricing</a>
       </div>
     </div>
   </section>
@@ -575,17 +578,17 @@ async function renderDashboard(user) {
         </div>
       </div>
       <div class="dash-nav-h">Workspace</div>
-      <button class="dash-nav-a active" onclick="showDashTab('overview',this)"><span class="dash-nav-ico">📊</span> Overview</button>
+      <button class="dash-nav-a active" onclick="showDashTab('overview',this)"><span class="dash-nav-ico">🏠</span> Overview</button>
       <button class="dash-nav-a" onclick="showDashTab('analytics',this)"><span class="dash-nav-ico">📈</span> Analytics</button>
-      <button class="dash-nav-a" onclick="showDashTab('contacts',this)"><span class="dash-nav-ico">📬</span> Contacts <span id="unread-badge" style="display:none;background:var(--accent);color:#000;border-radius:10px;padding:1px 6px;font-size:.65rem;font-weight:800;margin-left:auto">${user.unread_contacts||0}</span></button>
+      <button class="dash-nav-a" onclick="showDashTab('contacts',this)"><span class="dash-nav-ico">💬</span> Contacts <span id="unread-badge" style="display:none;background:var(--accent);color:#000;border-radius:10px;padding:1px 6px;font-size:.65rem;font-weight:800;margin-left:auto">${user.unread_contacts||0}</span></button>
       <div class="dash-nav-h">Portfolio</div>
-      <button class="dash-nav-a" onclick="window.location.href='/builder'"><span class="dash-nav-ico">⚡</span> Builder</button>
+      <button class="dash-nav-a" onclick="window.location.href='/builder'"><span class="dash-nav-ico">🛠️</span> Builder</button>
       <button class="dash-nav-a" onclick="window.location.href='/resume-editor'"><span class="dash-nav-ico">📄</span> Resume Editor</button>
-      <button class="dash-nav-a" onclick="openPublicPortfolio()"><span class="dash-nav-ico">👁</span> View Live</button>
+      <button class="dash-nav-a" onclick="openPublicPortfolio()"><span class="dash-nav-ico">🌐</span> View Live</button>
       <button class="dash-nav-a" onclick="window.location.href='/templates'"><span class="dash-nav-ico">🧩</span> Templates</button>
       <div class="dash-nav-h">Account</div>
       <button class="dash-nav-a" onclick="window.location.href='/billing'"><span class="dash-nav-ico">💳</span> Billing</button>
-      <button class="dash-nav-a" onclick="window.location.href='/pricing'"><span class="dash-nav-ico">💎</span> Plans</button>
+      <button class="dash-nav-a" onclick="window.location.href='/pricing'"><span class="dash-nav-ico">⭐</span> Plans</button>
       <button class="dash-nav-a" onclick="showDashTab('settings',this)"><span class="dash-nav-ico">⚙️</span> Settings</button>
       <button class="dash-nav-a" onclick="Auth.logout()" style="color:#ef4444"><span class="dash-nav-ico">🚪</span> Logout</button>
     </aside>
@@ -608,15 +611,15 @@ function renderDashOverview(user, analytics, billing) {
 
   return `
   <div class="dash-overview-2026">
-    <div class="dash-hello font-h">Good ${getGreeting()}, ${(user.name||'Developer').split(' ')[0]}! 👋</div>
-    <div class="dash-sub">Your portfolio is ${a.is_published ? `<span style="color:var(--a3)">✅ live at</span> <a href="${a.portfolio_url}" target="_blank" style="color:var(--accent)">${window.location.origin}${a.portfolio_url}</a>` : '<span style="color:#fb923c">📝 draft — publish to go live</span>'}</div>
+    <div class="dash-hello font-h">Good ${getGreeting()}, ${(user.name||'Developer').split(' ')[0]}.</div>
+    <div class="dash-sub">Your portfolio is ${a.is_published ? `<span style="color:var(--a3)">live at</span> <a href="${a.portfolio_url}" target="_blank" style="color:var(--accent)">${window.location.origin}${a.portfolio_url}</a>` : '<span style="color:#fb923c">in draft mode - publish to go live</span>'}</div>
 
     <div class="stat-cards dash-kpi-grid">
       ${[
-        ['👁','Total Views', a.total_views||0, 'People viewed your portfolio'],
+        ['👀','Total Views', a.total_views||0, 'People viewed your portfolio'],
         ['📬','Messages', a.total_contacts||0, 'Received via contact form'],
-        ['💎','Membership', planName, `Renewal: ${renewalLabel}`],
-        ['⚡','Portfolio Status', a.is_published?'Published':'Draft', a.is_published?'Visible to the world':'Not yet visible'],
+        ['💼','Membership', planName, `Renewal: ${renewalLabel}`],
+        ['🟢','Portfolio Status', a.is_published?'Published':'Draft', a.is_published?'Visible to the world':'Not yet visible'],
       ].map(([ico,lbl,val,hint])=>`
       <div class="stat-card">
         <div class="stat-ico">${ico}</div>
@@ -625,10 +628,10 @@ function renderDashOverview(user, analytics, billing) {
         <div style="color:var(--muted2);font-size:.7rem;margin-top:4px">${hint}</div>
       </div>`).join('')}
       <div class="stat-card" style="border-color:rgba(0,229,255,.2);background:linear-gradient(135deg,rgba(0,229,255,.04),rgba(180,79,255,.04));cursor:pointer" onclick="window.location.href='/builder'">
-        <div class="stat-ico">🔧</div>
+        <div class="stat-ico">✍️</div>
         <span class="stat-num" style="font-size:1.2rem">Edit</span>
         <div class="stat-lbl">Open Builder</div>
-        <div style="color:var(--accent);font-size:.7rem;margin-top:4px">Customize your portfolio →</div>
+        <div style="color:var(--accent);font-size:.7rem;margin-top:4px">Customize your portfolio</div>
       </div>
     </div>
 
@@ -639,7 +642,7 @@ function renderDashOverview(user, analytics, billing) {
           <div style="font-family:var(--fh);font-size:1.15rem;font-weight:700;margin:3px 0 4px">${planName} • ${subscription?.billing_cycle || 'monthly'}</div>
           <div style="font-size:.8rem;color:var(--muted)">Next renewal: ${renewalLabel} • ${renewalState}</div>
         </div>
-        <a href="/billing" class="btn btn-primary btn-sm">💳 Open Billing</a>
+        <a href="/billing" class="btn btn-primary btn-sm">Open Billing</a>
       </div>
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px">
         ${topSignals.length ? topSignals.map((f) => `<span class="tag tag-c" style="font-size:.67rem">${f}</span>`).join('') : '<span class="tag tag-c" style="font-size:.67rem">Upgrade to unlock premium features</span>'}
@@ -647,17 +650,17 @@ function renderDashOverview(user, analytics, billing) {
     </div>
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px">
-      <button class="btn btn-primary" onclick="window.location.href='/builder'">⚡ Edit Portfolio</button>
+      <button class="btn btn-primary" onclick="window.location.href='/builder'">Edit Portfolio</button>
       <button class="btn btn-outline" id="pub-btn" onclick="togglePublish()">
-        ${a.is_published ? '📤 Unpublish' : '🌐 Publish Portfolio'}
+        ${a.is_published ? 'Unpublish' : 'Publish Portfolio'}
       </button>
-      ${a.portfolio_url ? `<a href="${a.portfolio_url}" target="_blank" class="btn btn-ghost">👁 View Live</a>` : ''}
-      <a href="/pricing" class="btn btn-ghost">💎 Compare Plans</a>
+      ${a.portfolio_url ? `<a href="${a.portfolio_url}" target="_blank" class="btn btn-ghost">View Live</a>` : ''}
+      <a href="/pricing" class="btn btn-ghost">Compare Plans</a>
     </div>
 
     <div class="chart-wrap">
       <div class="chart-title">
-        <span>📈 Portfolio Views (Last 7 days)</span>
+        <span>Portfolio Views (Last 7 days)</span>
         <span style="color:var(--muted);font-size:.75rem">${a.total_views||0} total</span>
       </div>
       <div class="chart-bars" id="views-chart">
@@ -673,7 +676,7 @@ function renderDashOverview(user, analytics, billing) {
     </div>
 
     <div class="chart-wrap">
-      <div class="chart-title"><span>📬 Recent Messages</span></div>
+      <div class="chart-title"><span>Recent Messages</span></div>
       ${(a.contacts||[]).length === 0 ?
         `<div style="text-align:center;padding:20px;color:var(--muted);font-size:.85rem">No messages yet. Publish your portfolio to start receiving inquiries!</div>` :
         `<div style="overflow-x:auto"><table class="contacts-table">
@@ -808,7 +811,7 @@ function renderPricingCards(context) {
           ${cycle === 'yearly' && yearlyMonthlyEquivalent > 0 ? `<div style="margin-top:6px;font-size:.72rem;color:var(--a3)">≈ ${formatInr(yearlyMonthlyEquivalent)}/month effective</div>` : ''}
         </div>
         <div class="price-body">
-          ${plan.features.map((feature) => `<div class="price-f"><span>✅</span>${feature}</div>`).join('')}
+          ${plan.features.map((feature) => `<div class="price-f"><span>+</span>${feature}</div>`).join('')}
           <div class="mt24">
             <button class="btn ${cta.cls} w100" ${cta.disabled ? 'disabled' : ''} onclick="handlePlanSelection('${plan.id}', event, '${context}')">${cta.label}</button>
           </div>
@@ -1001,10 +1004,10 @@ function renderBillingSummary(snapshot) {
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             ${currentPlanId !== 'free' ? `
               <button class="btn btn-outline btn-sm" onclick="toggleBillingAutoRenew(${subscription?.cancel_at_period_end ? 'false' : 'true'}, event)">
-                ${subscription?.cancel_at_period_end ? '🔄 Resume Auto-renew' : '⏸ Cancel At Period End'}
+                ${subscription?.cancel_at_period_end ? 'Resume Auto-renew' : 'Cancel At Period End'}
               </button>
-              <button class="btn btn-ghost btn-sm" onclick="handlePlanSelection('free', event, 'billing')">⬇ Downgrade to Free</button>
-            ` : '<a href="/pricing" class="btn btn-primary btn-sm">⬆ Upgrade Plan</a>'}
+              <button class="btn btn-ghost btn-sm" onclick="handlePlanSelection('free', event, 'billing')">Downgrade to Free</button>
+            ` : '<a href="/pricing" class="btn btn-primary btn-sm">Upgrade Plan</a>'}
           </div>
         </div>
 
@@ -1050,14 +1053,14 @@ function renderBillingSummary(snapshot) {
                 <input class="inp" id="billing-card-exp-year" type="number" min="${new Date().getFullYear()}" max="${new Date().getFullYear() + 20}" value="${payment?.exp_year || new Date().getFullYear() + 4}" required>
               </div>
             </div>
-            <button class="btn btn-primary w100" type="submit">💾 Save Payment Method</button>
+            <button class="btn btn-primary w100" type="submit">Save Payment Method</button>
           </form>
         </div>
 
         <div class="chart-wrap">
           <div class="chart-title"><span>Need Help?</span></div>
           <p style="color:var(--muted);font-size:.82rem;line-height:1.7">If you need enterprise billing, bulk member seats, or annual procurement docs, contact the team and we will help you set it up.</p>
-          <a href="/about" class="btn btn-ghost btn-sm">📨 Contact Sales</a>
+          <a href="/about" class="btn btn-ghost btn-sm">Contact Sales</a>
         </div>
       </aside>
     </div>
@@ -1218,14 +1221,14 @@ function renderAdminOverview(data) {
       <div class="stat-cards">
         <div class="stat-card"><div class="stat-ico">👥</div><span class="stat-num">${Number(stats.total_users || 0)}</span><div class="stat-lbl">Total Users</div></div>
         <div class="stat-card"><div class="stat-ico">✅</div><span class="stat-num">${Number(stats.active_users || 0)}</span><div class="stat-lbl">Active Users</div></div>
-        <div class="stat-card"><div class="stat-ico">🌐</div><span class="stat-num">${Number(stats.published_portfolios || 0)}</span><div class="stat-lbl">Published Portfolios</div></div>
+        <div class="stat-card"><div class="stat-ico">🌍</div><span class="stat-num">${Number(stats.published_portfolios || 0)}</span><div class="stat-lbl">Published Portfolios</div></div>
         <div class="stat-card"><div class="stat-ico">🧩</div><span class="stat-num">${Number(stats.total_templates || 0)}</span><div class="stat-lbl">Total Templates</div></div>
         <div class="stat-card"><div class="stat-ico">⏳</div><span class="stat-num">${Number(stats.pending_templates || 0)}</span><div class="stat-lbl">Pending Templates</div></div>
-        <div class="stat-card"><div class="stat-ico">🛡</div><span class="stat-num">${Number(stats.admin_users || 0)}</span><div class="stat-lbl">Admin Accounts</div></div>
+        <div class="stat-card"><div class="stat-ico">🛡️</div><span class="stat-num">${Number(stats.admin_users || 0)}</span><div class="stat-lbl">Admin Accounts</div></div>
       </div>
 
       <div class="chart-wrap">
-        <div class="chart-title"><span>Pending Template Moderation</span><button class="btn btn-ghost btn-sm" onclick="loadAdminPage()">↻ Refresh</button></div>
+        <div class="chart-title"><span>Pending Template Moderation</span><button class="btn btn-ghost btn-sm" onclick="loadAdminPage()">Refresh</button></div>
         ${renderAdminPendingTemplates(pendingTemplates)}
       </div>
 
@@ -1342,14 +1345,14 @@ function renderManual() {
       <section id="manual-overview">
         <div class="sec-eye">Manual</div>
         <h1 class="docs-h1">QuickFolio Feature Manual</h1>
-        <p class="docs-p">This manual explains what every major feature does, why it matters, and how to use it step by step. Use the search box below to find any feature instantly.</p>
+        <p class="docs-p">This manual covers what each major feature does, when to use it, and the fastest way to get results. Use search to jump directly to the workflow you need.</p>
         <div class="manual-search-wrap">
           <label class="inp-label" for="manual-search-input">Search feature details</label>
           <div class="manual-search-row">
             <input id="manual-search-input" class="inp manual-search-input" type="search" placeholder="Try: pdf, presets, publish, chatbot, analytics" autocomplete="off">
             <span class="manual-search-count" id="manual-search-count">0 features</span>
           </div>
-          <div class="manual-search-hint">You can search by feature name, use-case, or action (example: "upload photo" or "custom domain").</div>
+          <div class="manual-search-hint">Search by feature name, use case, or action (for example: "upload photo", "publish", or "resume PDF").</div>
         </div>
       </section>
 
@@ -1357,145 +1360,145 @@ function renderManual() {
         <h2 class="docs-h2">Feature Guide</h2>
         <div class="manual-grid">
           <article class="manual-card manual-item" data-manual-text="command center quick actions shortcut keyboard ctrl shift j">
-            <h3 class="docs-h3">⚡ Command Center</h3>
+            <h3 class="docs-h3">Command Center</h3>
             <p class="docs-p"><strong>What it does:</strong> Gives one-place quick actions for navigation, chatbot access, and workspace jumps.</p>
             <p class="docs-p"><strong>How to use:</strong> Press <span class="docs-inline">Ctrl + Shift + J</span> (or use the Quick Actions button) and search actions instantly.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="performance mode speed reduced motion low distraction">
-            <h3 class="docs-h3">🚀 Performance Mode</h3>
+            <h3 class="docs-h3">Performance Mode</h3>
             <p class="docs-p"><strong>What it does:</strong> Reduces heavy motion and visual effects to keep interactions snappy on slower devices.</p>
             <p class="docs-p"><strong>How to use:</strong> Open Quick Actions and toggle Performance Mode on/off anytime.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="core web vitals lcp inp cls fcp ttfb performance summary">
-            <h3 class="docs-h3">📉 Core Web Vitals Monitoring</h3>
+            <h3 class="docs-h3">Core Web Vitals Monitoring</h3>
             <p class="docs-p"><strong>What it does:</strong> Collects real-user LCP/INP/CLS/FCP/TTFB metrics and shows p75 status in Dashboard analytics.</p>
-            <p class="docs-p"><strong>How to use:</strong> Open Dashboard → Analytics and review the <strong>Core Web Vitals Health</strong> panel against targets.</p>
+            <p class="docs-p"><strong>How to use:</strong> Open Dashboard > Analytics and review the <strong>Core Web Vitals Health</strong> panel against targets.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="account signup login oauth github google linkedin password">
-            <h3 class="docs-h3">🔐 Account and Login</h3>
+            <h3 class="docs-h3">Account and Login</h3>
             <p class="docs-p"><strong>What it does:</strong> Lets users register with email/password or social login.</p>
             <p class="docs-p"><strong>How to use:</strong> Open Signup or Login, choose your method, and continue to Dashboard after authentication.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="builder sections drag drop reorder visibility">
-            <h3 class="docs-h3">🧱 Builder Sections</h3>
+            <h3 class="docs-h3">Builder Sections</h3>
             <p class="docs-p"><strong>What it does:</strong> Controls which sections appear and their order on your portfolio.</p>
-            <p class="docs-p"><strong>How to use:</strong> In Builder → Sections tab, drag items to reorder, toggle ON/OFF, and add missing sections.</p>
+            <p class="docs-p"><strong>How to use:</strong> In Builder > Sections tab, drag items to reorder, toggle ON/OFF, and add missing sections.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="theme switch style colors template visual">
-            <h3 class="docs-h3">🎨 Theme Switching</h3>
+            <h3 class="docs-h3">Theme Switching</h3>
             <p class="docs-p"><strong>What it does:</strong> Applies complete visual themes (colors, typography, mood).</p>
-            <p class="docs-p"><strong>How to use:</strong> In Builder → Themes tab, click any theme card to preview instantly, then save.</p>
+            <p class="docs-p"><strong>How to use:</strong> In Builder > Themes tab, click any theme card to preview instantly, then save.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="photo profile upload drag resize position hero">
-            <h3 class="docs-h3">🖼 Profile Photo Controls</h3>
+            <h3 class="docs-h3">Profile Photo Controls</h3>
             <p class="docs-p"><strong>What it does:</strong> Adds a profile image with size, shape, and position control.</p>
-            <p class="docs-p"><strong>How to use:</strong> In Builder → Config, upload photo, adjust sliders, or drag and resize directly in live preview.</p>
+            <p class="docs-p"><strong>How to use:</strong> In Builder > Config, upload photo, adjust sliders, or drag and resize directly in live preview.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="background image overlay zoom position hero">
-            <h3 class="docs-h3">🌌 Background Image Controls</h3>
+            <h3 class="docs-h3">Background Image Controls</h3>
             <p class="docs-p"><strong>What it does:</strong> Sets custom hero background with zoom, overlay, and alignment.</p>
             <p class="docs-p"><strong>How to use:</strong> Upload/select background URL, then tune zoom and X/Y position sliders for perfect framing.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="typography heading body font color scale spacing radius">
-            <h3 class="docs-h3">🔤 Typography and Styling</h3>
+            <h3 class="docs-h3">Typography and Styling</h3>
             <p class="docs-p"><strong>What it does:</strong> Lets you control text scale, heading/body fonts, colors, spacing, and card radius.</p>
-            <p class="docs-p"><strong>How to use:</strong> In Builder → Config, use global controls first, then per-section scale and font controls for fine-tuning.</p>
+            <p class="docs-p"><strong>How to use:</strong> In Builder > Config, use global controls first, then per-section scale and font controls for fine-tuning.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="design preset save apply delete sync account">
-            <h3 class="docs-h3">💾 Design Presets (Account-Synced)</h3>
+            <h3 class="docs-h3">Design Presets (Account-Synced)</h3>
             <p class="docs-p"><strong>What it does:</strong> Saves your favorite design setups and syncs them with your account.</p>
-            <p class="docs-p"><strong>How to use:</strong> Enter preset name in Config → Design Presets, click Save Preset, then Apply anytime on any device after login.</p>
+            <p class="docs-p"><strong>How to use:</strong> Enter preset name in Config > Design Presets, click Save Preset, then Apply anytime on any device after login.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="recruiter mode toggle compact quick scan">
-            <h3 class="docs-h3">🧲 Recruiter Mode</h3>
+            <h3 class="docs-h3">Recruiter Mode</h3>
             <p class="docs-p"><strong>What it does:</strong> Switches to a condensed view that surfaces core hiring signals quickly.</p>
             <p class="docs-p"><strong>How to use:</strong> Enable default recruiter mode in Builder config, and visitors can also toggle it from your public navbar.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="ai resume tailoring fit score missing skills tailored pdf">
-            <h3 class="docs-h3">🎯 AI Resume Tailoring</h3>
+            <h3 class="docs-h3">AI Resume Tailoring</h3>
             <p class="docs-p"><strong>What it does:</strong> Matches your portfolio against a target role, reports fit score, and generates a tailored resume PDF.</p>
             <p class="docs-p"><strong>How to use:</strong> In Builder config, paste job URL or JD text, run Analyze Role Fit, then download tailored PDF or apply suggestions.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="billing membership subscription invoices payment method upgrade downgrade yearly monthly">
-            <h3 class="docs-h3">💳 Billing and Membership</h3>
+            <h3 class="docs-h3">Billing and Membership</h3>
             <p class="docs-p"><strong>What it does:</strong> Lets you manage plan upgrades, cycle selection, auto-renew, payment method, and invoice history.</p>
             <p class="docs-p"><strong>How to use:</strong> Open Billing page from nav or dashboard, switch plans, update card details, and review invoices.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="custom template marketplace submit pending review approve">
-            <h3 class="docs-h3">🧩 Custom Template Marketplace</h3>
+            <h3 class="docs-h3">Custom Template Marketplace</h3>
             <p class="docs-p"><strong>What it does:</strong> Converts your current portfolio into a reusable template and optionally submits it for public marketplace use.</p>
             <p class="docs-p"><strong>How to use:</strong> Open Templates page, fill template details, save template, and toggle submit-to-marketplace for admin review.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="admin moderation remove user reject template approve template">
-            <h3 class="docs-h3">🛡 Admin Moderation Panel</h3>
+            <h3 class="docs-h3">Admin Moderation Panel</h3>
             <p class="docs-p"><strong>What it does:</strong> Gives admin users control to approve/reject templates, deactivate/delete users, and monitor platform activity.</p>
             <p class="docs-p"><strong>How to use:</strong> Open Admin page as an admin account and use moderation actions for template quality and account governance.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="projects links demo github code tech stack featured">
-            <h3 class="docs-h3">🚀 Projects Section</h3>
+            <h3 class="docs-h3">Projects Section</h3>
             <p class="docs-p"><strong>What it does:</strong> Showcases portfolio projects with tech stack, demo URL, and code repository links.</p>
-            <p class="docs-p"><strong>How to use:</strong> In Builder → Edit → Projects, add project cards, fill links, and mark key work as featured.</p>
+            <p class="docs-p"><strong>How to use:</strong> In Builder > Edit > Projects, add project cards, fill links, and mark key work as featured.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="save autosave server draft">
-            <h3 class="docs-h3">☁️ Save and Auto-Save</h3>
+            <h3 class="docs-h3">Save and Auto-Save</h3>
             <p class="docs-p"><strong>What it does:</strong> Persists your portfolio state to backend storage.</p>
             <p class="docs-p"><strong>How to use:</strong> Use Save to Server for instant persistence; auto-save also runs periodically in the builder.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="publish unpublish live url slug share portfolio">
-            <h3 class="docs-h3">🌐 Publish and Share</h3>
+            <h3 class="docs-h3">Publish and Share</h3>
             <p class="docs-p"><strong>What it does:</strong> Toggles your site between draft and public mode with a shareable URL.</p>
             <p class="docs-p"><strong>How to use:</strong> Click Publish from Builder or Dashboard, then share your public link <span class="docs-inline">/p/your-slug</span>.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="resume pdf download professional linkedin">
-            <h3 class="docs-h3">📄 Resume PDF Download</h3>
+            <h3 class="docs-h3">Resume PDF Download</h3>
             <p class="docs-p"><strong>What it does:</strong> Generates and downloads a professional, recruiter-friendly resume PDF from your portfolio data.</p>
             <p class="docs-p"><strong>How to use:</strong> Open your public portfolio and click <strong>Download Resume PDF</strong>.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="chatbot ai assistant nlp visitor questions">
-            <h3 class="docs-h3">🤖 AI Chatbot</h3>
+            <h3 class="docs-h3">AI Chatbot</h3>
             <p class="docs-p"><strong>What it does:</strong> Answers visitor questions on your public portfolio automatically.</p>
             <p class="docs-p"><strong>How to use:</strong> Publish your portfolio and visitors can interact with chatbot widget in real time.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="contact form message inquiries email auto reply">
-            <h3 class="docs-h3">📬 Contact Form and Auto-Reply</h3>
+            <h3 class="docs-h3">Contact Form and Auto-Reply</h3>
             <p class="docs-p"><strong>What it does:</strong> Collects visitor messages and returns instant acknowledgement responses.</p>
             <p class="docs-p"><strong>How to use:</strong> Keep contact section enabled and set your email in Builder settings for notifications.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="analytics views chart leads messages performance">
-            <h3 class="docs-h3">📊 Analytics Dashboard</h3>
+            <h3 class="docs-h3">Analytics Dashboard</h3>
             <p class="docs-p"><strong>What it does:</strong> Tracks views, leads, and engagement trends.</p>
-            <p class="docs-p"><strong>How to use:</strong> Open Dashboard → Analytics tab to monitor daily views and total contact messages.</p>
+            <p class="docs-p"><strong>How to use:</strong> Open Dashboard > Analytics tab to monitor daily views and total contact messages.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="templates choose preview categories">
-            <h3 class="docs-h3">🧩 Templates Library</h3>
+            <h3 class="docs-h3">Templates Library</h3>
             <p class="docs-p"><strong>What it does:</strong> Offers ready-made visual starting points by category.</p>
             <p class="docs-p"><strong>How to use:</strong> Open Templates page, preview designs, then click Use Template to jump into Builder.</p>
           </article>
 
           <article class="manual-card manual-item" data-manual-text="export github pages download html deploy">
-            <h3 class="docs-h3">📦 Export and Deployment</h3>
+            <h3 class="docs-h3">Export and Deployment</h3>
             <p class="docs-p"><strong>What it does:</strong> Exports standalone HTML for hosting anywhere (including GitHub Pages).</p>
             <p class="docs-p"><strong>How to use:</strong> In Builder, click Export, choose mode, then download or copy deployment-ready code.</p>
           </article>
@@ -1508,11 +1511,11 @@ function renderManual() {
         <div class="manual-flow-grid">
           <article class="manual-flow manual-item" data-manual-text="workflow new user setup publish">
             <h3 class="docs-h3">New User Setup</h3>
-            <p class="docs-p">Signup → open Builder → complete Hero/About/Projects → save → publish → share public URL.</p>
+            <p class="docs-p">Signup > open Builder > complete Hero/About/Projects > save > publish > share public URL.</p>
           </article>
           <article class="manual-flow manual-item" data-manual-text="workflow visual customization design">
             <h3 class="docs-h3">Visual Customization</h3>
-            <p class="docs-p">Pick theme → upload profile/background image → tune typography/colors → save as preset.</p>
+            <p class="docs-p">Pick theme > upload profile/background image > tune typography/colors > save as preset.</p>
           </article>
           <article class="manual-flow manual-item" data-manual-text="workflow recruiter ready pdf">
             <h3 class="docs-h3">Recruiter-Ready Output</h3>
@@ -1673,14 +1676,14 @@ function renderAbout() {
   <section class="about-hero">
     <div class="wrap-sm">
       <div class="sec-eye" style="justify-content:center">Our Story</div>
-      <h1 style="font-family:var(--fh);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.5px;margin-bottom:14px">Built by developers,<br><span class="grad-text">for developers</span></h1>
-      <p class="sec-sub tm" style="margin:0 auto">QuickFolio was born from frustration. We were developers tired of spending weeks on portfolio sites when we should've been building real things. So we built the full-stack tool we always wished existed.</p>
+      <h1 style="font-family:var(--fh);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.5px;margin-bottom:14px">Built by developers,<br><span class="grad-text">for meaningful careers</span></h1>
+      <p class="sec-sub tm" style="margin:0 auto">QuickFolio started to solve a simple problem: most portfolios looked good but failed to communicate impact quickly. The product focuses on clear structure, credible project context, and faster hiring decisions.</p>
     </div>
   </section>
   <section style="padding:0 0 clamp(50px,8vw,72px)">
     <div class="wrap">
       <div class="about-stats-g">
-        ${[['🚀','12K+','grad-text','Portfolios Built'],['🌍','45+','grad-text2','Countries'],['💼','3.2K+','grad-text3','Jobs Landed'],['⭐','4.9/5','grad-text','Average Rating']].map(([ico,num,cls,lbl])=>`
+        ${[['01','12K+','grad-text','Portfolios Built'],['02','45+','grad-text2','Countries'],['03','3.2K+','grad-text3','Interview Outcomes'],['04','4.9/5','grad-text','Average Rating']].map(([ico,num,cls,lbl])=>`
         <div class="card card-h tc" style="padding:28px 20px">
           <div style="font-size:2rem;margin-bottom:7px">${ico}</div>
           <span class="font-h" style="font-size:1.9rem;font-weight:800;display:block;margin-bottom:5px" class="${cls}">${num}</span>
@@ -1688,11 +1691,10 @@ function renderAbout() {
         </div>`).join('')}
       </div>
       ${renderSachinSpotlightSection('about-embedded')}
-      <h2 style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:800;text-align:center;margin-bottom:28px">Meet the <span class="grad-text">team</span></h2>
+      <h2 style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:800;text-align:center;margin-bottom:28px">Meet the <span class="grad-text">builder</span></h2>
       <div class="team-g">
         ${[
-          {s:'Sachin',n:'Sachin',r:'Founder & Lead Dev',b:'CS student and Python Dev Intern. Built QuickFolio to help developers land better opportunities faster.'},
-         
+          {s:'Sachin',n:'Sachin',r:'Founder & Lead Dev',b:'Computer science student and Python developer intern. Built QuickFolio to help developers present real work with clarity and confidence.'},
         ].map(m=>`
         <div class="card card-h team-card">
           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${m.s}" class="team-av" alt="${m.n}">
@@ -1705,13 +1707,13 @@ function renderAbout() {
   </section>
   <section style="background:var(--surface);padding:clamp(60px,8vw,80px) clamp(16px,4vw,32px)">
     <div class="wrap-sm tc">
-      <h2 style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:800">Tech <span class="grad-text">Stack</span></h2>
+      <h2 style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:800">Technology <span class="grad-text">Stack</span></h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:24px">
-        ${[['🐍','Python 3.12'],['⚗️','Flask 3.x'],['🗄️','SQLite3'],['🔐','PBKDF2 Auth'],['🌐','REST API'],['⚡','Vanilla JS'],['🎨','CSS3'],['🤖','NLP Chatbot'],['📊','Analytics'],['📱','Responsive']].map(([ico,n])=>`<div class="card" style="text-align:center;padding:14px 10px"><div style="font-size:1.5rem;margin-bottom:6px">${ico}</div><div style="font-size:.75rem;font-weight:700;color:var(--muted)">${n}</div></div>`).join('')}
+        ${[['PY','Python 3.12'],['FL','Flask 3.x'],['DB','SQLite3'],['AUTH','PBKDF2 Auth'],['API','REST API'],['JS','Vanilla JS'],['CSS','CSS3'],['AI','NLP Chatbot'],['DATA','Analytics'],['RWD','Responsive']].map(([ico,n])=>`<div class="card" style="text-align:center;padding:14px 10px"><div style="font-size:1rem;font-weight:800;letter-spacing:.6px;margin-bottom:8px;color:var(--accent)">${ico}</div><div style="font-size:.75rem;font-weight:700;color:var(--muted)">${n}</div></div>`).join('')}
       </div>
       <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a href="/signup" class="btn btn-primary btn-lg">⚡ Start Building</a>
-        <a href="/manual" class="btn btn-ghost btn-lg">📖 Open Manual</a>
+        <a href="/signup" class="btn btn-primary btn-lg">Start Building</a>
+        <a href="/manual" class="btn btn-ghost btn-lg">Open Manual</a>
       </div>
     </div>
   </section>
@@ -1837,13 +1839,13 @@ function renderTemplateMarketplaceCards(templates) {
     <div class="tpl-card tpl-market-card" data-cat="${escapeTemplateHtml(category)}" data-name="${escapeTemplateHtml(String(tpl.name || '').toLowerCase())}" data-desc="${escapeTemplateHtml((String(tpl.description || '') + ' ' + moderation).toLowerCase())}" onclick="useTemplate('${escapeTemplateHtml(themeName)}','${escapeTemplateHtml(templateId)}')">
       <div class="tpl-preview-area" style="background:linear-gradient(135deg,${t.bg||'#07080f'},${t.card||'#121322'})">
         <div style="text-align:center;position:relative;z-index:1;padding:28px 16px">
-          <div style="font-size:2.3rem;margin-bottom:8px">⚡</div>
+          <div style="margin-bottom:8px;display:flex;justify-content:center"><img src="/static/images/quickfolio-mark.svg?v=20260419crafted16" alt="" aria-hidden="true" style="width:24px;height:24px;display:block"></div>
           <div style="font-family:${t.font||"'Syne'"};font-size:.95rem;font-weight:700;background:${t.grad||'linear-gradient(135deg,#00e5ff,#b44fff)'};-webkit-background-clip:text;-webkit-text-fill-color:transparent">${escapeTemplateHtml(tpl.name)}</div>
           ${tpl.creator_name ? `<div style="margin-top:6px;font-size:.68rem;color:rgba(255,255,255,.8)">by ${escapeTemplateHtml(tpl.creator_name)}</div>` : ''}
         </div>
         <div class="tpl-ov">
-          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();useTemplate('${escapeTemplateHtml(themeName)}','${escapeTemplateHtml(templateId)}')">⚡ Apply Template</button>
-          <button class="btn btn-sm" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3)" onclick="event.stopPropagation();previewTemplate('${escapeTemplateHtml(themeName)}','${escapeTemplateHtml(templateId)}','${escapeTemplateHtml(previewHref)}')">👁 Preview</button>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();useTemplate('${escapeTemplateHtml(themeName)}','${escapeTemplateHtml(templateId)}')">Apply Template</button>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3)" onclick="event.stopPropagation();previewTemplate('${escapeTemplateHtml(themeName)}','${escapeTemplateHtml(templateId)}','${escapeTemplateHtml(previewHref)}')">Preview</button>
         </div>
       </div>
       <div class="tpl-info">
@@ -1852,7 +1854,7 @@ function renderTemplateMarketplaceCards(templates) {
         <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">
           <span class="tag tag-c">${escapeTemplateHtml(themeName)}</span>
           <span class="tag tag-p">${escapeTemplateHtml(category)}</span>
-          ${tpl.is_featured ? '<span class="tag tag-o">⭐ Featured</span>' : ''}
+          ${tpl.is_featured ? '<span class="tag tag-o">Featured</span>' : ''}
           <span class="tag tag-g">Uses ${Number(tpl.uses || 0)}</span>
           ${tpl.is_owner ? templateStatusBadge(tpl) : ''}
         </div>
@@ -1948,8 +1950,8 @@ async function renderTemplates() {
             Submit this template to marketplace (admin review required)
           </label>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-            <button class="btn btn-primary btn-sm" onclick="createCustomTemplate()">➕ Save Template</button>
-            <button class="btn btn-ghost btn-sm" onclick="reloadTemplatesPage()">↻ Refresh List</button>
+            <button class="btn btn-primary btn-sm" onclick="createCustomTemplate()">Save Template</button>
+            <button class="btn btn-ghost btn-sm" onclick="reloadTemplatesPage()">Refresh List</button>
           </div>
         </div>
 
@@ -1965,7 +1967,7 @@ async function renderTemplates() {
         <div class="chart-wrap" style="text-align:center">
           <div style="font-family:var(--fh);font-size:1.2rem;font-weight:700;margin-bottom:6px">Want to publish your own template?</div>
           <p style="color:var(--muted);font-size:.86rem;margin-bottom:12px">Login, design your portfolio, then submit it as a reusable template for the community.</p>
-          <a href="/login" class="btn btn-primary btn-sm">🔐 Login to Create Template</a>
+          <a href="/login" class="btn btn-primary btn-sm">Login to Create Template</a>
         </div>
       </div>
     </section>
@@ -2137,7 +2139,7 @@ function renderPricing() {
     <section class="templates-hero" style="padding-bottom:28px">
       <div class="wrap-sm tc">
         <div class="sec-eye" style="justify-content:center">Pricing</div>
-        <h1 class="sec-h2 font-h" style="margin-bottom:10px">Choose a plan that matches your <span class="grad-text">career velocity</span></h1>
+        <h1 class="sec-h2 font-h" style="margin-bottom:10px">Choose a plan that matches your <span class="grad-text">career goals</span></h1>
         <p class="sec-sub tm" style="margin:0 auto">Start free, then scale when interviews, leads, or team workflows demand more.</p>
       </div>
     </section>
@@ -2654,9 +2656,9 @@ function renderResumeEditorWorkspace() {
             <div class="resume-layout-help">Compact fits more content on fewer pages, Executive is balanced premium style, ATS-Strict uses minimal formatting for parser-friendly submissions.</div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" onclick="saveResumeEditorProfile()">💾 Save Resume</button>
-            <button class="btn btn-outline btn-sm" onclick="downloadResumeEditorPdf()">📄 Download PDF</button>
-            <button class="btn btn-ghost btn-sm" onclick="toggleResumePreviewOnlyMode(true)">👁 Preview Only</button>
+            <button class="btn btn-primary btn-sm" onclick="saveResumeEditorProfile()">Save Resume</button>
+            <button class="btn btn-outline btn-sm" onclick="downloadResumeEditorPdf()">Download PDF</button>
+            <button class="btn btn-ghost btn-sm" onclick="toggleResumePreviewOnlyMode(true)">Preview Only</button>
           </div>
           <div style="color:var(--muted2);font-size:.72rem;margin-top:8px">Themes move from Simple to Ultra. Select one to instantly update preview and PDF style.${activeDoc?.is_default ? ' This resume is currently default for public PDF.' : ''}</div>
           <div id="resume-theme-grid" class="resume-theme-grid" style="margin-top:10px"></div>
@@ -2722,9 +2724,9 @@ function renderResumeEditorWorkspace() {
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between">
             <div style="font-size:.74rem;color:var(--muted)">Mode: ${RESUME_EDITOR_STATE.previewOnlyMode ? 'Inline Preview Only' : 'Form + Preview'} | PDF: ${content.layout_mode === 'compact' ? 'Compact' : (content.layout_mode === 'ats-strict' ? 'ATS-Strict' : 'Executive')}</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="btn btn-ghost btn-sm" onclick="toggleResumePreviewOnlyMode()">${RESUME_EDITOR_STATE.previewOnlyMode ? '🧰 Show Forms' : '👁 Inline Only'}</button>
-              <button class="btn btn-primary btn-sm" onclick="saveResumeEditorProfile()">💾 Save</button>
-              <button class="btn btn-outline btn-sm" onclick="downloadResumeEditorPdf()">📄 PDF</button>
+              <button class="btn btn-ghost btn-sm" onclick="toggleResumePreviewOnlyMode()">${RESUME_EDITOR_STATE.previewOnlyMode ? 'Show Forms' : 'Inline Only'}</button>
+              <button class="btn btn-primary btn-sm" onclick="saveResumeEditorProfile()">Save</button>
+              <button class="btn btn-outline btn-sm" onclick="downloadResumeEditorPdf()">PDF</button>
             </div>
           </div>
         </div>
@@ -3480,19 +3482,19 @@ function renderFooter() {
     <div class="wrap">
       <div class="foot-grid">
         <div>
-          <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-weight:700;font-size:1.05rem"><div style="width:30px;height:30px;background:var(--grad);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#000;font-weight:900">⚡</div><span class="grad-text">QuickFolio</span></a>
-          <p class="foot-desc">The most powerful full-stack developer portfolio builder. Build, customize, publish, and grow your online presence.</p>
+          <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-weight:700;font-size:1.05rem"><div style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#121a2a,#0d1320);border:1px solid rgba(242,164,75,.28);box-shadow:inset 0 0 0 1px rgba(78,166,166,.18),0 8px 16px rgba(0,0,0,.28)"><img src="/static/images/quickfolio-mark.svg?v=20260419crafted16" alt="" aria-hidden="true" style="width:20px;height:20px;display:block"></div><span class="grad-text">QuickFolio</span></a>
+          <p class="foot-desc">A full-stack portfolio platform focused on clarity, credibility, and measurable hiring outcomes.</p>
           <div class="foot-badges">
-            <span class="foot-badge">Fast UX Engine</span>
-            <span class="foot-badge">ATS-Ready Resume</span>
-            <span class="foot-badge">Analytics-Driven</span>
+            <span class="foot-badge">Fast UX</span>
+            <span class="foot-badge">Recruiter-Friendly Resume</span>
+            <span class="foot-badge">Analytics-Informed</span>
           </div>
           <div class="foot-socials">
             <a class="foot-social" href="${getQuickFolioMailHref('QuickFolio Footer Inquiry')}" title="Email" aria-label="Email">${getBrandIconSvg('mail')}</a>
             <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.github}" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">${getBrandIconSvg('github')}</a>
-            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.x}" target="_blank" rel="noopener" title="Twitter / X" aria-label="Twitter / X">𝕏</a>
+            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.x}" target="_blank" rel="noopener" title="Twitter / X" aria-label="Twitter / X">${getBrandIconSvg('x')}</a>
             <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.linkedin}" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">${getBrandIconSvg('linkedin')}</a>
-            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.instagram}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">◎</a>
+            <a class="foot-social" href="${SACHIN_PORTFOLIO_PROFILE.links.instagram}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">${getBrandIconSvg('instagram')}</a>
           </div>
         </div>
         <div>
@@ -3508,21 +3510,21 @@ function renderFooter() {
           <div class="foot-col-h">Company</div>
           <a class="foot-a" href="/about">About Us</a>
           <a class="foot-a" href="/about">Careers</a>
-          <a class="foot-a" href="${getQuickFolioMailHref('QuickFolio Website Inquiry')}">✉ Mail Us</a>
+          <a class="foot-a" href="${getQuickFolioMailHref('QuickFolio Website Inquiry')}">Email Us</a>
           <a class="foot-a" href="mailto:${QUICKFOLIO_CONTACT_EMAIL}">${QUICKFOLIO_CONTACT_EMAIL}</a>
           <a class="foot-a" href="/privacy">Privacy Policy</a>
           <a class="foot-a" href="/terms">Terms of Service</a>
         </div>
         <div>
           <div class="foot-col-h">Tech Stack</div>
-          <div class="foot-a">🐍 Python / Flask</div>
-          <div class="foot-a">🗄️ SQLite Database</div>
-          <div class="foot-a">⚡ Vanilla JS</div>
-          <div class="foot-a">🤖 NLP AI Chatbot</div>
+          <div class="foot-a">Python / Flask</div>
+          <div class="foot-a">SQLite Database</div>
+          <div class="foot-a">Vanilla JS</div>
+          <div class="foot-a">NLP Assistant</div>
         </div>
       </div>
       <div class="foot-bottom">
-        <div class="foot-copy">© ${new Date().getFullYear()} QuickFolio. Built with 💙 for developers everywhere.</div>
+        <div class="foot-copy">© ${new Date().getFullYear()} QuickFolio. Built with care for developers everywhere.</div>
         <div class="foot-techs">
           <span class="foot-tech">Flask</span><span class="foot-tech">SQLite</span>
           <span class="foot-tech">Python 3.12</span><span class="foot-tech">Vanilla JS</span>

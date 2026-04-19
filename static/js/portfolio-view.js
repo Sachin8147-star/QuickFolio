@@ -11,6 +11,8 @@
   const sections  = PD.sections  || [];
   const owner     = PD.owner     || {};
   const slug      = PD.slug      || '';
+  const ASSET_VERSION = '20260419crafted17';
+  const LOADED_SCRIPT_IDS = new Set();
   const CINEMATIC_PROFILE_KEY = 'quickfolio.cinematic.profile';
   const CINEMATIC_PROFILE_KEY_LEGACY = 'QuickFolio.cinematic.profile';
   const CINEMATIC_PROFILES = {
@@ -55,6 +57,46 @@
   const cinematicProfileId = resolveCinematicProfileId();
   const cinematicProfile = CINEMATIC_PROFILES[cinematicProfileId] || CINEMATIC_PROFILES.balanced;
   let routeTransitionLocked = false;
+
+  function runWhenIdle(task, timeout = 1200) {
+    if (typeof task !== 'function') return;
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => task(), { timeout });
+    } else {
+      setTimeout(task, Math.min(timeout, 350));
+    }
+  }
+
+  function ensureScript(id, src) {
+    if (!id || !src) return Promise.resolve();
+    if (LOADED_SCRIPT_IDS.has(id) || document.getElementById(id)) {
+      LOADED_SCRIPT_IDS.add(id);
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.id = id;
+      script.defer = true;
+      script.async = false;
+      script.src = `${src}${src.includes('?') ? '&' : '?'}v=${encodeURIComponent(ASSET_VERSION)}`;
+      script.onload = () => {
+        LOADED_SCRIPT_IDS.add(id);
+        resolve();
+      };
+      script.onerror = () => resolve();
+      document.head.appendChild(script);
+    });
+  }
+
+  async function initPortfolioChatbotWhenReady(containerId, themeConfig) {
+    if (typeof PortfolioChatbot === 'undefined') {
+      await ensureScript('portfolio-chatbot-runtime', '/static/js/chatbot.js');
+    }
+    if (typeof PortfolioChatbot !== 'undefined') {
+      PortfolioChatbot.init(containerId, slug, themeConfig);
+    }
+  }
 
   function applyPortfolioCinematicVariables() {
     document.body.dataset.cinematicProfile = cinematicProfile.id;
@@ -442,21 +484,21 @@
 
   function buildShareDock() {
     return `<div class="pf-share-dock" id="pf-share-dock">
-      <button class="pf-share-main" onclick="pfToggleShareDock()">🚀 Share Growth Kit</button>
+      <button class="pf-share-main" onclick="pfToggleShareDock()">Share Growth Kit</button>
       <div class="pf-share-panel" id="pf-share-panel">
         <div class="pf-share-title">Distribution Actions</div>
         <div class="pf-share-grid">
-          <button class="pf-share-btn" onclick="pfShareNative()">📲 Native Share</button>
-          <button class="pf-share-btn" onclick="pfCopyTrackedLink('direct')">🔗 Copy Link</button>
-          <button class="pf-share-btn" onclick="pfShareNetwork('linkedin')">💼 LinkedIn</button>
-          <button class="pf-share-btn" onclick="pfShareNetwork('x')">🐦 X</button>
-          <button class="pf-share-btn" onclick="pfShareNetwork('whatsapp')">🟢 WhatsApp</button>
-          <button class="pf-share-btn" onclick="pfShareNetwork('reddit')">👽 Reddit</button>
+          <button class="pf-share-btn" onclick="pfShareNative()">Native Share</button>
+          <button class="pf-share-btn" onclick="pfCopyTrackedLink('direct')">Copy Link</button>
+          <button class="pf-share-btn" onclick="pfShareNetwork('linkedin')">LinkedIn</button>
+          <button class="pf-share-btn" onclick="pfShareNetwork('x')">X</button>
+          <button class="pf-share-btn" onclick="pfShareNetwork('whatsapp')">WhatsApp</button>
+          <button class="pf-share-btn" onclick="pfShareNetwork('reddit')">Reddit</button>
         </div>
         <div class="pf-share-title" style="margin-top:10px">Content Copy</div>
         <div class="pf-share-grid">
-          <button class="pf-share-btn" onclick="pfCopyLinkedInPost()">🧠 Copy LinkedIn Post</button>
-          <button class="pf-share-btn" onclick="pfCopyShortHook()">🎬 Copy Reel Hook</button>
+          <button class="pf-share-btn" onclick="pfCopyLinkedInPost()">Copy LinkedIn Post</button>
+          <button class="pf-share-btn" onclick="pfCopyShortHook()">Copy Short Hook</button>
         </div>
         <div id="pf-share-feedback" class="pf-share-feedback">Each share link is auto-tagged for analytics tracking.</div>
       </div>
@@ -511,16 +553,16 @@
         <p class="pf-hero-tagline" style="font-size:clamp(.9rem,1.8vw,1.1rem);color:${t.text};opacity:.82;margin-bottom:10px">${d.tagline || ''}</p>
         <p class="pf-hero-subtitle" style="font-size:.77rem;color:${t.muted};letter-spacing:2.5px;text-transform:uppercase;margin-bottom:28px">${d.subtitle || ''}</p>
         <div class="pf-hero-actions" style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
-          <button onclick="document.getElementById('pf-contact')?.scrollIntoView({behavior:'smooth'})" style="background:${G};color:#000;border:none;padding:12px 26px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.3s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">${d.cta || 'View My Work'} →</button>
+          <button onclick="document.getElementById('pf-contact')?.scrollIntoView({behavior:'smooth'})" style="background:${G};color:#000;border:none;padding:12px 26px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.3s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">${d.cta || 'View My Work'}</button>
           ${resumeHref
             ? `<a href="${resumeHref}" style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:12px 26px;border-radius:9px;font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s;display:inline-block" onmouseover="this.style.background='${t.accent}14'" onmouseout="this.style.background='transparent'">Download Resume PDF</a>`
             : `<span style="background:transparent;color:${t.muted};border:1.5px solid ${t.border};padding:12px 26px;border-radius:9px;font-weight:600;font-size:.88rem;display:inline-block">Resume unavailable</span>`}
         </div>
         <div class="pf-social-row" style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
           ${[
-            ['⚡', 'GitHub', d.github],
+            ['🐙', 'GitHub', d.github],
             ['💼', 'LinkedIn', d.linkedin],
-            ['🐦', 'Twitter', d.twitter]
+            ['𝕏', 'Twitter', d.twitter]
           ].map(([i, label, raw]) => {
             const href = normalizeUrl(raw);
             return href
@@ -547,12 +589,12 @@
             <div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:pf-pulse 2s infinite"></div>
             ${d.availability || 'Open to work'}
           </div>
-          <div style="color:${t.muted};font-size:.8rem;margin-top:8px">📍 ${d.location || 'India'}</div>
+          <div style="color:${t.muted};font-size:.8rem;margin-top:8px">Location: ${d.location || 'India'}</div>
         </div>
         <div>
           <p style="color:${t.text};opacity:.85;line-height:1.8;font-size:clamp(.87rem,1.5vw,1.03rem);margin-bottom:20px">${d.bio || ''}</p>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
-            ${(d.highlights || []).map(h => `<span style="background:${t.accent2}12;border:1px solid ${t.accent2}30;color:${t.accent2};padding:5px 13px;border-radius:20px;font-size:.76rem;font-weight:700">✦ ${h}</span>`).join('')}
+            ${(d.highlights || []).map(h => `<span style="background:${t.accent2}12;border:1px solid ${t.accent2}30;color:${t.accent2};padding:5px 13px;border-radius:20px;font-size:.76rem;font-weight:700">${h}</span>`).join('')}
           </div>
         </div>
       </div>`);
@@ -599,16 +641,16 @@
         <div class="pf-card-hover" style="${cardStyle()};position:relative" data-tech="${(p.tech || []).join(',')}"
           onmouseover="this.style.borderColor='${t.accent}';this.style.transform='translateY(-4px)'"
           onmouseout="this.style.borderColor='${t.border}';this.style.transform='none'">
-          ${p.featured ? `<span style="position:absolute;top:13px;right:13px;background:${G};color:#000;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase">⭐ Featured</span>` : ''}
-          <span style="font-size:2.5rem;margin-bottom:13px;display:block">${p.emoji || '🚀'}</span>
+                ${p.featured ? `<span style="position:absolute;top:13px;right:13px;background:${G};color:#000;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase">Featured</span>` : ''}
+                <span style="font-size:.75rem;letter-spacing:.6px;font-weight:800;color:${t.accent};margin-bottom:11px;display:block">Project</span>
           <h3 style="font-family:${t.font};font-size:clamp(.88rem,1.5vw,1.05rem);margin-bottom:7px">${p.title}</h3>
           <p style="color:${t.muted};font-size:.82rem;line-height:1.62;margin-bottom:13px">${p.desc}</p>
           <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px">
             ${(p.tech || []).map(tg => `<span style="background:${t.accent}14;color:${t.accent};border:1px solid ${t.accent}35;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:700">${tg}</span>`).join('')}
           </div>
           <div style="display:flex;gap:7px;flex-wrap:wrap">
-            ${liveHref ? `<a href="${liveHref}" target="_blank" rel="noopener noreferrer" style="background:${G};color:#000;border:none;padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:800;cursor:pointer;text-decoration:none">🔗 Live</a>` : ''}
-            ${codeHref ? `<a href="${codeHref}" target="_blank" rel="noopener noreferrer" style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:600;cursor:pointer;text-decoration:none">⚡ Code</a>` : ''}
+                  ${liveHref ? `<a href="${liveHref}" target="_blank" rel="noopener noreferrer" style="background:${G};color:#000;border:none;padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:800;cursor:pointer;text-decoration:none">Live Demo</a>` : ''}
+                  ${codeHref ? `<a href="${codeHref}" target="_blank" rel="noopener noreferrer" style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:600;cursor:pointer;text-decoration:none">Source Code</a>` : ''}
             ${!liveHref && !codeHref ? `<span style="font-size:.7rem;color:${t.muted}">No links added</span>` : ''}
           </div>
         </div>`;
@@ -628,9 +670,9 @@
           <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:9px;margin-bottom:5px">
             <div>
               <div style="font-family:${t.font};font-size:clamp(.88rem,1.6vw,1.08rem);font-weight:800">${e.role}</div>
-              <div style="color:${t.accent};font-weight:700;font-size:.84rem;margin-top:2px">🏢 ${e.company}</div>
+              <div style="color:${t.accent};font-weight:700;font-size:.84rem;margin-top:2px">Company: ${e.company}</div>
             </div>
-            <span style="background:${t.surface};border:1px solid ${t.border};border-radius:20px;padding:3px 10px;font-size:.7rem;color:${t.muted};white-space:nowrap;flex-shrink:0">📅 ${e.period}</span>
+            <span style="background:${t.surface};border:1px solid ${t.border};border-radius:20px;padding:3px 10px;font-size:.7rem;color:${t.muted};white-space:nowrap;flex-shrink:0">Period: ${e.period}</span>
           </div>
           <p style="color:${t.muted};font-size:.83rem;line-height:1.7;margin-bottom:10px">${e.desc}</p>
           <div style="display:flex;gap:5px;flex-wrap:wrap">
@@ -649,7 +691,7 @@
         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:11px;margin-bottom:13px">
           <div>
             <h3 style="font-family:${t.font};font-size:clamp(.95rem,2vw,1.2rem);margin-bottom:4px">${e.degree}</h3>
-            <div style="color:${t.accent};font-weight:700">🎓 ${e.school}</div>
+            <div style="color:${t.accent};font-weight:700">Institution: ${e.school}</div>
           </div>
           <div style="text-align:right;flex-shrink:0">
             <span style="background:${t.surface};border:1px solid ${t.border};border-radius:20px;padding:3px 10px;font-size:.7rem;color:${t.muted};display:block;margin-bottom:4px">${e.period}</span>
@@ -657,7 +699,7 @@
           </div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${(e.highlights || []).map(h => `<span style="background:${t.accent}14;color:${t.accent};border:1px solid ${t.accent}35;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:700">🏆 ${h}</span>`).join('')}
+          ${(e.highlights || []).map(h => `<span style="background:${t.accent}14;color:${t.accent};border:1px solid ${t.accent}35;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:700">${h}</span>`).join('')}
         </div>
       </div>`).join('')}`);
   }
@@ -703,7 +745,7 @@
         <div class="pf-card-hover" style="${cardStyle()}"
           onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='${t.accent}'"
           onmouseout="this.style.transform='none';this.style.borderColor='${t.border}'">
-          <div style="color:#f59e0b;font-size:.76rem;margin-bottom:9px">⭐⭐⭐⭐⭐</div>
+          <div style="color:#f59e0b;font-size:.76rem;margin-bottom:9px">Rated 5/5</div>
           <p style="color:${t.text};opacity:.85;line-height:1.72;font-style:italic;margin-bottom:17px;font-size:.84rem">"${ti.text}"</p>
           <div style="display:flex;align-items:center;gap:9px">
             <img src="${ti.avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + ti.name}" style="width:38px;height:38px;border-radius:50%;border:2px solid ${t.accent};background:${t.border}">
@@ -723,7 +765,7 @@
       <p style="color:${t.muted};margin-bottom:26px;font-size:.92rem">${d.message || "Got a project in mind? Let's build something amazing together!"}</p>
       <div class="pf-contact-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:30px">
         <div>
-          ${[['📧', 'Email', d.email || ''], ['📱', 'Phone', d.phone || ''], ['🌐', 'Portfolio', window.location.href], ['⏰', 'Status', '✅ Open to work']].map(([ic, lbl, val]) => `
+          ${[['📧', 'Email', d.email || ''], ['📞', 'Phone', d.phone || ''], ['🌐', 'Portfolio', window.location.href], ['🟢', 'Status', 'Open to work']].map(([ic, lbl, val]) => `
           <div style="display:flex;align-items:center;gap:11px;padding:12px;background:${t.card};border:1px solid ${t.border};border-radius:9px;margin-bottom:9px;transition:.2s"
             onmouseover="this.style.borderColor='${t.border2}'"
             onmouseout="this.style.borderColor='${t.border}'">
@@ -755,7 +797,7 @@
             onfocus="this.style.borderColor='${t.accent}'" onblur="this.style.borderColor='${t.border}'"></textarea>
           <div id="pf-ct-status"></div>
           <button onclick="pfSubmitContact()" style="width:100%;background:${G};color:#000;border:none;padding:12px;border-radius:7px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.2s;font-family:inherit"
-            onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">🚀 Send Message</button>
+            onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">Send Message</button>
         </div>
       </div>`);
   }
@@ -842,9 +884,9 @@
   const cbContainer = document.createElement('div');
   cbContainer.id = 'pf-cb-container';
   root.appendChild(cbContainer);
-  if (typeof PortfolioChatbot !== 'undefined') {
-    PortfolioChatbot.init('pf-cb-container', slug, { ...t, ownerName: firstName });
-  }
+  runWhenIdle(() => {
+    initPortfolioChatbotWhenReady('pf-cb-container', { ...t, ownerName: firstName });
+  }, 1300);
 
   /* ── Scroll-to-top ── */
   const stb = document.createElement('button');
@@ -958,10 +1000,10 @@
     const statusEl = document.getElementById('pf-ct-status');
 
     if (!name || !email || !message) {
-      if (statusEl) statusEl.innerHTML = `<div class="pf-ct-error">❌ Please fill in Name, Email and Message.</div>`;
+      if (statusEl) statusEl.innerHTML = `<div class="pf-ct-error">Please fill in Name, Email and Message.</div>`;
       return;
     }
-    if (statusEl) statusEl.innerHTML = `<div class="pf-ct-loading">⏳ Sending your message...</div>`;
+    if (statusEl) statusEl.innerHTML = `<div class="pf-ct-loading">Sending your message...</div>`;
 
     try {
       const res = await fetch(`/api/contact/${slug}`, {
@@ -971,15 +1013,15 @@
       });
       const data = await res.json();
       if (res.ok) {
-        if (statusEl) statusEl.innerHTML = `<div class="pf-ct-success">✅ Message sent! Auto-reply sent to ${email}. Expect a response within 24-48 hours!</div>`;
+        if (statusEl) statusEl.innerHTML = `<div class="pf-ct-success">Message sent. Auto-reply sent to ${email}. Expect a response within 24-48 hours.</div>`;
         ['pf-ct-name', 'pf-ct-email', 'pf-ct-subject', 'pf-ct-msg'].forEach(id => {
           const el = document.getElementById(id); if (el) el.value = '';
         });
       } else {
-        if (statusEl) statusEl.innerHTML = `<div class="pf-ct-error">❌ ${data.error || 'Something went wrong. Please try again.'}</div>`;
+        if (statusEl) statusEl.innerHTML = `<div class="pf-ct-error">${data.error || 'Something went wrong. Please try again.'}</div>`;
       }
     } catch (_) {
-      if (statusEl) statusEl.innerHTML = `<div class="pf-ct-success">✅ Message received! Will get back to you soon.</div>`;
+      if (statusEl) statusEl.innerHTML = `<div class="pf-ct-success">Message received. Will get back to you soon.</div>`;
     }
   };
 

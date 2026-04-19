@@ -28,7 +28,7 @@ const THEMES = {
     label:'Syne'
   },
   forest:{
-    id:'forest',name:'Forest',emoji:'🌿',
+    id:'forest',name:'Forest',emoji:'🌲',
     bg:'#050f08',surface:'#091610',card:'#0e2016',border:'#18361e',border2:'#224a28',
     accent:'#22c55e',accent2:'#84cc16',text:'#f0fdf4',muted:'#4d7c5a',
     grad:'linear-gradient(135deg,#22c55e,#84cc16)',
@@ -44,7 +44,7 @@ const THEMES = {
     label:'Orbitron'
   },
   sunset:{
-    id:'sunset',name:'Sunset Ember',emoji:'🌇',
+    id:'sunset',name:'Sunset Ember',emoji:'🌅',
     bg:'#120a08',surface:'#1f110d',card:'#2b1711',border:'#4a2518',border2:'#6a3220',
     accent:'#fb7185',accent2:'#f59e0b',text:'#fff5ef',muted:'#d8a18b',
     grad:'linear-gradient(135deg,#fb7185,#f59e0b)',
@@ -68,7 +68,7 @@ const THEMES = {
     label:'Syne'
   },
   lavender:{
-    id:'lavender',name:'Lavender Drift',emoji:'💫',
+    id:'lavender',name:'Lavender Drift',emoji:'💜',
     bg:'#0b0816',surface:'#161128',card:'#211a38',border:'#372a56',border2:'#4d3a76',
     accent:'#a78bfa',accent2:'#f472b6',text:'#f5f3ff',muted:'#b3a4d9',
     grad:'linear-gradient(135deg,#a78bfa,#f472b6)',
@@ -76,7 +76,7 @@ const THEMES = {
     label:'Syne'
   },
   steel:{
-    id:'steel',name:'Steel Grid',emoji:'🧱',
+    id:'steel',name:'Steel Grid',emoji:'🔩',
     bg:'#06090f',surface:'#0e1522',card:'#152033',border:'#22334f',border2:'#2e466c',
     accent:'#60a5fa',accent2:'#22d3ee',text:'#e0ecff',muted:'#7f95b7',
     grad:'linear-gradient(135deg,#60a5fa,#22d3ee)',
@@ -84,7 +84,7 @@ const THEMES = {
     label:'Orbitron'
   },
   mint:{
-    id:'mint',name:'Mint Glass',emoji:'🍃',
+    id:'mint',name:'Mint Glass',emoji:'🌿',
     bg:'#07120f',surface:'#0c1c18',card:'#112824',border:'#1d3f37',border2:'#2a5a4f',
     accent:'#34d399',accent2:'#22d3ee',text:'#ecfdf5',muted:'#87b7a6',
     grad:'linear-gradient(135deg,#34d399,#22d3ee)',
@@ -92,7 +92,7 @@ const THEMES = {
     label:'Outfit'
   },
   ruby:{
-    id:'ruby',name:'Ruby Night',emoji:'♦️',
+    id:'ruby',name:'Ruby Night',emoji:'❤️',
     bg:'#14070a',surface:'#210d13',card:'#2e141e',border:'#4a1f2e',border2:'#65293f',
     accent:'#f43f5e',accent2:'#fb7185',text:'#fff1f2',muted:'#d59aa6',
     grad:'linear-gradient(135deg,#f43f5e,#fb7185)',
@@ -116,7 +116,7 @@ const THEMES = {
     label:'Syne'
   },
   ivory:{
-    id:'ivory',name:'Ivory Modern',emoji:'🕊️',
+    id:'ivory',name:'Ivory Modern',emoji:'🤍',
     bg:'#f8fafc',surface:'#ffffff',card:'#f1f5f9',border:'#dbe3ee',border2:'#c5d1e2',
     accent:'#2563eb',accent2:'#0ea5e9',text:'#0f172a',muted:'#475569',
     grad:'linear-gradient(135deg,#2563eb,#0ea5e9)',
@@ -124,7 +124,7 @@ const THEMES = {
     label:'Syne'
   },
   neon:{
-    id:'neon',name:'Neon Flux',emoji:'🧪',
+    id:'neon',name:'Neon Flux',emoji:'✨',
     bg:'#050507',surface:'#0a0a12',card:'#121226',border:'#222244',border2:'#313163',
     accent:'#22d3ee',accent2:'#a3e635',text:'#ecfeff',muted:'#8aa5c2',
     grad:'linear-gradient(135deg,#22d3ee,#a3e635)',
@@ -132,7 +132,7 @@ const THEMES = {
     label:'Orbitron'
   },
   plum:{
-    id:'plum',name:'Plum Noir',emoji:'🍷',
+    id:'plum',name:'Plum Noir',emoji:'🍇',
     bg:'#120816',surface:'#1c1022',card:'#281733',border:'#3b2550',border2:'#52356d',
     accent:'#c084fc',accent2:'#f472b6',text:'#faf5ff',muted:'#b9a2d6',
     grad:'linear-gradient(135deg,#c084fc,#f472b6)',
@@ -148,7 +148,7 @@ const THEMES = {
     label:'Outfit'
   },
   nature:{
-    id:'nature',name:'Nature Distilled',emoji:'🍂',
+    id:'nature',name:'Nature Distilled',emoji:'🍃',
     bg:'#f5f1e7',surface:'#efe7d8',card:'#fff9ef',border:'#d8c9b0',border2:'#bda17c',
     accent:'#7b6a52',accent2:'#c38e56',text:'#2f2a24',muted:'#746757',
     grad:'linear-gradient(135deg,#7b6a52,#c38e56)',
@@ -164,7 +164,7 @@ const THEMES = {
     label:'Fraunces'
   },
   dopamine:{
-    id:'dopamine',name:'Dopamine Pop',emoji:'🧃',
+    id:'dopamine',name:'Dopamine Pop',emoji:'🎉',
     bg:'#13061e',surface:'#1f0830',card:'#2a0f3f',border:'#5a2d7b',border2:'#7d3aac',
     accent:'#ff5f1f',accent2:'#00f5d4',text:'#fff7fb',muted:'#d7b9dd',
     grad:'linear-gradient(135deg,#ff5f1f,#00f5d4)',
@@ -180,7 +180,7 @@ const THEMES = {
     label:'Space Grotesk'
   },
   custom:{
-    id:'custom',name:'Custom Lab',emoji:'🛠️',
+    id:'custom',name:'Custom Lab',emoji:'🎨',
     bg:'#0a0a0f',surface:'#11111c',card:'#18182a',border:'#28284a',border2:'#3a3a60',
     accent:'#00ffcc',accent2:'#ff00aa',text:'#dde0ff',muted:'#6060a0',
     grad:'linear-gradient(135deg,#00ffcc,#ff00aa)',
@@ -193,16 +193,16 @@ window.QUICKFOLIO_THEME_BANK = THEMES;
 window.QuickFolio_THEME_BANK = THEMES;
 
 const SECTION_INFO = {
-  hero:     {label:'Hero / Banner',    icon:'🏠'},
-  about:    {label:'About Me',         icon:'👤'},
-  skills:   {label:'Skills & Stack',   icon:'⚡'},
-  projects: {label:'Projects',         icon:'🚀'},
+  hero:     {label:'Hero / Banner',    icon:'👋'},
+  about:    {label:'About Me',         icon:'🙋'},
+  skills:   {label:'Skills & Stack',   icon:'🛠️'},
+  projects: {label:'Projects',         icon:'📁'},
   experience:{label:'Experience',      icon:'💼'},
   education:{label:'Education',        icon:'🎓'},
-  stats:    {label:'Stats Counter',    icon:'📊'},
-  timeline: {label:'Timeline',         icon:'📅'},
-  testimonials:{label:'Testimonials',  icon:'⭐'},
-  contact:  {label:'Contact',          icon:'📬'},
+  stats:    {label:'Stats Counter',    icon:'📈'},
+  timeline: {label:'Timeline',         icon:'⏳'},
+  testimonials:{label:'Testimonials',  icon:'💬'},
+  contact:  {label:'Contact',          icon:'📧'},
 };
 
 const DEFAULT_DATA = {
@@ -285,10 +285,10 @@ const DEFAULT_DATA = {
   },
   projects:{
     items:[
-      {title:'NeuroTask AI', desc:'AI-powered project management with smart task prioritization', tech:['React','Python','OpenAI'], emoji:'🧠', featured:true,  link:'https://example.com/neurotask', github:'https://github.com/alexchen/neurotask-ai'},
+      {title:'NeuroTask AI', desc:'AI-powered project management with smart task prioritization', tech:['React','Python','OpenAI'], emoji:'🤖', featured:true,  link:'https://example.com/neurotask', github:'https://github.com/alexchen/neurotask-ai'},
       {title:'CryptoWatch',  desc:'Real-time crypto portfolio tracker with advanced analytics',  tech:['Vue','Node.js','WebSocket'], emoji:'📈', featured:true,  link:'https://example.com/cryptowatch', github:'https://github.com/alexchen/cryptowatch'},
       {title:'EcoCommute',   desc:'Sustainable commute planner reducing carbon footprint 40%',  tech:['React Native','Firebase','Maps API'], emoji:'🌱', featured:false, link:'https://example.com/ecocommute', github:'https://github.com/alexchen/ecocommute'},
-      {title:'DevCollab',    desc:'Real-time code collaboration for distributed teams',          tech:['React','WebRTC','Node'], emoji:'💻', featured:false, link:'https://example.com/devcollab', github:'https://github.com/alexchen/devcollab'},
+      {title:'DevCollab',    desc:'Real-time code collaboration for distributed teams',          tech:['React','WebRTC','Node'], emoji:'👥', featured:false, link:'https://example.com/devcollab', github:'https://github.com/alexchen/devcollab'},
     ]
   },
   experience:{
@@ -335,14 +335,14 @@ const DEFAULT_DATA = {
 };
 
 const TEMPLATES = [
-  {name:'Neon Night',       theme:'cyberpunk', cat:'bold',         emoji:'⚡', desc:'High-energy cyberpunk aesthetic with glowing neon accents. Perfect for frontend and game developers.',        tags:['Bold','Dark','Neon']},
+  {name:'Neon Night',       theme:'cyberpunk', cat:'bold',         emoji:'🌃', desc:'High-energy cyberpunk aesthetic with glowing neon accents. Perfect for frontend and game developers.',        tags:['Bold','Dark','Neon']},
   {name:'Aurora Borealis',  theme:'aurora',    cat:'creative',     emoji:'🌌', desc:'Cosmic purple-cyan gradient theme. Makes a dramatic first impression for creative full-stack developers.',    tags:['Creative','Space','Gradient']},
   {name:'Dark Executive',   theme:'obsidian',  cat:'professional', emoji:'🖤', desc:'Sleek obsidian with gold accents. The go-to choice for senior engineers and system architects.',            tags:['Professional','Minimal','Corporate']},
   {name:'Green Machine',    theme:'forest',    cat:'minimal',      emoji:'🌿', desc:'Clean forest green palette. Calm, focused, and memorable. Great for backend and data engineers.',           tags:['Minimal','Nature','Calm']},
   {name:'Deep Ocean',       theme:'ocean',     cat:'creative',     emoji:'🌊', desc:'Cool ocean blues with indigo undertones. Perfect for full-stack and cloud infrastructure engineers.',        tags:['Creative','Cool','Fluid']},
-  {name:'Classic Dark Pro', theme:'obsidian',  cat:'professional', emoji:'💼', desc:'Traditional dark theme done with exceptional taste. Timeless, clean, and recruiter-approved.',             tags:['Professional','Clean','Timeless']},
-  {name:'Nature Distilled', theme:'nature',    cat:'minimal',      emoji:'🍂', desc:'Earthy palette with editorial serif heading style. Great for designers, product engineers, and sustainability portfolios.', tags:['Minimal','Warm','Editorial']},
+  {name:'Classic Dark Pro', theme:'obsidian',  cat:'professional', emoji:'⚫', desc:'Traditional dark theme done with exceptional taste. Timeless, clean, and recruiter-approved.',             tags:['Professional','Clean','Timeless']},
+  {name:'Nature Distilled', theme:'nature',    cat:'minimal',      emoji:'🍃', desc:'Earthy palette with editorial serif heading style. Great for designers, product engineers, and sustainability portfolios.', tags:['Minimal','Warm','Editorial']},
   {name:'Editorial Edge',   theme:'editorial', cat:'professional', emoji:'📰', desc:'High-contrast, type-led layout inspired by modern editorial landing pages. Ideal for senior profiles and case studies.', tags:['Professional','Light','Bold Type']},
-  {name:'Dopamine Pop',     theme:'dopamine',  cat:'bold',         emoji:'🧃', desc:'Vibrant, high-energy gradient mood with playful emphasis and motion-ready contrasts.', tags:['Bold','Vibrant','Gen Z']},
+  {name:'Dopamine Pop',     theme:'dopamine',  cat:'bold',         emoji:'🎉', desc:'Vibrant, high-energy gradient mood with playful emphasis and motion-ready contrasts.', tags:['Bold','Vibrant','Gen Z']},
   {name:'Brutalist Signal', theme:'brutalist', cat:'bold',         emoji:'🧱', desc:'Crisp anti-design inspired contrast with red accent punches for standout personal brands.', tags:['Bold','Light','Statement']},
 ];

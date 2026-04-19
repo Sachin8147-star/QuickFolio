@@ -17,33 +17,33 @@ const Chatbot = {
   buildHTML() {
     return `
     <button class="cb-fab" id="cb-fab" onclick="Chatbot.toggle()" title="Chat with AI Assistant">
-      💬
+      CHAT
       <span class="cb-notif" id="cb-notif" style="display:none">1</span>
     </button>
     <div class="cb-win" id="cb-win">
       <div class="cb-head">
         <div class="cb-head-l">
           <div class="cb-avatar-wrap">
-            <div class="cb-av">🤖</div>
+            <div class="cb-av">AI</div>
             <div class="cb-online"></div>
           </div>
           <div class="cb-head-info">
-            <div class="cb-name">QuickFolio AI</div>
+            <div class="cb-name">QuickFolio Assistant</div>
             <div class="cb-status"><span style="width:5px;height:5px;border-radius:50%;background:#22c55e;display:inline-block"></span> Always online</div>
           </div>
         </div>
-        <button class="cb-close" onclick="Chatbot.toggle()">✕</button>
+        <button class="cb-close" onclick="Chatbot.toggle()">X</button>
       </div>
       <div class="cb-messages" id="cb-messages">
         <div class="cb-msg cb-bot-msg">
-          👋 Hi! I'm <strong>QuickFolio AI</strong>.<br><br>
+          Hi. I am <strong>QuickFolio Assistant</strong>.<br><br>
           Ask me about <strong>latest features</strong>, <strong>resume PDF modes</strong>, <strong>performance</strong>, <strong>pricing</strong>, or <strong>deployment</strong>.
         </div>
         <div class="cb-quick-wrap">
-          <button class="cb-q" onclick="Chatbot.send('How do resume PDF layout modes work?')">📄 Resume PDF</button>
-          <button class="cb-q" onclick="Chatbot.send('What are the latest platform features?')">✨ Latest features</button>
-          <button class="cb-q" onclick="Chatbot.send('How do I improve portfolio speed?')">⚡ Performance</button>
-          <button class="cb-q" onclick="Chatbot.send('How do I publish and deploy fast?')">🌐 Publish</button>
+          <button class="cb-q" onclick="Chatbot.send('How do resume PDF layout modes work?')">Resume PDF</button>
+          <button class="cb-q" onclick="Chatbot.send('What are the latest platform features?')">Latest features</button>
+          <button class="cb-q" onclick="Chatbot.send('How do I improve portfolio speed?')">Performance</button>
+          <button class="cb-q" onclick="Chatbot.send('How do I publish and deploy fast?')">Publish</button>
         </div>
       </div>
       <div class="cb-suggestions" id="cb-suggestions">
@@ -55,7 +55,7 @@ const Chatbot = {
         <textarea class="cb-inp" id="cb-inp" placeholder="Ask anything..." rows="1" 
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();Chatbot.send()}"
           oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
-        <button class="cb-send" onclick="Chatbot.send()">↗</button>
+        <button class="cb-send" onclick="Chatbot.send()">Send</button>
       </div>
     </div>`;
   },
@@ -76,7 +76,7 @@ const Chatbot = {
     const notif = document.getElementById('cb-notif');
     if (!win) return;
     win.classList.toggle('open', this.isOpen);
-    if (fab) fab.innerHTML = this.isOpen ? '✕' : '💬<span class="cb-notif" id="cb-notif" style="display:none">1</span>';
+    if (fab) fab.innerHTML = this.isOpen ? 'X' : 'CHAT<span class="cb-notif" id="cb-notif" style="display:none">1</span>';
     if (this.isOpen) {
       if (notif) notif.style.display = 'none';
       const inp = document.getElementById('cb-inp');
@@ -117,11 +117,11 @@ const Chatbot = {
           this.addSuggestions(res.data.suggestions);
         }
       } else {
-        this.addMessage("Sorry, I'm having trouble connecting. Please try again! 🔄", 'bot');
+        this.addMessage("Sorry, I am having trouble connecting. Please try again.", 'bot');
       }
     } catch (_) {
       this.hideTyping();
-      this.addMessage("Network error. Please check your connection! 📡", 'bot');
+      this.addMessage("Network error. Please check your connection.", 'bot');
     }
   },
 
@@ -204,21 +204,21 @@ const PortfolioChatbot = {
     const name = t.ownerName || 'this developer';
 
     return `
-    <button id="pf-cb-fab" onclick="PortfolioChatbot.toggle()" style="position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;border:none;font-size:1.2rem;display:flex;align-items:center;justify-content:center;z-index:900;cursor:pointer;background:${g};box-shadow:0 8px 28px ${accent}45;animation:float 3.5s ease-in-out infinite;transition:transform .2s">💬</button>
+    <button id="pf-cb-fab" onclick="PortfolioChatbot.toggle()" style="position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;border:none;font-size:.68rem;font-weight:800;letter-spacing:.4px;display:flex;align-items:center;justify-content:center;z-index:900;cursor:pointer;background:${g};box-shadow:0 8px 28px ${accent}45;animation:float 3.5s ease-in-out infinite;transition:transform .2s">CHAT</button>
     <div id="pf-cb-win" style="display:none;position:fixed;bottom:88px;right:24px;width:clamp(265px,88vw,330px);height:430px;background:${bg};border:1px solid ${border};border-radius:18px;z-index:901;flex-direction:column;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.6)">
       <div style="padding:12px 14px;background:${g};display:flex;align-items:center;justify-content:space-between">
         <div style="display:flex;align-items:center;gap:9px">
-          <div style="width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:.95rem">🤖</div>
+          <div style="width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800">AI</div>
           <div>
             <div style="font-weight:800;font-size:.82rem;color:#000">Portfolio Assistant</div>
             <div style="font-size:.63rem;color:rgba(0,0,0,.6);display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:#22c55e;display:inline-block"></span> Online now</div>
           </div>
         </div>
-        <button onclick="PortfolioChatbot.toggle()" style="background:none;border:none;font-size:.9rem;color:rgba(0,0,0,.55);cursor:pointer">✕</button>
+        <button onclick="PortfolioChatbot.toggle()" style="background:none;border:none;font-size:.9rem;color:rgba(0,0,0,.55);cursor:pointer">X</button>
       </div>
       <div id="pf-cb-msgs" style="flex:1;overflow-y:auto;padding:11px;display:flex;flex-direction:column;gap:8px">
         <div style="max-width:84%;padding:8px 11px;border-radius:12px;font-size:.78rem;line-height:1.5;background:${card};border:1px solid ${border};color:${text}">
-          Hi! 👋 I'm the AI assistant for this portfolio. Ask me about <strong style="color:${accent}">projects</strong>, <strong style="color:${accent}">tech stack</strong>, <strong style="color:${accent}">availability</strong>, or <strong style="color:${accent}">contact</strong>.
+          Hi. I am the portfolio assistant. Ask me about <strong style="color:${accent}">projects</strong>, <strong style="color:${accent}">tech stack</strong>, <strong style="color:${accent}">availability</strong>, or <strong style="color:${accent}">contact</strong>.
         </div>
         <div style="display:flex;gap:5px;flex-wrap:wrap">
           ${['Top projects','Tech stack','Availability','Contact options'].map(q=>`<button onclick="PortfolioChatbot.send('${q}')" style="font-size:.67rem;padding:3px 8px;border-radius:8px;cursor:pointer;font-weight:700;background:${accent}12;border:1px solid ${accent}30;color:${accent}">${q}</button>`).join('')}
@@ -228,7 +228,7 @@ const PortfolioChatbot = {
         <input id="pf-cb-inp" style="flex:1;background:${card};border:1.5px solid ${border};border-radius:8px;padding:8px 11px;color:${text};font-size:.78rem;outline:none;transition:.2s" placeholder="Ask anything..."
           onkeydown="if(event.key==='Enter')PortfolioChatbot.send()"
           onfocus="this.style.borderColor='${accent}'" onblur="this.style.borderColor='${border}'">
-        <button onclick="PortfolioChatbot.send()" style="background:${g};border:none;border-radius:7px;padding:8px 11px;font-size:.85rem;cursor:pointer;transition:transform .2s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">↗</button>
+        <button onclick="PortfolioChatbot.send()" style="background:${g};border:none;border-radius:7px;padding:8px 11px;font-size:.7rem;font-weight:700;cursor:pointer;transition:transform .2s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">Send</button>
       </div>
     </div>`;
   },
@@ -241,7 +241,7 @@ const PortfolioChatbot = {
     win.style.display = isOpen ? 'none' : 'flex';
     win.style.flexDirection = 'column';
     win.style.animation = 'fadeUp .25s ease';
-    if (fab) fab.textContent = isOpen ? '💬' : '✕';
+    if (fab) fab.textContent = isOpen ? 'CHAT' : 'X';
   },
 
   async send(text) {
@@ -273,14 +273,14 @@ const PortfolioChatbot = {
       });
       const data = await res.json();
       document.getElementById(typingId)?.remove();
-      const reply = (data.reply || "I'm not sure about that. Try asking the owner directly!").replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+      const reply = (data.reply || "I am not sure about that. Try asking the owner directly.").replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
       msgs.innerHTML += `<div style="max-width:84%;padding:8px 11px;border-radius:12px;border-bottom-left-radius:3px;background:${card};border:1px solid ${border};color:${textColor};font-size:.78rem;line-height:1.5">${reply}</div>`;
       if (Array.isArray(data.suggestions) && data.suggestions.length) {
         this.addSuggestions(msgs, data.suggestions, accent);
       }
     } catch (_) {
       document.getElementById(typingId)?.remove();
-      msgs.innerHTML += `<div style="max-width:84%;padding:8px 11px;border-radius:12px;background:${card};border:1px solid ${border};color:${textColor};font-size:.78rem">Couldn't reach the server. Please try again! 🔄</div>`;
+      msgs.innerHTML += `<div style="max-width:84%;padding:8px 11px;border-radius:12px;background:${card};border:1px solid ${border};color:${textColor};font-size:.78rem">Could not reach the server. Please try again.</div>`;
     }
     msgs.scrollTop = msgs.scrollHeight;
   },

@@ -193,14 +193,14 @@ function renderSection(id, data, t, options = {}) {
         <p data-inline-edit="hero.tagline" style="font-size:clamp(.9rem,1.8vw,1.1rem);color:${t.text};opacity:.8;margin-bottom:10px">${d.tagline||''}</p>
         <p data-inline-edit="hero.subtitle" style="font-size:.78rem;color:${t.muted};letter-spacing:2.5px;text-transform:uppercase;margin-bottom:28px">${d.subtitle||''}</p>
         <div class="pf-hero-actions" style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
-          <button style="background:${G};color:#000;border:none;padding:12px 26px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.3s;letter-spacing:.4px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'"><span data-inline-edit="hero.cta">${d.cta||'View My Work'}</span> →</button>
+          <button style="background:${G};color:#000;border:none;padding:12px 26px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.3s;letter-spacing:.4px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'"><span data-inline-edit="hero.cta">${d.cta||'View My Work'}</span></button>
           <button style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:12px 26px;border-radius:9px;font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s" onmouseover="this.style.background='${t.accent}14'" onmouseout="this.style.background='transparent'">Download CV</button>
         </div>
         <div class="pf-social-row" style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
           ${[
-            ['⚡', 'GitHub', d.github],
+            ['🐙', 'GitHub', d.github],
             ['💼', 'LinkedIn', d.linkedin],
-            ['🐦', 'Twitter', d.twitter]
+            ['𝕏', 'Twitter', d.twitter]
           ].map(([i,label,url]) => {
             const href = normalizeUrl(url);
             return href
@@ -227,12 +227,12 @@ function renderSection(id, data, t, options = {}) {
             <div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:pf-pulse 2s infinite"></div>
             <span data-inline-edit="about.availability">${d.availability||'Open to work'}</span>
           </div>
-          <div style="color:${t.muted};font-size:.8rem;margin-top:8px">📍 <span data-inline-edit="about.location">${d.location||'Location'}</span></div>
+          <div style="color:${t.muted};font-size:.8rem;margin-top:8px">Location: <span data-inline-edit="about.location">${d.location||'Location'}</span></div>
         </div>
         <div>
           <p data-inline-edit="about.bio" style="color:${t.text};opacity:.85;line-height:1.8;font-size:clamp(.87rem,1.5vw,1.03rem);margin-bottom:20px">${d.bio||''}</p>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
-            ${(d.highlights||[]).map((h, hidx)=>`<span style="background:${t.accent2}12;border:1px solid ${t.accent2}30;color:${t.accent2};padding:5px 13px;border-radius:20px;font-size:.76rem;font-weight:700">✦ <span data-inline-edit="about.highlights.${hidx}">${h}</span></span>`).join('')}
+            ${(d.highlights||[]).map((h, hidx)=>`<span style="background:${t.accent2}12;border:1px solid ${t.accent2}30;color:${t.accent2};padding:5px 13px;border-radius:20px;font-size:.76rem;font-weight:700"><span data-inline-edit="about.highlights.${hidx}">${h}</span></span>`).join('')}
           </div>
         </div>
       </div>
@@ -281,16 +281,16 @@ function renderSection(id, data, t, options = {}) {
         <div class="pf-card-hover" style="${cardStyle()};position:relative" data-tech="${(p.tech||[]).join(',')}"
           onmouseover="this.style.borderColor='${t.accent}';this.style.transform='translateY(-4px)';this.style.boxShadow='0 18px 45px rgba(0,0,0,.4)'"
           onmouseout="this.style.borderColor='${t.border}';this.style.transform='none';this.style.boxShadow='none'">
-          ${p.featured?`<span style="position:absolute;top:13px;right:13px;background:${G};color:#000;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px">⭐ Featured</span>`:''}
-          <span style="font-size:2.5rem;margin-bottom:13px;display:block">${p.emoji||'🚀'}</span>
+          ${p.featured?`<span style="position:absolute;top:13px;right:13px;background:${G};color:#000;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px">Featured</span>`:''}
+          <span style="font-size:.75rem;letter-spacing:.6px;font-weight:800;color:${t.accent};margin-bottom:11px;display:block">Project</span>
           <h3 data-inline-edit="projects.items.${idx}.title" style="font-family:${t.font};font-size:clamp(.88rem,1.5vw,1.05rem);margin-bottom:7px">${p.title}</h3>
           <p data-inline-edit="projects.items.${idx}.desc" style="color:${t.muted};font-size:.82rem;line-height:1.62;margin-bottom:13px">${p.desc}</p>
           <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px">
             ${(p.tech||[]).map((tg, tidx)=>`<span style="background:${t.accent}14;color:${t.accent};border:1px solid ${t.accent}35;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:700"><span data-inline-edit="projects.items.${idx}.tech.${tidx}">${tg}</span></span>`).join('')}
           </div>
           <div style="display:flex;gap:7px;flex-wrap:wrap">
-            ${liveHref ? `<a href="${liveHref}" target="_blank" rel="noopener noreferrer" style="background:${G};color:#000;border:none;padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:800;cursor:pointer;transition:.2s;text-decoration:none" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">🔗 Live</a>` : ''}
-            ${codeHref ? `<a href="${codeHref}" target="_blank" rel="noopener noreferrer" style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:600;cursor:pointer;transition:.2s;text-decoration:none" onmouseover="this.style.background='${t.accent}12'" onmouseout="this.style.background='transparent'">⚡ Code</a>` : ''}
+            ${liveHref ? `<a href="${liveHref}" target="_blank" rel="noopener noreferrer" style="background:${G};color:#000;border:none;padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:800;cursor:pointer;transition:.2s;text-decoration:none" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">Live Demo</a>` : ''}
+            ${codeHref ? `<a href="${codeHref}" target="_blank" rel="noopener noreferrer" style="background:transparent;color:${t.accent};border:1.5px solid ${t.accent};padding:7px 13px;border-radius:7px;font-size:.73rem;font-weight:600;cursor:pointer;transition:.2s;text-decoration:none" onmouseover="this.style.background='${t.accent}12'" onmouseout="this.style.background='transparent'">Source Code</a>` : ''}
             ${!liveHref && !codeHref ? `<span style="font-size:.7rem;color:${t.muted2}">Add project links in editor</span>` : ''}
           </div>
         </div>`;
@@ -311,9 +311,9 @@ function renderSection(id, data, t, options = {}) {
           <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:9px;margin-bottom:5px">
             <div>
               <div data-inline-edit="experience.items.${idx}.role" style="font-family:${t.font};font-size:clamp(.88rem,1.6vw,1.08rem);font-weight:800">${e.role}</div>
-              <div style="color:${t.accent};font-weight:700;font-size:.84rem;margin-top:2px">🏢 <span data-inline-edit="experience.items.${idx}.company">${e.company}</span></div>
+              <div style="color:${t.accent};font-weight:700;font-size:.84rem;margin-top:2px">Company: <span data-inline-edit="experience.items.${idx}.company">${e.company}</span></div>
             </div>
-            <span style="background:${t.surface};border:1px solid ${t.border};border-radius:20px;padding:3px 10px;font-size:.7rem;color:${t.muted};white-space:nowrap;flex-shrink:0">📅 <span data-inline-edit="experience.items.${idx}.period">${e.period}</span></span>
+            <span style="background:${t.surface};border:1px solid ${t.border};border-radius:20px;padding:3px 10px;font-size:.7rem;color:${t.muted};white-space:nowrap;flex-shrink:0">Period: <span data-inline-edit="experience.items.${idx}.period">${e.period}</span></span>
           </div>
           <p data-inline-edit="experience.items.${idx}.desc" style="color:${t.muted};font-size:.83rem;line-height:1.7;margin-bottom:10px">${e.desc}</p>
           <div style="display:flex;gap:5px;flex-wrap:wrap">
@@ -333,7 +333,7 @@ function renderSection(id, data, t, options = {}) {
         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:11px;margin-bottom:13px">
           <div>
             <h3 data-inline-edit="education.items.${idx}.degree" style="font-family:${t.font};font-size:clamp(.95rem,2vw,1.2rem);margin-bottom:4px">${e.degree}</h3>
-            <div style="color:${t.accent};font-weight:700">🎓 <span data-inline-edit="education.items.${idx}.school">${e.school}</span></div>
+            <div style="color:${t.accent};font-weight:700">Institution: <span data-inline-edit="education.items.${idx}.school">${e.school}</span></div>
           </div>
           <div style="text-align:right;flex-shrink:0">
             <span data-inline-edit="education.items.${idx}.period" style="background:${t.surface};border:1px solid ${t.border};border-radius:20px;padding:3px 10px;font-size:.7rem;color:${t.muted};display:block;margin-bottom:4px">${e.period}</span>
@@ -341,7 +341,7 @@ function renderSection(id, data, t, options = {}) {
           </div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${(e.highlights||[]).map((h, hidx)=>`<span style="background:${t.accent}14;color:${t.accent};border:1px solid ${t.accent}35;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:700">🏆 <span data-inline-edit="education.items.${idx}.highlights.${hidx}">${h}</span></span>`).join('')}
+          ${(e.highlights||[]).map((h, hidx)=>`<span style="background:${t.accent}14;color:${t.accent};border:1px solid ${t.accent}35;padding:2px 9px;border-radius:20px;font-size:.67rem;font-weight:700"><span data-inline-edit="education.items.${idx}.highlights.${hidx}">${h}</span></span>`).join('')}
         </div>
       </div>`).join('')}
     `);
@@ -390,7 +390,7 @@ function renderSection(id, data, t, options = {}) {
         <div class="pf-card-hover" style="${cardStyle()}"
           onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='${t.accent}'"
           onmouseout="this.style.transform='none';this.style.borderColor='${t.border}'">
-          <div style="color:#f59e0b;font-size:.76rem;margin-bottom:9px">⭐⭐⭐⭐⭐</div>
+          <div style="color:#f59e0b;font-size:.76rem;margin-bottom:9px">Rated 5/5</div>
           <p data-inline-edit="testimonials.items.${idx}.text" style="color:${t.text};opacity:.85;line-height:1.72;font-style:italic;margin-bottom:17px;font-size:.84rem">"${t2.text}"</p>
           <div style="display:flex;align-items:center;gap:9px">
             <img src="${t2.avatar}" style="width:38px;height:38px;border-radius:50%;border:2px solid ${t.accent};background:${t.border}">
@@ -413,9 +413,9 @@ function renderSection(id, data, t, options = {}) {
         <div>
           ${[
             { icon: '📧', label: 'Email', value: d.email || '', path: 'contact.email' },
-            { icon: '📱', label: 'Phone', value: d.phone || '', path: 'contact.phone' },
+            { icon: '📞', label: 'Phone', value: d.phone || '', path: 'contact.phone' },
             { icon: '🌐', label: 'Portfolio', value: 'quickfolio.app', path: '' },
-            { icon: '⏰', label: 'Status', value: '✅ Open to work', path: '' },
+            { icon: '🟢', label: 'Status', value: 'Open to work', path: '' },
           ].map((row)=>`
           <div style="display:flex;align-items:center;gap:11px;padding:12px;background:${t.card};border:1px solid ${t.border};border-radius:9px;margin-bottom:9px;transition:.2s"
             onmouseover="this.style.borderColor='${t.border2}'"
@@ -448,7 +448,7 @@ function renderSection(id, data, t, options = {}) {
             onfocus="this.style.borderColor='${t.accent}'" onblur="this.style.borderColor='${t.border}'"></textarea>
           <div id="pf-ct-status"></div>
           <button onclick="pfSubmitContact()" style="width:100%;background:${G};color:#000;border:none;padding:12px;border-radius:7px;font-weight:800;font-size:.88rem;cursor:pointer;transition:.2s"
-            onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">🚀 Send Message</button>
+            onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">Send Message</button>
         </div>
       </div>
     `);
@@ -483,7 +483,7 @@ function generatePortfolioShell(state) {
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>${name} — Portfolio</title>
 <meta name="description" content="${data.hero?.tagline || name + ' developer portfolio'}"/>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+<link rel="icon" href="/static/images/quickfolio-mark.svg?v=20260419crafted16" type="image/svg+xml"/>
 ${fontLink}
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -686,10 +686,10 @@ async function pfSubmitContact() {
   const msg = document.getElementById('pf-ct-msg')?.value.trim() || '';
   const statusEl = document.getElementById('pf-ct-status');
   if(!name || !email || !msg) {
-    statusEl.innerHTML = '<div class="ct-error">❌ Please fill in Name, Email and Message.</div>';
+    statusEl.innerHTML = '<div class="ct-error">Please fill in Name, Email and Message.</div>';
     return;
   }
-  statusEl.innerHTML = '<div class="ct-loading">⏳ Sending your message...</div>';
+  statusEl.innerHTML = '<div class="ct-loading">Sending your message...</div>';
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -700,24 +700,24 @@ async function pfSubmitContact() {
     });
     const data = await res.json();
     if(data.content?.[0]?.text) {
-      statusEl.innerHTML = '<div class="ct-success">✅ Message sent! Auto-reply dispatched to ' + email + '. Expect a response within 24-48 hours!</div>';
+      statusEl.innerHTML = '<div class="ct-success">Message sent. Auto-reply dispatched to ' + email + '. Expect a response within 24-48 hours.</div>';
       ['pf-ct-name','pf-ct-email','pf-ct-subject','pf-ct-msg'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
     } else { throw new Error('no content'); }
   } catch(_) {
-    statusEl.innerHTML = '<div class="ct-success">✅ Message received! Will get back to you soon.</div>';
+    statusEl.innerHTML = '<div class="ct-success">Message received. Will get back to you soon.</div>';
     ['pf-ct-name','pf-ct-email','pf-ct-subject','pf-ct-msg'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
   }
 }
 
 // Chatbot
 const CB_R = {
-  hi:['Hi! 👋 How can I help you today?','Hey there! What would you like to know?'],
-  project:['Check out the Projects section for featured work! 🚀','Some amazing projects in here — scroll to Projects to explore them all!'],
-  hire:['Currently open to opportunities! Use the contact form below. 📧','Interested in working together? Drop a message in the Contact section!'],
-  skill:['Top skills include React, Node.js, Python, TypeScript, and cloud tech. Full-stack power! ⚡','The Skills section has a full breakdown of expertise across frontend, backend, and DevOps.'],
-  exp:['5+ years of experience across startups and established tech companies. 💼','Check the Experience section for the full career history!'],
-  contact:['Best way to reach out is the contact form on this page, or via email. 📬','You can also connect on GitHub and LinkedIn — links are in the Hero section!'],
-  _:['Great question! Check the relevant section above, or use the contact form. 😊',"I'm not sure, but the portfolio owner would love to answer — use the contact form!",'Check the sections above for that info, or reach out directly!']
+  hi:['Hi. How can I help you today?','Hello. What would you like to know?'],
+  project:['Check out the Projects section for featured work.','There are strong project examples in the Projects section.'],
+  hire:['Currently open to opportunities. Use the contact form below.','Interested in working together? Drop a message in the Contact section.'],
+  skill:['Top skills include React, Node.js, Python, TypeScript, and cloud tech.','The Skills section has a full breakdown of expertise across frontend, backend, and DevOps.'],
+  exp:['Experience includes work across startups and established tech teams.','Check the Experience section for the full career history.'],
+  contact:['Best way to reach out is the contact form on this page, or via email.','You can also connect on GitHub and LinkedIn through the links in the Hero section.'],
+  _:['Great question. Check the relevant section above, or use the contact form.',"I'm not sure, but the portfolio owner would love to answer. Use the contact form.",'Check the sections above for that info, or reach out directly.']
 };
 function getCBReply(msg) {
   const m = msg.toLowerCase();
@@ -734,7 +734,7 @@ function toggleCB() {
   const isOpen = win.classList.contains('open');
   win.classList.toggle('open', !isOpen);
   const fab = document.getElementById('cb-fab');
-  fab.textContent = isOpen ? '💬' : '✕';
+  fab.textContent = isOpen ? 'CHAT' : 'X';
 }
 function cbSend(text) {
   const msgs = document.getElementById('cb-msgs');
@@ -766,11 +766,11 @@ document.addEventListener('keydown', e => {
 function buildChatbotHTML(t, data) {
   const name = data.hero?.name?.split(' ')[0] || 'Dev';
   return `
-<button class="cb-fab" id="cb-fab" onclick="toggleCB()" title="Chat with ${name}'s assistant">💬</button>
+<button class="cb-fab" id="cb-fab" onclick="toggleCB()" title="Chat with ${name}'s assistant">CHAT</button>
 <div class="cb-win" id="cb-win">
   <div class="cb-head">
     <div style="display:flex;align-items:center;gap:9px">
-      <div style="width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:.95rem">🤖</div>
+      <div style="width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700">AI</div>
       <div>
         <div style="font-weight:800;font-size:.8rem;color:#000">${name}'s Assistant</div>
         <div style="font-size:.62rem;color:rgba(0,0,0,.6);display:flex;align-items:center;gap:3px">
@@ -778,10 +778,10 @@ function buildChatbotHTML(t, data) {
         </div>
       </div>
     </div>
-    <button onclick="toggleCB()" style="background:none;border:none;font-size:.9rem;color:rgba(0,0,0,.55);cursor:pointer;padding:3px">✕</button>
+    <button onclick="toggleCB()" style="background:none;border:none;font-size:.9rem;color:rgba(0,0,0,.55);cursor:pointer;padding:3px">X</button>
   </div>
   <div class="cb-msgs" id="cb-msgs">
-    <div class="cb-msg cb-bot">Hi! 👋 I'm ${name}'s portfolio assistant. Ask me about their work, skills, or how to hire!</div>
+    <div class="cb-msg cb-bot">Hi, I am ${name}'s portfolio assistant. Ask me about work, skills, or hiring details.</div>
     <div class="cb-quick-wrap">
       <button class="cb-q" onclick="cbSend('View projects')">View projects</button>
       <button class="cb-q" onclick="cbSend('Hire ${name}')">Hire ${name}</button>
@@ -791,7 +791,7 @@ function buildChatbotHTML(t, data) {
   </div>
   <div class="cb-footer">
     <input class="cb-inp" id="cb-inp" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')cbSendInput()">
-    <button class="cb-send" onclick="cbSendInput()">↗</button>
+    <button class="cb-send" onclick="cbSendInput()">Send</button>
   </div>
 </div>`;
 }

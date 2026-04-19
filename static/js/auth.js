@@ -21,30 +21,30 @@ const Auth = {
     if (!navActions) return;
 
     if (loggedIn && this.user) {
-      const adminLink = this.user?.is_admin ? '<a href="/admin" class="btn btn-ghost btn-sm">🛡 Admin</a>' : '';
+      const adminLink = this.user?.is_admin ? '<a href="/admin" class="btn btn-ghost btn-sm">Admin</a>' : '';
       navActions.innerHTML = `
-        <a href="/dashboard" class="btn btn-ghost btn-sm">⚡ Dashboard</a>
-        <a href="/resume-editor" class="btn btn-ghost btn-sm">📄 Resume</a>
-        <a href="/billing" class="btn btn-ghost btn-sm">💳 Billing</a>
+        <a href="/dashboard" class="btn btn-ghost btn-sm">Dashboard</a>
+        <a href="/resume-editor" class="btn btn-ghost btn-sm">Resume</a>
+        <a href="/billing" class="btn btn-ghost btn-sm">Billing</a>
         ${adminLink}
-        <a href="/builder" class="btn btn-primary btn-sm">🚀 Builder</a>
+        <a href="/builder" class="btn btn-primary btn-sm">Builder</a>
         <div class="nav-user-menu" onclick="Auth.toggleUserMenu()">
           <div style="width:32px;height:32px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#000;cursor:pointer;flex-shrink:0">${(this.user.name||'?')[0].toUpperCase()}</div>
         </div>`;
       if (mobAuth) mobAuth.innerHTML = `
-        <a class="mob-link" href="/dashboard">⚡ Dashboard</a>
-        <a class="mob-link" href="/resume-editor">📄 Resume Editor</a>
-        <a class="mob-link" href="/billing">💳 Billing</a>
-        ${this.user?.is_admin ? '<a class="mob-link" href="/admin">🛡 Admin</a>' : ''}
-        <a class="mob-link" href="/builder">🔧 Builder</a>
-        <button class="mob-link" onclick="Auth.logout()">🚪 Logout</button>`;
+        <a class="mob-link" href="/dashboard">Dashboard</a>
+        <a class="mob-link" href="/resume-editor">Resume Editor</a>
+        <a class="mob-link" href="/billing">Billing</a>
+        ${this.user?.is_admin ? '<a class="mob-link" href="/admin">Admin</a>' : ''}
+        <a class="mob-link" href="/builder">Builder</a>
+        <button class="mob-link" onclick="Auth.logout()">Logout</button>`;
     } else {
       navActions.innerHTML = `
         <a href="/login" class="btn btn-ghost btn-sm">Login</a>
-        <a href="/signup" class="btn btn-primary btn-sm">🚀 Start Free</a>`;
+        <a href="/signup" class="btn btn-primary btn-sm">Start Free</a>`;
       if (mobAuth) mobAuth.innerHTML = `
-        <a class="mob-link" href="/login">🔑 Login</a>
-        <a class="mob-link" href="/signup">🚀 Sign Up Free</a>`;
+        <a class="mob-link" href="/login">Login</a>
+        <a class="mob-link" href="/signup">Sign Up Free</a>`;
     }
   },
 
@@ -68,14 +68,14 @@ const Auth = {
         <div style="font-weight:700;font-size:.88rem">${Auth.user.name}</div>
         <div style="color:var(--muted);font-size:.73rem">${Auth.user.email||''}</div>
       </div>
-      <a href="/dashboard" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">⚡ Dashboard</a>
-      <a href="/resume-editor" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">📄 Resume Editor</a>
-      <a href="/billing" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">💳 Billing</a>
-      ${Auth.user?.is_admin ? `<a href="/admin" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">🛡 Admin</a>` : ''}
-      <a href="/builder" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">🔧 Builder</a>
-      <a href="/p/${Auth.user.portfolios?.[0]?.slug||''}" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">👁 My Portfolio</a>
+      <a href="/dashboard" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">Dashboard</a>
+      <a href="/resume-editor" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">Resume Editor</a>
+      <a href="/billing" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">Billing</a>
+      ${Auth.user?.is_admin ? `<a href="/admin" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">Admin</a>` : ''}
+      <a href="/builder" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">Builder</a>
+      <a href="/p/${Auth.user.portfolios?.[0]?.slug||''}" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--muted);font-size:.83rem;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.06)'" onmouseout="this.style.background=''">My Portfolio</a>
       <div style="border-top:1px solid var(--border);margin:6px 0"></div>
-      <button onclick="Auth.logout()" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:#ef4444;font-size:.83rem;width:100%;text-align:left;background:none;border:none;transition:.2s" onmouseover="this.style.background='rgba(239,68,68,.06)'" onmouseout="this.style.background=''">🚪 Logout</button>`;
+      <button onclick="Auth.logout()" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:#ef4444;font-size:.83rem;width:100%;text-align:left;background:none;border:none;transition:.2s" onmouseover="this.style.background='rgba(239,68,68,.06)'" onmouseout="this.style.background=''">Logout</button>`;
     document.body.appendChild(dropdown);
     setTimeout(() => document.addEventListener('click', function handler(e) {
       if (!dropdown.contains(e.target)) { dropdown.remove(); document.removeEventListener('click', handler); }
@@ -109,12 +109,12 @@ function renderAuthMascotMarkup() {
 
 function renderAuthMascotPanel(mode = 'login') {
   const helperText = mode === 'signup'
-    ? 'Your robo buddy checks each field so signup feels smooth.'
-    : 'Your robo buddy stays alert while you sign in safely.';
+    ? 'A quick helper checks each field so signup feels smooth.'
+    : 'A quick helper stays alert while you sign in safely.';
 
   return `
   <aside class="auth-mascot-panel" aria-hidden="true">
-    <div class="auth-mascot-panel-badge">AI Buddy</div>
+    <div class="auth-mascot-panel-badge">Helper</div>
     ${renderAuthMascotMarkup()}
     <p class="auth-mascot-panel-copy">${helperText}</p>
   </aside>`;
@@ -136,6 +136,29 @@ function authMascotReact(mood, message, holdMs = 1200) {
 function authMascotCelebrate(message, holdMs = 1400) {
   if (!_authMascotController || typeof _authMascotController.celebrate !== 'function') return;
   _authMascotController.celebrate(message, holdMs);
+}
+
+function renderAuthProviderIcon(provider) {
+  const key = String(provider || '').toLowerCase();
+  if (key === 'github') {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.42 7.87 10.95.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.78 1.2 1.78 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.12-3.04 0 0 .98-.31 3.2 1.18a11.2 11.2 0 015.84 0c2.22-1.5 3.2-1.19 3.2-1.19.64 1.58.24 2.75.12 3.04.75.81 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.28 5.69.41.36.78 1.07.78 2.16 0 1.56-.01 2.81-.01 3.2 0 .31.21.67.8.56A11.52 11.52 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/>
+    </svg>`;
+  }
+  if (key === 'google') {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="#EA4335" d="M12 11.5v4.9h6.8c-.3 1.6-1.9 4.8-6.8 4.8-4.1 0-7.4-3.4-7.4-7.6S7.9 6 12 6c2.3 0 3.8 1 4.7 1.8l3.2-3.1C18 2.9 15.3 1.8 12 1.8 6.4 1.8 1.8 6.4 1.8 12S6.4 22.2 12 22.2c6.9 0 10.2-4.8 10.2-7.2 0-.5-.1-.9-.1-1.3H12z"/>
+      <path fill="#34A853" d="M1.8 7.1l4 2.9C6.9 7.8 9.2 6 12 6c2.3 0 3.8 1 4.7 1.8l3.2-3.1C18 2.9 15.3 1.8 12 1.8 8 1.8 4.5 4 1.8 7.1z"/>
+      <path fill="#FBBC05" d="M12 22.2c3.2 0 5.9-1 7.9-2.8l-3.7-3c-1 .7-2.3 1.3-4.2 1.3-3.2 0-5.9-2.1-6.9-5.1l-4 3.1c2.7 4 6.7 6.5 10.9 6.5z"/>
+      <path fill="#4285F4" d="M22.2 12c0-.7-.1-1.3-.2-1.9H12v3.6h5.7c-.2 1.2-.9 2.9-2.5 4l3.7 3c2.1-1.9 3.3-4.8 3.3-8.7z"/>
+    </svg>`;
+  }
+  if (key === 'linkedin') {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.063 2.063 0 01-2.063-2.065 2.063 2.063 0 114.126 0 2.063 2.063 0 01-2.063 2.065zM7.114 20.452H3.56V9h3.554v11.452z"/>
+    </svg>`;
+  }
+  return `<span>${String(provider || '?').slice(0, 2).toUpperCase()}</span>`;
 }
 
 function initAuthMascot(mode = 'login') {
@@ -391,7 +414,7 @@ function renderSignupPage() {
         <div class="auth-main">
           <div class="auth-logo">
             <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:1.1rem;font-weight:700">
-              <div style="width:32px;height:32px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000">⚡</div>
+              <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#121a2a,#0d1320);border:1px solid rgba(242,164,75,.28);box-shadow:inset 0 0 0 1px rgba(78,166,166,.18),0 8px 16px rgba(0,0,0,.28)"><img src="/static/images/quickfolio-mark.svg?v=20260419crafted16" alt="" aria-hidden="true" style="width:22px;height:22px;display:block"></div>
               <span class="grad-text">QuickFolio</span>
             </div>
           </div>
@@ -401,15 +424,15 @@ function renderSignupPage() {
           <!-- Social Auth -->
           <div style="display:flex;flex-direction:column;gap:0">
             <button class="social-btn" onclick="socialAuth('github')">
-              <div class="social-btn-icon">⚡</div>
+              <div class="social-btn-icon">${renderAuthProviderIcon('github')}</div>
               <span>Continue with GitHub</span>
             </button>
             <button class="social-btn" onclick="socialAuth('google')">
-              <div class="social-btn-icon">🔵</div>
+              <div class="social-btn-icon">${renderAuthProviderIcon('google')}</div>
               <span>Continue with Google</span>
             </button>
             <button class="social-btn" onclick="socialAuth('linkedin')">
-              <div class="social-btn-icon">💼</div>
+              <div class="social-btn-icon">${renderAuthProviderIcon('linkedin')}</div>
               <span>Continue with LinkedIn</span>
             </button>
           </div>
@@ -434,15 +457,15 @@ function renderSignupPage() {
             <div class="inp-group">
               <label class="inp-label">Password *</label>
               <div class="inp-icon-wrap">
-                <span class="inp-ico">🔒</span>
+                <span class="inp-ico">PW</span>
                 <input class="inp" type="password" id="su-pass" placeholder="Min 6 characters" minlength="6" required>
               </div>
             </div>
             <div id="su-error" style="display:none;color:#ef4444;font-size:.8rem;margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px"></div>
-            <button type="submit" class="btn btn-primary w100" id="su-btn" style="width:100%;padding:13px">🚀 Create Free Account</button>
+            <button type="submit" class="btn btn-primary w100" id="su-btn" style="width:100%;padding:13px">Create Free Account</button>
           </form>
 
-          <div class="auth-footer">Already have an account? <a href="/login">Sign in →</a></div>
+          <div class="auth-footer">Already have an account? <a href="/login">Sign in</a></div>
           <div style="margin-top:14px;color:var(--muted2);font-size:.72rem;text-align:center">By signing up you agree to our <a href="/terms" style="color:var(--accent)">Terms</a> and <a href="/privacy" style="color:var(--accent)">Privacy Policy</a></div>
         </div>
       </div>
@@ -469,12 +492,12 @@ async function submitSignup(e) {
   authMascotReact('focus', 'Checking your details...');
   btn.classList.add('btn-loading'); btn.textContent = 'Creating account...';
   const res = await API.post('/api/auth/signup', { name, username, email, password });
-  btn.classList.remove('btn-loading'); btn.textContent = '🚀 Create Free Account';
+  btn.classList.remove('btn-loading'); btn.textContent = 'Create Free Account';
 
   if (res.ok) {
     authMascotCelebrate('Yay! Account created successfully', 1600);
     Auth.user = res.data.user;
-    Toast.success('Account created! Welcome to QuickFolio! 🎉');
+    Toast.success('Account created. Welcome to QuickFolio.');
     setTimeout(() => window.location.href = '/dashboard', 1000);
   } else {
     authMascotReact('weird', 'Hmm... those details did not work', 1900);
@@ -495,7 +518,7 @@ function renderLoginPage() {
         <div class="auth-main">
           <div class="auth-logo">
             <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:1.1rem;font-weight:700">
-              <div style="width:32px;height:32px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000">⚡</div>
+              <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#121a2a,#0d1320);border:1px solid rgba(242,164,75,.28);box-shadow:inset 0 0 0 1px rgba(78,166,166,.18),0 8px 16px rgba(0,0,0,.28)"><img src="/static/images/quickfolio-mark.svg?v=20260419crafted16" alt="" aria-hidden="true" style="width:22px;height:22px;display:block"></div>
               <span class="grad-text">QuickFolio</span>
             </div>
           </div>
@@ -503,9 +526,9 @@ function renderLoginPage() {
           <p class="auth-sub">Sign in to continue building your portfolio</p>
 
           <div style="display:flex;flex-direction:column;gap:0">
-            <button class="social-btn" onclick="socialAuth('github')"><div class="social-btn-icon">⚡</div><span>Continue with GitHub</span></button>
-            <button class="social-btn" onclick="socialAuth('google')"><div class="social-btn-icon">🔵</div><span>Continue with Google</span></button>
-            <button class="social-btn" onclick="socialAuth('linkedin')"><div class="social-btn-icon">💼</div><span>Continue with LinkedIn</span></button>
+            <button class="social-btn" onclick="socialAuth('github')"><div class="social-btn-icon">${renderAuthProviderIcon('github')}</div><span>Continue with GitHub</span></button>
+            <button class="social-btn" onclick="socialAuth('google')"><div class="social-btn-icon">${renderAuthProviderIcon('google')}</div><span>Continue with Google</span></button>
+            <button class="social-btn" onclick="socialAuth('linkedin')"><div class="social-btn-icon">${renderAuthProviderIcon('linkedin')}</div><span>Continue with LinkedIn</span></button>
           </div>
 
           <div class="auth-divider">or sign in with email</div>
@@ -513,20 +536,20 @@ function renderLoginPage() {
           <form id="login-form" onsubmit="submitLogin(event)">
             <div class="inp-group">
               <label class="inp-label">Email Address</label>
-              <div class="inp-icon-wrap"><span class="inp-ico">📧</span><input class="inp" type="email" id="li-email" placeholder="you@email.com" required></div>
+              <div class="inp-icon-wrap"><span class="inp-ico">@</span><input class="inp" type="email" id="li-email" placeholder="you@email.com" required></div>
             </div>
             <div class="inp-group">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
                 <label class="inp-label" style="margin:0">Password</label>
                 <button type="button" onclick="openForgotPasswordModal(event)" style="font-size:.72rem;color:var(--accent);background:none;border:none;padding:0;cursor:pointer">Forgot password?</button>
               </div>
-              <div class="inp-icon-wrap"><span class="inp-ico">🔒</span><input class="inp" type="password" id="li-pass" placeholder="Your password" required></div>
+              <div class="inp-icon-wrap"><span class="inp-ico">PW</span><input class="inp" type="password" id="li-pass" placeholder="Your password" required></div>
             </div>
             <div id="li-error" style="display:none;color:#ef4444;font-size:.8rem;margin-bottom:10px;padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px"></div>
-            <button type="submit" class="btn btn-primary" id="li-btn" style="width:100%;padding:13px">🔑 Sign In</button>
+            <button type="submit" class="btn btn-primary" id="li-btn" style="width:100%;padding:13px">Sign In</button>
           </form>
 
-          <div class="auth-footer">Don't have an account? <a href="/signup">Sign up free →</a></div>
+          <div class="auth-footer">Don't have an account? <a href="/signup">Sign up free</a></div>
         </div>
       </div>
     </div>
@@ -535,7 +558,7 @@ function renderLoginPage() {
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="forgot-password-title">
         <div class="modal-head">
           <div class="modal-title" id="forgot-password-title">Reset your password</div>
-          <button class="modal-close" type="button" onclick="closeForgotPasswordModal()">✕</button>
+          <button class="modal-close" type="button" onclick="closeForgotPasswordModal()">X</button>
         </div>
         <div class="modal-body">
           <p class="tm" style="font-size:.84rem;margin-bottom:14px">Request a one-time code, then set a new password for your account.</p>
@@ -740,12 +763,12 @@ async function submitLogin(e) {
   authMascotReact('focus', 'Checking credentials...');
   btn.classList.add('btn-loading'); btn.textContent = 'Signing in...';
   const res = await API.post('/api/auth/login', { email, password });
-  btn.classList.remove('btn-loading'); btn.textContent = '🔑 Sign In';
+  btn.classList.remove('btn-loading'); btn.textContent = 'Sign In';
 
   if (res.ok) {
     authMascotCelebrate('Welcome back! Access granted', 1600);
     Auth.user = res.data.user;
-    Toast.success(`Welcome back, ${res.data.user.name}! 👋`);
+    Toast.success(`Welcome back, ${res.data.user.name}.`);
     setTimeout(() => window.location.href = '/dashboard', 800);
   } else {
     authMascotReact('weird', 'Oops... those credentials look wrong', 1900);
