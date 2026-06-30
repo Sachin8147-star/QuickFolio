@@ -75,4 +75,4 @@
 }
 
 /* Portfolio view CSS variables (set by JS) */
-#pf-root{--bg:#0a0a0f;--surface:#11111c;--card:#18182a;--border:#28284a;--accent:#00ffcc;--a2:#ff00aa;--text:#dde0ff;--muted:#6060a0;--grad:linear-gradient(135deg,#00ffcc,#ff00aa);--fn:'Orbitron',monospace;--fb:'Outfit',sans-serif}
+#pf-root{--bg:#07111d;--surface:#0d1725;--card:#122033;--border:#233347;--accent:#4bb8ff;--a2:#5f87ff;--text:#f5f8ff;--muted:#8ea2bd;--grad:linear-gradient(135deg,#4bb8ff,#5f87ff);--fn:'Orbitron',monospace;--fb:'Outfit',sans-serif}

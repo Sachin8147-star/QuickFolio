@@ -362,88 +362,121 @@ function renderDirectMailSection(options = {}) {
 // ── LANDING ──
 function renderLanding() {
   const pricingSection = renderPricingSection('landing');
+  const featureCards = [
+    ['ATS-friendly portfolios', 'Clear hierarchy, concise proof, and recruiter-first structure that scans fast.'],
+    ['Recruiter Analytics', 'See what visitors view, where they pause, and which projects get attention.'],
+    ['Custom Domains', 'Publish on a branded domain with a polished public presence.'],
+    ['Resume Builder', 'Tune your resume and portfolio message for each role.'],
+    ['Project Case Studies', 'Turn work into outcome-led stories instead of disconnected screenshots.'],
+    ['GitHub Integration', 'Connect repositories and surface live proof from your code.'],
+  ];
   return `
-  <section class="hero home-hero-2026 cinematic-hero" style="padding-top:var(--nav-h)">
-    <div class="hero-cinematic-layer" aria-hidden="true">
-      <canvas id="hero-canvas" class="hero-canvas"></canvas>
-      <div class="hero-vignette"></div>
-      <div class="hero-noise"></div>
-      <div class="hero-light hero-light-a hero-parallax-layer" data-depth="-12"></div>
-      <div class="hero-light hero-light-b hero-parallax-layer" data-depth="9"></div>
-    </div>
-    <div class="hero-grid hero-parallax-layer" data-depth="-4"></div>
-    <div class="blob hero-parallax-layer" data-depth="-18" style="top:7%;left:4%"></div>
-    <div class="blob hero-parallax-layer" data-depth="16" style="bottom:4%;right:3%;animation-delay:-4s"></div>
-    <div class="hero-orb hero-orb-1 hero-parallax-layer" data-depth="-24"></div>
-    <div class="hero-orb hero-orb-2 hero-parallax-layer" data-depth="24"></div>
-    <div class="hero-content-wrap hero-parallax-layer" data-depth="10">
-    <div class="hero-content">
-      <div class="hero-eye">
-        <div style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse-dot 2s infinite"></div>
-        Built for Real Hiring Workflows
+  <section class="hero home-hero">
+    <div class="wrap home-hero-grid">
+      <div class="home-hero-copy">
+        <div class="hero-eye home-hero-kicker">
+          <div class="home-kicker-dot"></div>
+          Premium portfolio system for modern hiring
+        </div>
+        <h1 class="home-hero-title">Build a developer portfolio recruiters actually read.</h1>
+        <p class="home-hero-sub">Create beautiful, structured portfolios that showcase projects, skills, and real impact. Designed to help recruiters evaluate candidates quickly.</p>
+        <div class="hero-actions home-hero-actions">
+          <span class="hero-btn-wrap"><a href="/signup" class="btn btn-primary btn-xl anim-glow">Start Free</a></span>
+          <span class="hero-btn-wrap"><a href="#demo-preview" class="btn btn-ghost btn-xl">View Demo</a></span>
+        </div>
+        <div class="home-hero-badges" aria-label="Platform highlights">
+          <span class="home-hero-badge">ATS-friendly</span>
+          <span class="home-hero-badge">Custom domains</span>
+          <span class="home-hero-badge">Recruiter analytics</span>
+        </div>
       </div>
-      <h1 class="hero-h1 font-h hero-title-split">
-        <span class="hero-line">
-          <span class="hero-word">Showcase</span>
-          <span class="hero-word">your</span>
-          <span class="hero-word">work</span>
-        </span>
-        <span class="hero-line hero-line-accent">
-          <span class="hero-word grad-text">with</span>
-          <span class="hero-word grad-text">clarity</span>
-          <span class="hero-word grad-text">and</span>
-          <span class="hero-word grad-text">proof</span>
-        </span>
-      </h1>
-      <p class="hero-sub">QuickFolio helps developers present projects, context, and outcomes in a way recruiters can scan quickly. Start from structure, customize deeply, and improve based on what visitors actually read.</p>
-      <div class="hero-actions">
-        <span class="hero-btn-wrap"><a href="/signup" class="btn btn-primary btn-xl anim-glow">Start Free</a></span>
-        <span class="hero-btn-wrap"><a href="/templates" class="btn btn-ghost btn-xl">Browse Templates</a></span>
-      </div>
-      <div class="hero-stats">
-        <div class="hs"><span class="hs-n" data-count="12400">0</span><span class="hs-l">Portfolios Published</span></div>
-        <div class="hs"><span class="hs-n" data-count="460">0</span><span class="hs-l">Avg Weekly Leads</span></div>
-        <div class="hs"><span class="hs-n" data-count="87">0</span><span class="hs-l">Recruiter Revisit Rate</span></div>
-        <div class="hs"><span class="hs-n" data-count="12">0</span><span class="hs-l">Role-fit Signals</span></div>
-      </div>
-      <div class="home-signal-row">
-        ${['Role-Specific Resume', 'Recruiter Mode', 'Live Analytics', 'Custom Sections', 'Smart Assistant'].map((chip) => `<span class="home-signal-chip">${chip}</span>`).join('')}
-      </div>
-      <p style="margin-top:12px;color:var(--muted2);font-size:.72rem;letter-spacing:.2px;text-align:center">Illustrative demo metrics are shown in this preview. Live values depend on real account activity.</p>
-    </div>
-    </div>
-  </section>
 
-  <section class="home-proof-strip">
-    <div class="wrap home-proof-grid">
-      <div class="home-proof-item"><span>Trusted by</span><strong>12k+ developers</strong></div>
-      <div class="home-proof-item"><span>Used in</span><strong>45+ countries</strong></div>
-      <div class="home-proof-item"><span>Built with</span><strong>Flask + SQLite + Vanilla JS</strong></div>
-      <div class="home-proof-item"><span>Fast publish</span><strong>under 5 minutes</strong></div>
-    </div>
-  </section>
-
-  <section class="features-sec home-feature-stack">
-    <div class="wrap">
-      <div style="max-width:620px;margin-bottom:0">
-        <div class="sec-eye">Why Teams Choose QuickFolio</div>
-        <h2 class="sec-h2 font-h">Designed for <span class="grad-text">conversion, not decoration</span></h2>
-        <p class="sec-sub tm">Modern 2026 portfolio standards are about proof, positioning, and clarity. Every feature below is optimized for that.</p>
-      </div>
-      <div class="grid-auto mt32">
-        ${[
-          ['01','Role-fit Tailoring','Generate JD-aligned summaries and skill-gap insights before interviews.'],
-          ['02','Recruiter Mode','Condensed scan layout for fast hiring review flows.'],
-          ['03','Performance Analytics','Track views, message intent, and content hotspots.'],
-          ['04','Full-stack Persistence','Your data is stored in backend tables, not only in browser memory.'],
-          ['05','Template Library','Start from proven layouts by style and audience.'],
-          ['06','Deployment Flexibility','Use hosted publishing or export to your own stack.']
-        ].map(([ico,title,desc]) => `
-          <div class="card card-h card-line home-feature-card">
-            <div class="feat-icon" style="background:rgba(0,229,255,.08)">${ico}</div>
-            <div class="feat-title font-h">${title}</div>
-            <div class="feat-desc">${desc}</div>
+      <div class="home-demo-shell" id="demo-preview" aria-label="Portfolio dashboard preview">
+        <div class="home-demo-board">
+          <div class="demo-board-top">
+            <div>
+              <div class="demo-board-label">Live recruiter dashboard</div>
+              <div class="demo-board-title">Demo data</div>
+            </div>
+            <span class="demo-live-pill">Sample preview</span>
           </div>
+
+          <div class="demo-grid">
+            <article class="demo-card demo-card-preview">
+              <div class="demo-card-kicker">Portfolio preview</div>
+              <h3>Clear hierarchy. Strong proof. No clutter.</h3>
+              <p>Hero, case studies, and calls to action arranged for fast review across desktop and mobile.</p>
+              <div class="demo-chip-row">
+                <span class="demo-chip">Featured project</span>
+                <span class="demo-chip">Top skills</span>
+                <span class="demo-chip">Contact</span>
+              </div>
+            </article>
+
+            <div class="demo-stack">
+              <article class="demo-card demo-card-analytics">
+                <div class="demo-card-kicker">Recruiter Analytics</div>
+                <div class="demo-metric-row">
+                  <div class="demo-metric">34</div>
+                  <div class="demo-metric-label">recruiter views</div>
+                </div>
+                <div class="demo-bars" aria-hidden="true">
+                  <span style="height:38%"></span>
+                  <span style="height:52%"></span>
+                  <span style="height:67%"></span>
+                  <span style="height:58%"></span>
+                  <span style="height:43%"></span>
+                  <span style="height:74%"></span>
+                </div>
+              </article>
+
+              <article class="demo-card demo-card-score">
+                <div class="demo-card-kicker">Resume Score</div>
+                <div class="demo-score-row">
+                  <span class="demo-score">94</span>
+                  <span class="demo-score-out">/100</span>
+                </div>
+                <p>Keyword match, structure, and readability tuned for screening tools.</p>
+              </article>
+            </div>
+          </div>
+
+          <article class="demo-card demo-card-projects">
+            <div class="demo-card-kicker">Project showcase</div>
+            <div class="demo-project-list">
+              <div class="demo-project-row">
+                <strong>Case study led</strong>
+                <span>Role, challenge, outcome</span>
+              </div>
+              <div class="demo-project-row">
+                <strong>Design system</strong>
+                <span>Spacing and consistency</span>
+              </div>
+              <div class="demo-project-row">
+                <strong>GitHub integration</strong>
+                <span>Repo proof and live links</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-feature-sec">
+    <div class="wrap">
+      <div class="home-feature-head">
+        <div class="sec-eye">Platform capabilities</div>
+        <h2 class="sec-h2 font-h">Everything your portfolio needs, presented like a product.</h2>
+        <p class="sec-sub tm">No fake statistics. Just clear features that help recruiters understand your work faster.</p>
+      </div>
+      <div class="home-feature-grid">
+        ${featureCards.map(([title, desc], idx) => `
+          <article class="card card-h card-line home-feature-card">
+            <div class="home-feature-ico">0${idx + 1}</div>
+            <div class="home-feature-name">${title}</div>
+            <div class="home-feature-desc">${desc}</div>
+          </article>
         `).join('')}
       </div>
     </div>
@@ -452,16 +485,16 @@ function renderLanding() {
   <section class="workflow-sec">
     <div class="wrap">
       <div class="workflow-head">
-        <div class="sec-eye">Execution Flow</div>
-        <h2 class="sec-h2 font-h">A faster system for <span class="grad-text">real hiring outcomes</span></h2>
-        <p class="sec-sub tm">Each stage is designed to cut friction, tighten positioning, and increase qualified replies.</p>
+        <div class="sec-eye">Workflow</div>
+        <h2 class="sec-h2 font-h">A cleaner path from draft to <span class="grad-text">published portfolio</span></h2>
+        <p class="sec-sub tm">Each step keeps the experience structured, responsive, and easy to scan.</p>
       </div>
       <div class="workflow-grid">
         ${[
-          ['01', 'Build Positioning', 'Shape hero, proof blocks, and project narratives with conversion-first templates.'],
-          ['02', 'Tune For Roles', 'Generate role-fit resume variants and close skill-gap signals before applying.'],
-          ['03', 'Publish + Share', 'Launch with trackable links and social copy designed for higher click-through.'],
-          ['04', 'Optimize Weekly', 'Use analytics and contact trends to iterate content where attention drops.']
+          ['01', 'Start with structure', 'Use sections built for quick scanning and strong hierarchy.'],
+          ['02', 'Tune for the role', 'Adjust your positioning, resume, and project framing for each application.'],
+          ['03', 'Publish with confidence', 'Launch on a clean public site with analytics and contact capture.'],
+          ['04', 'Iterate with evidence', 'Use recruiter signals and portfolio metrics to improve what matters.']
         ].map(([step, title, desc]) => `
           <article class="workflow-card card card-h card-line">
             <div class="workflow-step">${step}</div>
@@ -476,9 +509,9 @@ function renderLanding() {
   <section class="growth-lab-sec">
     <div class="wrap growth-lab-grid">
       <div>
-        <div class="sec-eye">Growth Lab</div>
-        <h2 class="sec-h2 font-h">Estimate the upside of <span class="grad-text">better portfolio conversion</span></h2>
-        <p class="sec-sub tm">Inspired by performance optimization benchmarks, this simulator helps you model how stronger clarity and faster UX can lift inbound leads.</p>
+        <div class="sec-eye">Demo model</div>
+        <h2 class="sec-h2 font-h">See the upside of <span class="grad-text">better portfolio clarity</span></h2>
+        <p class="sec-sub tm">This simulator is illustrative, not a promise. It shows how stronger hierarchy and speed can improve lead conversion.</p>
         <div class="growth-lab-kpis">
           <div class="growth-kpi"><span id="growth-extra-monthly">+0</span><small>extra leads / month</small></div>
           <div class="growth-kpi"><span id="growth-extra-annual">+0</span><small>extra leads / year</small></div>
@@ -497,7 +530,7 @@ function renderLanding() {
         </div>
         <input id="growth-uplift" class="inp growth-range" type="range" min="2" max="35" step="1" value="8" oninput="updateGrowthLab()">
 
-        <p class="growth-lab-foot">Model assumptions use a baseline lead conversion and estimate the incremental gain from better hierarchy, performance, and recruiter-focused content.</p>
+        <p class="growth-lab-foot">The output is a demo model based on baseline conversion assumptions and stronger recruiter-focused presentation.</p>
       </div>
     </div>
   </section>

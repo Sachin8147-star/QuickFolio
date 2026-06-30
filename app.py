@@ -395,7 +395,7 @@ def apply_cache_headers(response):
             else:
                 response.headers['Cache-Control'] = 'public, max-age=604800, stale-while-revalidate=86400'
     elif response.mimetype == 'text/html':
-        response.headers.setdefault('Cache-Control', 'public, max-age=0, must-revalidate')
+        response.headers['Cache-Control'] = 'no-store'
 
     response.headers.setdefault('X-Content-Type-Options', 'nosniff')
     response.headers.setdefault('Referrer-Policy', 'strict-origin-when-cross-origin')
@@ -2902,7 +2902,7 @@ def sitemap_xml():
 @app.route('/sw.js')
 def service_worker():
     response = send_from_directory(app.static_folder, 'sw.js')
-    response.headers['Cache-Control'] = 'no-cache'
+    response.headers['Cache-Control'] = 'no-store'
     response.headers['Service-Worker-Allowed'] = '/'
     response.headers['Content-Type'] = 'application/javascript; charset=utf-8'
     return response

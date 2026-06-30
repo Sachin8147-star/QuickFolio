@@ -1,7 +1,7 @@
 /* ════════ APP.JS — main controller ════════ */
 
 const PAGE = window.APP_CONFIG?.page || 'landing';
-const ASSET_VERSION = '20260419crafted19';
+const ASSET_VERSION = '20260419crafted20';
 const PREFETCHED_PATHS = new Set();
 const LOADED_STYLE_IDS = new Set();
 const LOADED_SCRIPT_IDS = new Set();
