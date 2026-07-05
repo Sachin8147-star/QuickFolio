@@ -257,7 +257,3 @@ gunicorn -w 4 -b 0.0.0.0:8000 app:app
 - robots/sitemap: complete
 - Structured data baseline: complete
 - Legal page routing/content: complete
-
-## License
-
-MIT
