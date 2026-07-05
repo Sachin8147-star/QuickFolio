@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'quickfolio-static-v12';
+const CACHE_VERSION = 'quickfolio-static-v13';
 const STATIC_CACHE = `${CACHE_VERSION}-assets`;
 
 self.addEventListener('install', (event) => {

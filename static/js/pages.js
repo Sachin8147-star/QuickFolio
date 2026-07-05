@@ -391,74 +391,106 @@ function renderLanding() {
         </div>
       </div>
 
-      <div class="home-demo-shell" id="demo-preview" aria-label="Portfolio dashboard preview">
-        <div class="home-demo-board">
-          <div class="demo-board-top">
-            <div>
-              <div class="demo-board-label">Live recruiter dashboard</div>
-              <div class="demo-board-title">Demo data</div>
-            </div>
-            <span class="demo-live-pill">Sample preview</span>
-          </div>
-
-          <div class="demo-grid">
-            <article class="demo-card demo-card-preview">
-              <div class="demo-card-kicker">Portfolio preview</div>
-              <h3>Clear hierarchy. Strong proof. No clutter.</h3>
-              <p>Hero, case studies, and calls to action arranged for fast review across desktop and mobile.</p>
-              <div class="demo-chip-row">
-                <span class="demo-chip">Featured project</span>
-                <span class="demo-chip">Top skills</span>
-                <span class="demo-chip">Contact</span>
+      <div class="home-demo-shell" id="demo-preview" aria-label="Portfolio and resume live preview">
+        <div class="home-demo-board home-motion-board">
+          <div class="home-motion-grid home-motion-grid-4up home-motion-grid-single">
+            <article class="home-motion-card home-motion-resume">
+              <div class="motion-card-kicker">Resume Editor</div>
+              <div class="motion-resume-sheet" data-resume-typing="1">
+                <div class="motion-resume-head">
+                  <div class="motion-resume-name motion-type-line" data-final="Alex Rivera"></div>
+                  <div class="motion-resume-title motion-type-line" data-final="Product Designer &amp; Frontend Engineer"></div>
+                </div>
+                <div class="motion-resume-section">
+                  <div class="motion-resume-label">EXPERIENCE</div>
+                  <div class="motion-resume-line motion-type-line" data-final="Senior Product Designer at Stripe • 2023–Present"></div>
+                  <div class="motion-resume-line motion-type-line" data-final="UI Engineer at Figma • 2021–2023"></div>
+                </div>
+                <div class="motion-resume-section">
+                  <div class="motion-resume-label">SUMMARY</div>
+                  <div class="motion-resume-line motion-type-line" data-final="Product designer building portfolio systems, design operations tools, and polished frontend experiences."></div>
+                </div>
+                <div class="motion-resume-section">
+                  <div class="motion-resume-label">SKILLS</div>
+                  <div class="motion-resume-line motion-type-line" data-final="Product design • Design systems • React • Accessibility • Motion"></div>
+                </div>
+                <div class="motion-resume-section motion-resume-section-last">
+                  <div class="motion-resume-label">EDUCATION</div>
+                  <div class="motion-resume-line motion-type-line" data-final="B.Des Interaction Design — California College of the Arts"></div>
+                </div>
+                <div class="motion-resume-cursor"></div>
               </div>
             </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div class="demo-stack">
-              <article class="demo-card demo-card-analytics">
-                <div class="demo-card-kicker">Recruiter Analytics</div>
-                <div class="demo-metric-row">
-                  <div class="demo-metric">34</div>
-                  <div class="demo-metric-label">recruiter views</div>
-                </div>
-                <div class="demo-bars" aria-hidden="true">
-                  <span style="height:38%"></span>
-                  <span style="height:52%"></span>
-                  <span style="height:67%"></span>
-                  <span style="height:58%"></span>
-                  <span style="height:43%"></span>
-                  <span style="height:74%"></span>
-                </div>
-              </article>
+  <section class="home-build-showcase" aria-label="Portfolio build animation">
+    <div class="wrap">
+      <div class="home-build-copy">
+        <h2 class="home-build-title">Watch Your Portfolio Come to Life</h2>
+        <p class="home-build-sub">From blank canvas to professional site in seconds</p>
+      </div>
 
-              <article class="demo-card demo-card-score">
-                <div class="demo-card-kicker">Resume Score</div>
-                <div class="demo-score-row">
-                  <span class="demo-score">94</span>
-                  <span class="demo-score-out">/100</span>
-                </div>
-                <p>Keyword match, structure, and readability tuned for screening tools.</p>
-              </article>
+      <div class="home-build-panel" data-portfolio-build-demo="1">
+        <div class="home-build-topbar">
+          <div class="home-build-brand">
+            <div class="home-build-logo">Q</div>
+            <div class="home-build-brand-copy">
+              <strong>QuikFolio</strong>
+              <span>Building your portfolio...</span>
+            </div>
+          </div>
+          <div class="home-build-pill">Preview Mode</div>
+        </div>
+
+        <div class="home-build-canvas">
+          <div class="home-build-hero block" id="portfolio-build-hero">Hi, I&apos;m Priya Sharma<br><span>Full Stack Developer &amp; Designer</span></div>
+
+          <div class="home-build-tools block" id="portfolio-build-tools">
+            <div class="home-build-tools-label">ADD SECTION</div>
+            <div class="home-build-tools-grid">
+              <div>About</div>
+              <div>Projects</div>
             </div>
           </div>
 
-          <article class="demo-card demo-card-projects">
-            <div class="demo-card-kicker">Project showcase</div>
-            <div class="demo-project-list">
-              <div class="demo-project-row">
-                <strong>Case study led</strong>
-                <span>Role, challenge, outcome</span>
-              </div>
-              <div class="demo-project-row">
-                <strong>Design system</strong>
-                <span>Spacing and consistency</span>
-              </div>
-              <div class="demo-project-row">
-                <strong>GitHub integration</strong>
-                <span>Repo proof and live links</span>
-              </div>
+          <div class="home-build-projects block" id="portfolio-build-projects">
+            <div class="home-build-projects-label">Featured Projects</div>
+            <div class="home-build-projects-grid">
+              <div class="home-build-project-card">TaskFlow<br><span>• SaaS</span></div>
+              <div class="home-build-project-card">FinTrack<br><span>• Fintech</span></div>
             </div>
-          </article>
+          </div>
+
+          <div class="home-build-progress" id="portfolio-build-progress">
+            <div class="home-build-progress-track"><div class="home-build-progress-bar" id="portfolio-build-progress-bar"></div></div>
+            <span>Building...</span>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-proof-strip" aria-label="QuickFolio product highlights">
+    <div class="wrap home-proof-grid">
+      <div class="home-proof-item">
+        <span>Recruiter-first</span>
+        <strong>Portfolio pages built to scan fast and stay clear.</strong>
+      </div>
+      <div class="home-proof-item">
+        <span>Live signals</span>
+        <strong>See views, interest, and engagement patterns at a glance.</strong>
+      </div>
+      <div class="home-proof-item">
+        <span>Resume ready</span>
+        <strong>Tune content and export recruiter-friendly resume PDFs.</strong>
+      </div>
+      <div class="home-proof-item">
+        <span>Brand control</span>
+        <strong>Publish on custom domains with a polished public presence.</strong>
       </div>
     </div>
   </section>
@@ -508,16 +540,28 @@ function renderLanding() {
 
   <section class="growth-lab-sec">
     <div class="wrap growth-lab-grid">
-      <div>
+      <div class="growth-lab-copy">
         <div class="sec-eye">Demo model</div>
         <h2 class="sec-h2 font-h">See the upside of <span class="grad-text">better portfolio clarity</span></h2>
         <p class="sec-sub tm">This simulator is illustrative, not a promise. It shows how stronger hierarchy and speed can improve lead conversion.</p>
+        <div class="growth-lab-tags" aria-label="Simulation focus areas">
+          <span class="growth-lab-tag">Clear hierarchy</span>
+          <span class="growth-lab-tag">Faster scans</span>
+          <span class="growth-lab-tag">Higher intent</span>
+        </div>
         <div class="growth-lab-kpis">
           <div class="growth-kpi"><span id="growth-extra-monthly">+0</span><small>extra leads / month</small></div>
           <div class="growth-kpi"><span id="growth-extra-annual">+0</span><small>extra leads / year</small></div>
         </div>
       </div>
       <div class="growth-lab-card card">
+        <div class="growth-lab-card-top">
+          <div>
+            <div class="growth-lab-card-kicker">Interactive model</div>
+            <div class="growth-lab-card-title">Tune visitors and uplift</div>
+          </div>
+          <div class="growth-lab-card-note">Illustrative only</div>
+        </div>
         <div class="growth-lab-row">
           <label class="inp-label" for="growth-visitors">Monthly Portfolio Visitors</label>
           <div class="growth-lab-val" id="growth-visitors-val">8,000</div>
@@ -529,6 +573,11 @@ function renderLanding() {
           <div class="growth-lab-val" id="growth-uplift-val">8%</div>
         </div>
         <input id="growth-uplift" class="inp growth-range" type="range" min="2" max="35" step="1" value="8" oninput="updateGrowthLab()">
+
+        <div class="growth-lab-mini-grid" aria-hidden="true">
+          <div class="growth-lab-mini-item"><span>Timeline</span><strong>3 weeks</strong></div>
+          <div class="growth-lab-mini-item"><span>Format</span><strong>Portfolio + resume</strong></div>
+        </div>
 
         <p class="growth-lab-foot">The output is a demo model based on baseline conversion assumptions and stronger recruiter-focused presentation.</p>
       </div>
@@ -592,6 +641,137 @@ function renderLanding() {
   })}
 
   ${renderFooter()}`;
+}
+
+function initLandingMotionLoop() {
+  const board = document.querySelector('.home-demo-board');
+  if (!board || board.dataset.motionLoopReady === '1') return;
+  board.dataset.motionLoopReady = '1';
+
+  const sheet = board.querySelector('.motion-resume-sheet[data-resume-typing="1"]');
+  if (!sheet) return;
+
+  const lines = Array.from(sheet.querySelectorAll('.motion-type-line'));
+  let lineTimers = [];
+  let replayTimer = null;
+
+  const clearTimers = () => {
+    lineTimers.forEach((timerId) => window.clearTimeout(timerId));
+    lineTimers = [];
+  };
+
+  const resetLines = () => {
+    lines.forEach((line) => {
+      line.textContent = '';
+      line.classList.remove('is-typing');
+    });
+  };
+
+  const typeLine = (line, text, speed) => {
+    line.classList.add('is-typing');
+    let index = 0;
+
+    const tick = () => {
+      line.textContent = text.slice(0, index);
+      index += 1;
+      if (index <= text.length) {
+        lineTimers.push(window.setTimeout(tick, speed));
+      } else {
+        line.classList.remove('is-typing');
+      }
+    };
+
+    tick();
+  };
+
+  const play = () => {
+    clearTimers();
+    if (replayTimer) {
+      window.clearTimeout(replayTimer);
+      replayTimer = null;
+    }
+    resetLines();
+
+    let offset = 100;
+    lines.forEach((line, index) => {
+      const text = line.dataset.final || '';
+      const speed = index === 0 ? 22 : 14;
+      lineTimers.push(window.setTimeout(() => typeLine(line, text, speed), offset));
+      offset += Math.max(420, text.length * speed * 0.5) + 70;
+    });
+
+    replayTimer = window.setTimeout(play, offset + 3000);
+  };
+
+  play();
+  board._motionLoopTimer = {
+    cancel() {
+      clearTimers();
+      if (replayTimer) window.clearTimeout(replayTimer);
+    },
+  };
+}
+
+function initPortfolioBuildDemo() {
+  const panel = document.querySelector('[data-portfolio-build-demo="1"]');
+  if (!panel || panel.dataset.buildDemoReady === '1') return;
+  panel.dataset.buildDemoReady = '1';
+
+  const hero = document.getElementById('portfolio-build-hero');
+  const tools = document.getElementById('portfolio-build-tools');
+  const projects = document.getElementById('portfolio-build-projects');
+  const progressBar = document.getElementById('portfolio-build-progress-bar');
+  if (!hero || !tools || !projects || !progressBar) return;
+
+  const blocks = [hero, tools, projects];
+  const timeouts = [];
+  let replayTimer = null;
+
+  const clearCycle = () => {
+    timeouts.splice(0).forEach((timerId) => window.clearTimeout(timerId));
+    if (replayTimer) {
+      window.clearTimeout(replayTimer);
+      replayTimer = null;
+    }
+  };
+
+  const resetCycle = () => {
+    blocks.forEach((block) => {
+      block.style.opacity = '0';
+      block.style.transform = 'scale(0.8) translateY(30px)';
+    });
+    progressBar.style.width = '0%';
+  };
+
+  const buildPortfolio = () => {
+    clearCycle();
+    resetCycle();
+
+    timeouts.push(window.setTimeout(() => {
+      hero.style.opacity = '1';
+      hero.style.transform = 'scale(1) translateY(0)';
+    }, 400));
+
+    timeouts.push(window.setTimeout(() => {
+      tools.style.opacity = '1';
+      tools.style.transform = 'scale(1) translateY(0)';
+    }, 1100));
+
+    timeouts.push(window.setTimeout(() => {
+      projects.style.opacity = '1';
+      projects.style.transform = 'scale(1) translateY(0)';
+      progressBar.style.width = '100%';
+    }, 1900));
+
+    replayTimer = window.setTimeout(buildPortfolio, 8500);
+  };
+
+  buildPortfolio();
+  panel._buildDemoTimer = {
+    cancel() {
+      clearCycle();
+    },
+  };
 }
 
 // ── DASHBOARD ──
@@ -1872,7 +2052,7 @@ function renderTemplateMarketplaceCards(templates) {
     <div class="tpl-card tpl-market-card" data-cat="${escapeTemplateHtml(category)}" data-name="${escapeTemplateHtml(String(tpl.name || '').toLowerCase())}" data-desc="${escapeTemplateHtml((String(tpl.description || '') + ' ' + moderation).toLowerCase())}" onclick="useTemplate('${escapeTemplateHtml(themeName)}','${escapeTemplateHtml(templateId)}')">
       <div class="tpl-preview-area" style="background:linear-gradient(135deg,${t.bg||'#07080f'},${t.card||'#121322'})">
         <div style="text-align:center;position:relative;z-index:1;padding:28px 16px">
-          <div style="margin-bottom:8px;display:flex;justify-content:center"><img src="/static/images/quickfolio-mark.svg?v=20260419crafted16" alt="" aria-hidden="true" style="width:24px;height:24px;display:block"></div>
+          <div style="margin-bottom:8px;display:flex;justify-content:center"><img src="/static/images/quickfolio-mark.svg?v=20260705crafted01" alt="" aria-hidden="true" style="width:24px;height:24px;display:block"></div>
           <div style="font-family:${t.font||"'Syne'"};font-size:.95rem;font-weight:700;background:${t.grad||'linear-gradient(135deg,#00e5ff,#b44fff)'};-webkit-background-clip:text;-webkit-text-fill-color:transparent">${escapeTemplateHtml(tpl.name)}</div>
           ${tpl.creator_name ? `<div style="margin-top:6px;font-size:.68rem;color:rgba(255,255,255,.8)">by ${escapeTemplateHtml(tpl.creator_name)}</div>` : ''}
         </div>
@@ -2228,6 +2408,8 @@ const RESUME_EDITOR_STATE = {
   content: null,
   dragSection: '',
   dragIndex: -1,
+  atsTargetRole: '',
+  atsJobText: '',
 };
 
 function normalizeResumeLayoutModeClient(value) {
@@ -2377,6 +2559,179 @@ function normalizeResumeContentClient(raw) {
   };
 }
 
+const RESUME_ATS_STOPWORDS = new Set([
+  'the', 'and', 'for', 'with', 'that', 'this', 'from', 'your', 'you', 'are', 'have', 'has', 'was', 'were', 'been', 'will', 'can', 'able',
+  'role', 'job', 'work', 'experience', 'skills', 'team', 'teams', 'years', 'year', 'months', 'month', 'level', 'ability', 'responsible',
+  'responsibilities', 'preferred', 'required', 'about', 'into', 'through', 'using', 'use', 'used', 'build', 'built', 'create', 'created',
+  'design', 'develop', 'developed', 'developing', 'manage', 'managed', 'support', 'supported', 'across', 'within', 'including',
+  'implement', 'implemented', 'improve', 'improved', 'driven', 'drive', 'driving', 'solution', 'solutions', 'product', 'products'
+]);
+
+function normalizeAtsToken(value) {
+  const token = String(value || '').toLowerCase().replace(/[^a-z0-9+#.]+/g, '').trim();
+  if (!token) return '';
+  if (token === 'javascript') return 'js';
+  if (token === 'typescript') return 'ts';
+  if (token === 'nodejs' || token === 'node.js') return 'node';
+  if (token === 'reactjs') return 'react';
+  if (token === 'py') return 'python';
+  return token;
+}
+
+function tokenizeAtsText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9+#.\-/\s]+/g, ' ')
+    .split(/\s+/)
+    .map(normalizeAtsToken)
+    .filter((token) => token && token.length > 1 && !RESUME_ATS_STOPWORDS.has(token));
+}
+
+function collectResumeAtsText(content) {
+  const resume = normalizeResumeContentClient(content);
+  const basics = resume.basics || {};
+  const blocks = [
+    basics.full_name,
+    basics.role,
+    basics.email,
+    basics.phone,
+    basics.location,
+    basics.website,
+    basics.linkedin,
+    basics.github,
+    basics.summary,
+    ...(resume.skills || []),
+    ...(resume.languages || []),
+    ...(resume.certifications || []),
+    ...(resume.experience || []).flatMap((item) => [item.title, item.company, item.period, ...(item.bullets || [])]),
+    ...(resume.projects || []).flatMap((item) => [item.title, item.description, ...(item.tech || []), item.link]),
+    ...(resume.education || []).flatMap((item) => [item.degree, item.school, item.period, item.details]),
+    ...(resume.achievements || []).flatMap((item) => [item.title, item.issuer, item.year, item.details]),
+    ...(resume.volunteer || []).flatMap((item) => [item.role, item.organization, item.period, ...(item.bullets || [])]),
+  ];
+  return blocks.filter(Boolean).join(' ');
+}
+
+function clampAtsScore(value) {
+  return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
+}
+
+function resumeGetAtsAnalysis(content, targetRole, jobText) {
+  const resume = normalizeResumeContentClient(content);
+  const basics = resume.basics || {};
+  const targetText = String(jobText || targetRole || basics.role || '').trim();
+  const resumeText = collectResumeAtsText(resume);
+  const resumeTokens = new Set(tokenizeAtsText(resumeText));
+  const targetTokens = Array.from(new Set(tokenizeAtsText(targetText))).slice(0, 18);
+  const matchedTokens = targetTokens.filter((token) => resumeTokens.has(token));
+
+  const contactFields = ['email', 'phone', 'linkedin', 'github', 'website'];
+  const contactHits = contactFields.filter((key) => String(basics[key] || '').trim()).length;
+  const hasSummary = String(basics.summary || '').trim().length >= 60;
+  const hasSkills = Array.isArray(resume.skills) && resume.skills.length >= 6;
+  const hasExperience = Array.isArray(resume.experience) && resume.experience.length >= 1;
+  const hasProjects = Array.isArray(resume.projects) && resume.projects.length >= 1;
+  const hasEducation = Array.isArray(resume.education) && resume.education.length >= 1;
+  const quantifiableBullets = [...(resume.experience || []), ...(resume.projects || []), ...(resume.volunteer || [])]
+    .flatMap((item) => item?.bullets || [])
+    .filter((bullet) => /\d|%|\+|→|increase|improv|reduc|launch|ship|scale/i.test(String(bullet || '')))
+    .length;
+
+  const layoutScore = resume.layout_mode === 'ats-strict' ? 18 : (resume.layout_mode === 'executive' ? 12 : 8);
+  const contactScore = Math.min(contactHits * 2.2, 11);
+  const completenessScore = [hasSummary, hasSkills, hasExperience, hasProjects, hasEducation].filter(Boolean).length * 7;
+  const quantScore = Math.min(quantifiableBullets * 2.2, 11);
+  const keywordScore = targetTokens.length ? Math.min((matchedTokens.length / Math.max(targetTokens.length, 1)) * 36, 36) : 20;
+  const clarityScore = Math.min(
+    16,
+    (String(basics.full_name || '').trim() ? 3 : 0) +
+    (String(basics.role || '').trim() ? 3 : 0) +
+    (String(basics.summary || '').trim().length >= 90 ? 3 : 1) +
+    (hasProjects ? 3 : 0) +
+    (hasExperience ? 4 : 0)
+  );
+
+  const score = clampAtsScore(layoutScore + contactScore + completenessScore + quantScore + keywordScore + clarityScore);
+  const matched = matchedTokens.slice(0, 8);
+  const missing = targetTokens.filter((token) => !resumeTokens.has(token)).slice(0, 8);
+
+  const suggestions = [];
+  if (!String(basics.email || '').trim()) suggestions.push('Add an email address so ATS and recruiters can contact you.');
+  if (!String(basics.phone || '').trim()) suggestions.push('Add a phone number for screening completeness.');
+  if (!String(basics.linkedin || '').trim()) suggestions.push('Add a LinkedIn URL to strengthen profile matching.');
+  if (!String(basics.github || '').trim() && /developer|engineer|full[- ]stack|software|data|python|frontend/i.test(targetText)) suggestions.push('Add a GitHub URL for technical roles.');
+  if (!hasSummary) suggestions.push('Write a concise 2-3 sentence summary with keywords from the target role.');
+  if (!hasSkills) suggestions.push('Add 6 to 10 relevant skills that mirror the job description.');
+  if (!hasExperience) suggestions.push('Include at least one experience entry with strong action verbs.');
+  if (!hasProjects) suggestions.push('Add a project section with outcome-focused descriptions.');
+  if (!hasEducation) suggestions.push('Keep one education entry so the resume reads as complete.');
+  if (resume.layout_mode !== 'ats-strict') suggestions.push('Switch to ATS-Strict layout for applications that rely on parsers.');
+  if (targetTokens.length && matched.length < Math.max(3, Math.ceil(targetTokens.length * 0.35))) suggestions.push('Mirror more keywords from the job description across summary, skills, and bullets.');
+  if (quantifiableBullets < 2) suggestions.push('Add measurable outcomes like percentages, counts, or time saved.');
+
+  const strengths = [];
+  if (score >= 80) strengths.push('Strong ATS readiness');
+  if (contactHits >= 4) strengths.push('Contact section is complete');
+  if (matched.length >= 4) strengths.push('Good keyword overlap');
+  if (quantifiableBullets >= 2) strengths.push('Bullets include measurable proof');
+
+  const tier = score >= 85 ? 'ready' : (score >= 70 ? 'solid' : (score >= 55 ? 'improving' : 'needs work'));
+  return { score, matched, missing, suggestions: suggestions.slice(0, 5), strengths: strengths.slice(0, 4), tier };
+}
+
+function renderResumeAtsChecker() {
+  const host = document.getElementById('resume-ats-panel');
+  if (!host) return;
+
+  const analysis = resumeGetAtsAnalysis(
+    RESUME_EDITOR_STATE.content,
+    RESUME_EDITOR_STATE.atsTargetRole,
+    RESUME_EDITOR_STATE.atsJobText
+  );
+  const score = analysis.score;
+  const ringLabel = analysis.tier === 'ready' ? 'ATS Ready' : (analysis.tier === 'solid' ? 'Strong' : (analysis.tier === 'improving' ? 'Improving' : 'Needs Work'));
+  const tagClass = analysis.tier === 'ready' ? 'g' : (analysis.tier === 'solid' ? 'c' : 'o');
+
+  host.innerHTML = `
+    <div class="resume-ats-card">
+      <div class="chart-title"><span>ATS Resume Score Checker</span><span class="tag tag-${tagClass}">${ringLabel}</span></div>
+      <div class="resume-ats-top">
+        <div class="resume-ats-ring" style="--ats-score:${score}">
+          <div class="resume-ats-ring-inner">
+            <div class="resume-ats-score">${score}</div>
+            <div class="resume-ats-score-label">/100</div>
+          </div>
+        </div>
+        <div class="resume-ats-summary">
+          <p class="resume-ats-copy">Score your resume against a target role or paste a job description to see keyword coverage, missing signals, and ATS-safe improvements.</p>
+          <div class="resume-ats-chip-row">
+            ${analysis.strengths.length ? analysis.strengths.map((item) => `<span class="tag tag-g">${resumeEscText(item)}</span>`).join('') : '<span class="tag tag-o">Add more detail to raise your score</span>'}
+          </div>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Target Role</label>
+        <input class="inp" value="${resumeEscAttr(RESUME_EDITOR_STATE.atsTargetRole || '')}" placeholder="e.g. Frontend Engineer, Data Analyst" oninput="resumeSetAtsTargetRole(this.value)">
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Job Description or Keywords</label>
+        <textarea class="inp resume-ats-textarea" rows="5" placeholder="Paste a job description here to compare your resume against it" oninput="resumeSetAtsJobText(this.value)">${resumeEscText(RESUME_EDITOR_STATE.atsJobText || '')}</textarea>
+      </div>
+      <div class="resume-ats-breakdown">
+        <div><span>Keywords</span><strong>${analysis.matched.length + analysis.missing.length}</strong></div>
+        <div><span>Matched</span><strong>${analysis.matched.length}</strong></div>
+        <div><span>Missing</span><strong>${analysis.missing.length}</strong></div>
+      </div>
+      ${analysis.matched.length ? `<div class="resume-ats-chip-row">${analysis.matched.map((item) => `<span class="tag tag-c">${resumeEscText(item)}</span>`).join('')}</div>` : ''}
+      ${analysis.missing.length ? `<div class="resume-ats-chip-row">${analysis.missing.map((item) => `<span class="tag tag-o">${resumeEscText(item)}</span>`).join('')}</div>` : ''}
+      <div class="resume-ats-list">
+        <div class="resume-ats-list-h">Suggested improvements</div>
+        ${analysis.suggestions.length ? analysis.suggestions.map((item) => `<div class="resume-ats-item">${resumeEscText(item)}</div>`).join('') : '<div class="resume-ats-item">Your resume already covers the basics well.</div>'}
+      </div>
+    </div>
+  `;
+}
+
 function resumeEscAttr(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -2447,6 +2802,10 @@ function syncResumeEditorStateFromApi(data) {
   RESUME_EDITOR_STATE.title = String(active.title || 'Primary Resume');
   RESUME_EDITOR_STATE.themeId = String(active.theme_id || themes[0]?.id || '');
   RESUME_EDITOR_STATE.content = normalizeResumeContentClient(active.content);
+  if (!String(RESUME_EDITOR_STATE.atsTargetRole || '').trim()) {
+    RESUME_EDITOR_STATE.atsTargetRole = String(RESUME_EDITOR_STATE.content?.basics?.role || '').trim();
+  }
+  renderResumeAtsChecker();
 }
 
 function getActiveResumeDocumentFromState() {
@@ -2464,6 +2823,7 @@ function resumeStageDraftChanges() {
     theme_id: String(RESUME_EDITOR_STATE.themeId || docs[idx].theme_id || ''),
     content: normalizeResumeContentClient(RESUME_EDITOR_STATE.content),
   };
+  renderResumeAtsChecker();
 }
 
 function setResumeValueByPath(root, path, nextValue) {
@@ -2658,6 +3018,9 @@ function renderResumeEditorWorkspace() {
   host.innerHTML = `
     <div class="resume-editor-grid ${RESUME_EDITOR_STATE.previewOnlyMode ? 'preview-only' : ''}">
       <div class="resume-editor-left-pane">
+        <div class="chart-wrap resume-ats-wrap" style="margin-bottom:12px">
+          <div id="resume-ats-panel"></div>
+        </div>
         <div class="chart-wrap" style="margin-bottom:12px">
           <div class="chart-title"><span>Resume Controls</span><span class="tag tag-c">${(Array.isArray(RESUME_EDITOR_STATE.themes) ? RESUME_EDITOR_STATE.themes.length : 0)} themes</span></div>
           <div class="inp-group">
@@ -2778,6 +3141,7 @@ function renderResumeEditorWorkspace() {
   renderResumeVolunteerEditor();
   renderResumeAchievementsEditor();
   renderResumePreviewPanel();
+  renderResumeAtsChecker();
 }
 
 function renderResumeThemeGrid() {
@@ -3106,6 +3470,16 @@ function resumeSetBasicField(key, value) {
   RESUME_EDITOR_STATE.content.basics[key] = String(value || '');
   resumeStageDraftChanges();
   renderResumePreviewPanel();
+}
+
+function resumeSetAtsTargetRole(value) {
+  RESUME_EDITOR_STATE.atsTargetRole = String(value || '');
+  renderResumeAtsChecker();
+}
+
+function resumeSetAtsJobText(value) {
+  RESUME_EDITOR_STATE.atsJobText = String(value || '');
+  renderResumeAtsChecker();
 }
 
 function resumeSetSkillsInput(value) {
@@ -3515,7 +3889,7 @@ function renderFooter() {
     <div class="wrap">
       <div class="foot-grid">
         <div>
-          <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-weight:700;font-size:1.05rem"><div style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#121a2a,#0d1320);border:1px solid rgba(242,164,75,.28);box-shadow:inset 0 0 0 1px rgba(78,166,166,.18),0 8px 16px rgba(0,0,0,.28)"><img src="/static/images/quickfolio-mark.svg?v=20260419crafted16" alt="" aria-hidden="true" style="width:20px;height:20px;display:block"></div><span class="grad-text">QuickFolio</span></a>
+          <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-weight:700;font-size:1.05rem"><div style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#121a2a,#0d1320);border:1px solid rgba(242,164,75,.28);box-shadow:inset 0 0 0 1px rgba(78,166,166,.18),0 8px 16px rgba(0,0,0,.28)"><img src="/static/images/quickfolio-mark.svg?v=20260705crafted01" alt="" aria-hidden="true" style="width:20px;height:20px;display:block"></div><span class="grad-text">QuickFolio</span></a>
           <p class="foot-desc">A full-stack portfolio platform focused on clarity, credibility, and measurable hiring outcomes.</p>
           <div class="foot-badges">
             <span class="foot-badge">Fast UX</span>

@@ -1,7 +1,7 @@
 /* ════════ APP.JS — main controller ════════ */
 
 const PAGE = window.APP_CONFIG?.page || 'landing';
-const ASSET_VERSION = '20260419crafted20';
+const ASSET_VERSION = '20260705crafted10';
 const PREFETCHED_PATHS = new Set();
 const LOADED_STYLE_IDS = new Set();
 const LOADED_SCRIPT_IDS = new Set();
@@ -850,6 +850,8 @@ async function renderCurrentPage() {
     case 'landing':
       main.innerHTML = renderLanding();
       renderThemeShowcase();
+      if (typeof initLandingMotionLoop === 'function') initLandingMotionLoop();
+      if (typeof initPortfolioBuildDemo === 'function') initPortfolioBuildDemo();
       setTimeout(animateHeroCounters, 400);
       if (typeof initPricingWidgets === 'function') initPricingWidgets('landing');
       break;
