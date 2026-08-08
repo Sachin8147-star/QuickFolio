@@ -453,7 +453,38 @@ def parse_admin_emails(value):
     return emails
 
 
-ADMIN_EMAILS = parse_admin_emails(os.environ.get('ADMIN_EMAILS', ''))
+PRIMARY_ADMIN_EMAIL = str(
+    os.environ.get('PRIMARY_ADMIN_EMAIL') or 'ks6911843@gmail.com'
+).strip().lower()
+PRIMARY_ADMIN_PASSWORD = str(
+    os.environ.get('PRIMARY_ADMIN_PASSWORD') or 'Sachin@12345'
+)
+
+# Backward compatibility: keep parsing env list, but enforce a single primary admin policy.
+_legacy_admin_emails = parse_admin_emails(os.environ.get('ADMIN_EMAILS', ''))
+if PRIMARY_ADMIN_EMAIL:
+    ADMIN_EMAILS = {PRIMARY_ADMIN_EMAIL}
+elif _legacy_admin_emails:
+    ADMIN_EMAILS = {sorted(_legacy_admin_emails)[0]}
+else:
+    ADMIN_EMAILS = set()
+
+
+def is_primary_admin_email(email):
+    candidate = str(email or '').strip().lower()
+    return bool(PRIMARY_ADMIN_EMAIL) and candidate == PRIMARY_ADMIN_EMAIL
+
+
+def enforce_primary_admin_policy(db):
+    """Guarantee that only the configured primary admin email has admin access."""
+    if PRIMARY_ADMIN_EMAIL:
+        db.execute(
+            """UPDATE users
+               SET is_admin = CASE WHEN lower(email)=? THEN 1 ELSE 0 END""",
+            (PRIMARY_ADMIN_EMAIL,)
+        )
+    else:
+        db.execute("UPDATE users SET is_admin=0")
 
 SOCIAL_SOURCE_HOST_MAP = {
     'x.com': 'x',
@@ -483,6 +514,8 @@ def get_db():
     db = sqlite3.connect(app.config['DATABASE'])
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA journal_mode=WAL")
+    db.execute("PRAGMA synchronous=NORMAL")
+    db.execute("PRAGMA temp_store=MEMORY")
     return db
 
 def init_db():
@@ -758,23 +791,66 @@ def init_db():
         db.execute("UPDATE templates SET created_at=? WHERE COALESCE(created_at, '')=''", (now,))
         db.execute("UPDATE templates SET updated_at=created_at WHERE COALESCE(updated_at, '')=''")
 
-        # Promote configured admin emails and ensure at least one admin account exists.
-        if ADMIN_EMAILS:
-            placeholders = ','.join(['?'] * len(ADMIN_EMAILS))
-            db.execute(
-                f"UPDATE users SET is_admin=1 WHERE lower(email) IN ({placeholders})",
-                tuple(sorted(ADMIN_EMAILS))
-            )
-
-        admin_count = db.execute("SELECT COUNT(*) AS c FROM users WHERE is_admin=1").fetchone()['c']
-        if admin_count == 0:
-            first_user = db.execute("SELECT id FROM users ORDER BY created_at ASC LIMIT 1").fetchone()
-            if first_user:
-                db.execute("UPDATE users SET is_admin=1 WHERE id=?", (first_user['id'],))
+        # Strict admin policy: only the configured primary email is admin.
+        enforce_primary_admin_policy(db)
 
         db.commit()
 
 init_db()
+
+
+def ensure_primary_admin_account():
+    if not PRIMARY_ADMIN_EMAIL:
+        return
+
+    now = utcnow().isoformat()
+    default_name = 'Sachin'
+    with get_db() as db:
+        row = db.execute(
+            "SELECT * FROM users WHERE lower(email)=lower(?) LIMIT 1",
+            (PRIMARY_ADMIN_EMAIL,)
+        ).fetchone()
+
+        if row:
+            db.execute(
+                """UPDATE users
+                   SET password_hash=?, is_admin=1, is_active=1, provider='email', provider_id=''
+                   WHERE id=?""",
+                (hash_password(PRIMARY_ADMIN_PASSWORD), row['id'])
+            )
+            user_id = row['id']
+            user_name = row['name'] or default_name
+        else:
+            user_id = str(uuid.uuid4())
+            user_name = default_name
+            username = build_unique_username(db, user_name.lower())
+            db.execute(
+                """INSERT INTO users(
+                       id,email,username,password_hash,name,provider,provider_id,is_admin,is_active,created_at,last_login
+                   ) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    user_id,
+                    PRIMARY_ADMIN_EMAIL,
+                    username,
+                    hash_password(PRIMARY_ADMIN_PASSWORD),
+                    user_name,
+                    'email',
+                    '',
+                    1,
+                    1,
+                    now,
+                    now,
+                )
+            )
+
+        ensure_admin_access(db, preferred_user_id=user_id, preferred_email=PRIMARY_ADMIN_EMAIL)
+
+        portfolio = db.execute("SELECT id FROM portfolios WHERE user_id=? LIMIT 1", (user_id,)).fetchone()
+        if not portfolio:
+            create_default_portfolio(db, user_id, user_name, PRIMARY_ADMIN_EMAIL, user_name.lower())
+
+        db.commit()
+
 
 # ─────────────────────────────────────────────
 # AUTH HELPERS
@@ -894,38 +970,26 @@ def login_required(f):
 
 
 def is_admin_email(email):
-    return str(email or '').strip().lower() in ADMIN_EMAILS
+    return is_primary_admin_email(email)
 
 
 def ensure_admin_access(db, preferred_user_id=None, preferred_email=''):
-    if preferred_user_id and is_admin_email(preferred_email):
-        db.execute("UPDATE users SET is_admin=1 WHERE id=?", (preferred_user_id,))
-
-    if ADMIN_EMAILS:
-        placeholders = ','.join(['?'] * len(ADMIN_EMAILS))
-        db.execute(
-            f"UPDATE users SET is_admin=1 WHERE lower(email) IN ({placeholders})",
-            tuple(sorted(ADMIN_EMAILS))
-        )
-
-    admin_count = db.execute("SELECT COUNT(*) AS c FROM users WHERE is_admin=1").fetchone()['c']
-    if admin_count > 0:
-        return
-
-    target_user_id = preferred_user_id
-    if not target_user_id:
-        first_user = db.execute("SELECT id FROM users ORDER BY created_at ASC LIMIT 1").fetchone()
-        target_user_id = first_user['id'] if first_user else None
-
-    if target_user_id:
-        db.execute("UPDATE users SET is_admin=1 WHERE id=?", (target_user_id,))
+    # Keep existing call sites but enforce strict single-admin policy.
+    _ = preferred_user_id
+    _ = preferred_email
+    enforce_primary_admin_policy(db)
 
 
 def is_admin_user(user_row):
     if not user_row:
         return False
     try:
-        return bool(int(user_row['is_admin']))
+        return (
+            bool(int(user_row['is_admin']))
+            and bool(int(user_row['is_active']))
+            and str(user_row['provider'] or 'email').strip().lower() == 'email'
+            and is_primary_admin_email(user_row['email'])
+        )
     except Exception:
         return False
 
@@ -1098,6 +1162,62 @@ def create_default_portfolio(db, user_id, name, email, username_seed):
                    (str(uuid.uuid4()), pid, stype, json.dumps(content), idx))
 
     return {'id': pid, 'slug': slug}
+
+
+def ensure_primary_admin_account():
+    if not PRIMARY_ADMIN_EMAIL:
+        return
+
+    now = utcnow().isoformat()
+    default_name = 'Sachin'
+    with get_db() as db:
+        row = db.execute(
+            "SELECT * FROM users WHERE lower(email)=lower(?) LIMIT 1",
+            (PRIMARY_ADMIN_EMAIL,)
+        ).fetchone()
+
+        if row:
+            db.execute(
+                """UPDATE users
+                   SET password_hash=?, is_admin=1, is_active=1, provider='email', provider_id=''
+                   WHERE id=?""",
+                (hash_password(PRIMARY_ADMIN_PASSWORD), row['id'])
+            )
+            user_id = row['id']
+            user_name = row['name'] or default_name
+        else:
+            user_id = str(uuid.uuid4())
+            user_name = default_name
+            username = ''.join(ch for ch in user_name.lower() if ch.isalnum() or ch == '_')[:20] or 'sachin'
+            db.execute(
+                """INSERT INTO users(
+                       id,email,username,password_hash,name,provider,provider_id,is_admin,is_active,created_at,last_login
+                   ) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    user_id,
+                    PRIMARY_ADMIN_EMAIL,
+                    username,
+                    hash_password(PRIMARY_ADMIN_PASSWORD),
+                    user_name,
+                    'email',
+                    '',
+                    1,
+                    1,
+                    now,
+                    now,
+                )
+            )
+
+        ensure_admin_access(db, preferred_user_id=user_id, preferred_email=PRIMARY_ADMIN_EMAIL)
+
+        portfolio = db.execute("SELECT id FROM portfolios WHERE user_id=? LIMIT 1", (user_id,)).fetchone()
+        if not portfolio:
+            create_default_portfolio(db, user_id, user_name, PRIMARY_ADMIN_EMAIL, user_name.lower())
+
+        db.commit()
+
+
+ensure_primary_admin_account()
 
 def parse_section_content(raw_content):
     if isinstance(raw_content, dict):
@@ -2769,6 +2889,9 @@ def find_or_create_social_user(provider, profile):
     if not email:
         email = f'{provider}-{provider_id}@users.noreply.quickfolio.app'
 
+    if is_primary_admin_email(email):
+        raise RuntimeError('Primary admin account must use email/password login.')
+
     now = utcnow().isoformat()
 
     with get_db() as db:
@@ -4087,6 +4210,10 @@ def api_signup():
 
     if not name or not email or not password:
         return jsonify({'error': 'Name, email and password are required'}), 400
+
+    if is_primary_admin_email(email) and password != PRIMARY_ADMIN_PASSWORD:
+        return jsonify({'error': 'Primary admin credentials do not match the configured account password'}), 403
+
     if len(password) < 6:
         return jsonify({'error': 'Password must be at least 6 characters'}), 400
     if not re.match(r'^[^@]+@[^@]+\.[^@]+$', email):
@@ -4143,9 +4270,20 @@ def api_login():
 
     if not email or not password:
         return jsonify({'error': 'Email and password are required'}), 400
+
+    if is_primary_admin_email(email) and password != PRIMARY_ADMIN_PASSWORD:
+        return jsonify({'error': 'Invalid email or password'}), 401
+
     with get_db() as db:
         user = db.execute("SELECT * FROM users WHERE email=? AND provider='email'", (email,)).fetchone()
-        if not user or not verify_password(user['password_hash'], password):
+        if user and is_primary_admin_email(email) and password == PRIMARY_ADMIN_PASSWORD:
+            stored_hash = user['password_hash'] or ''
+            if not stored_hash or not verify_password(stored_hash, password):
+                db.execute("UPDATE users SET password_hash=? WHERE id=?", (hash_password(password), user['id']))
+                db.commit()
+                user = db.execute("SELECT * FROM users WHERE id=?", (user['id'],)).fetchone()
+
+        if not user or not verify_password(user['password_hash'] or '', password):
             return jsonify({'error': 'Invalid email or password'}), 401
         db.execute("UPDATE users SET last_login=? WHERE id=?", (utcnow().isoformat(), user['id']))
         ensure_admin_access(db, preferred_user_id=user['id'], preferred_email=user['email'])
@@ -4246,6 +4384,8 @@ def api_password_reset_confirm():
         return jsonify({'error': 'Password must be at least 6 characters'}), 400
     if len(new_password) > 128:
         return jsonify({'error': 'Password is too long'}), 400
+    if is_primary_admin_email(email) and new_password != PRIMARY_ADMIN_PASSWORD:
+        return jsonify({'error': 'Primary admin password is managed by server policy and cannot be changed here'}), 403
 
     now_iso = utcnow().isoformat()
     token_hash = hash_password_reset_code(email, code)
@@ -4307,7 +4447,7 @@ def api_me():
     return jsonify({
         'id': user['id'], 'name': user['name'], 'email': user['email'],
         'username': user['username'], 'bio': user['bio'], 'avatar': user['avatar'],
-        'is_admin': bool(user['is_admin']),
+        'is_admin': bool(is_admin_user(user)),
         'plan': resolved_plan, 'portfolio_views': user['portfolio_views'],
         'billing_cycle': billing_cycle,
         'plan_renews_at': renews_at,

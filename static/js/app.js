@@ -1,13 +1,14 @@
 /* ════════ APP.JS — main controller ════════ */
 
 const PAGE = window.APP_CONFIG?.page || 'landing';
-const ASSET_VERSION = '20260705crafted10';
+const ASSET_VERSION = '20260808uiux01';
 const PREFETCHED_PATHS = new Set();
 const LOADED_STYLE_IDS = new Set();
 const LOADED_SCRIPT_IDS = new Set();
 const CHATBOT_DISABLED_PAGES = new Set(['login', 'signup', 'builder', 'resume-editor']);
 const PREFETCH_DISABLED_PAGES = new Set(['login', 'signup', 'builder', 'resume-editor']);
 const COMMAND_CENTER_DISABLED_PAGES = new Set(['login', 'signup']);
+const CINEMATIC_ENABLED_PAGES = new Set(['landing', 'templates', 'pricing', 'about']);
 const CINEMATIC_PROFILE_KEY = 'quickfolio.cinematic.profile';
 const CINEMATIC_PROFILE_KEY_LEGACY = 'QuickFolio.cinematic.profile';
 const CINEMATIC_PROFILES = {
@@ -51,6 +52,10 @@ let _routeTransitionLocked = false;
 let _activeCinematicProfileId = 'balanced';
 let _cinematicsBooted = false;
 let _cinematicBootTeardown = null;
+
+function pageSupportsCinematics() {
+  return CINEMATIC_ENABLED_PAGES.has(PAGE);
+}
 
 function runWhenIdle(task, timeout = 1200) {
   if (typeof task !== 'function') return;
@@ -105,9 +110,15 @@ function setCinematicProfile(profileId, options = {}) {
   }
   applyCinematicProfileToBody();
 
-  if (PAGE === 'landing') initLandingCinematic();
-  initSiteCinematic();
-  _cinematicsBooted = true;
+  if (pageSupportsCinematics()) {
+    if (PAGE === 'landing') initLandingCinematic();
+    initSiteCinematic();
+    _cinematicsBooted = true;
+  } else {
+    _cinematicsBooted = false;
+    destroyLandingCinematic();
+    destroySiteCinematic();
+  }
   refreshCommandCenterActions();
 
   if (!options.silent && typeof Toast?.info === 'function') {
@@ -143,6 +154,7 @@ function teardownCinematicBootListeners() {
 }
 
 function bootDeferredCinematics() {
+  if (!pageSupportsCinematics()) return;
   if (_cinematicsBooted || isRouteTransitionDisabled()) return;
   _cinematicsBooted = true;
   if (PAGE === 'landing') initLandingCinematic();
@@ -153,6 +165,12 @@ function bootDeferredCinematics() {
 function scheduleDeferredCinematics() {
   _cinematicsBooted = false;
   teardownCinematicBootListeners();
+
+  if (!pageSupportsCinematics()) {
+    destroyLandingCinematic();
+    destroySiteCinematic();
+    return;
+  }
 
   if (isRouteTransitionDisabled()) {
     destroyLandingCinematic();
@@ -494,7 +512,13 @@ function initPerformanceMode() {
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const effectiveType = String(connection?.effectiveType || '').toLowerCase();
     const saveData = Boolean(connection?.saveData);
-    _perfModeEnabled = saveData || effectiveType.includes('2g') || effectiveType === 'slow-2g';
+    const narrowViewport = Math.min(window.innerWidth || 0, window.innerHeight || 0) > 0
+      ? Math.min(window.innerWidth, window.innerHeight) <= 480
+      : false;
+    const lowCpu = Number(navigator.hardwareConcurrency || 8) <= 4;
+    const lowMemory = Number(navigator.deviceMemory || 8) <= 4;
+    const midNetwork = effectiveType.includes('3g');
+    _perfModeEnabled = saveData || effectiveType.includes('2g') || effectiveType === 'slow-2g' || (narrowViewport && (lowCpu || lowMemory || midNetwork));
   }
   document.body.classList.toggle('perf-mode', _perfModeEnabled);
 }
@@ -512,15 +536,18 @@ function togglePerformanceMode(forceValue) {
     destroyLandingCinematic();
     destroySiteCinematic();
   } else {
-    _cinematicsBooted = true;
-    if (PAGE === 'landing') initLandingCinematic();
-    initSiteCinematic();
+    if (pageSupportsCinematics()) {
+      _cinematicsBooted = true;
+      if (PAGE === 'landing') initLandingCinematic();
+      initSiteCinematic();
+    }
   }
 
   Toast.info(_perfModeEnabled ? 'Performance mode enabled' : 'Performance mode disabled');
 }
 
 function initScrollProgressBar() {
+  if (['dashboard', 'builder', 'resume-editor', 'admin', 'billing', 'login', 'signup'].includes(PAGE)) return;
   if (document.getElementById('scroll-progress')) return;
   const bar = document.createElement('div');
   bar.id = 'scroll-progress';

@@ -433,9 +433,9 @@ function renderAnalyticsTab(a, perfSummary) {
 
   const statusMeta = {
     good: { bg: 'rgba(34,197,94,.12)', border: 'rgba(34,197,94,.35)', text: '#22c55e', label: 'Good' },
-    'needs-improvement': { bg: 'rgba(251,146,60,.13)', border: 'rgba(251,146,60,.35)', text: '#fb923c', label: 'Needs Work' },
+    'needs-improvement': { bg: 'rgba(202,143,42,.16)', border: 'rgba(202,143,42,.35)', text: '#8f5e11', label: 'Needs Work' },
     poor: { bg: 'rgba(239,68,68,.12)', border: 'rgba(239,68,68,.35)', text: '#ef4444', label: 'Poor' },
-    unknown: { bg: 'rgba(99,102,241,.12)', border: 'rgba(99,102,241,.35)', text: '#818cf8', label: 'Collecting' },
+    unknown: { bg: 'rgba(53,95,154,.14)', border: 'rgba(53,95,154,.35)', text: '#355f9a', label: 'Collecting' },
   };
 
   const vitalCard = (title, key, formatter) => {
@@ -486,7 +486,7 @@ function renderAnalyticsTab(a, perfSummary) {
           ${sourceRows.map((row) => {
             const views = Number(row?.views || 0);
             const pct = Math.max((views / maxSourceViews) * 100, 8);
-            return `<div style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.16);border-radius:12px;padding:10px 11px">
+            return `<div style="background:rgba(45,106,95,.08);border:1px solid rgba(45,106,95,.22);border-radius:12px;padding:10px 11px">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px">
                 <span style="font-weight:700;font-size:.8rem;text-transform:capitalize">${esc(row?.source || 'direct')}</span>
                 <span style="font-size:.74rem;color:var(--muted)">${views} view${views === 1 ? '' : 's'}</span>
@@ -497,7 +497,7 @@ function renderAnalyticsTab(a, perfSummary) {
             </div>`;
           }).join('')}
         </div>
-      ` : `<div style="padding:16px;border:1px dashed rgba(0,229,255,.2);border-radius:12px;color:var(--muted);font-size:.82rem">No source data yet. Share your live URL using the social share tools from your public portfolio page.</div>`}
+      ` : `<div style="padding:16px;border:1px dashed rgba(45,106,95,.25);border-radius:12px;color:var(--muted);font-size:.82rem">No source data yet. Share your live URL using the social share tools from your public portfolio page.</div>`}
     </div>
     <div class="chart-wrap" style="margin-top:16px">
       <div class="chart-title"><span>Campaign Insights</span></div>
@@ -505,9 +505,9 @@ function renderAnalyticsTab(a, perfSummary) {
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           ${campaignRows.map((row) => `<span class="tag tag-c" style="font-size:.7rem">${esc(row?.campaign || 'campaign')}: ${Number(row?.views || 0)}</span>`).join('')}
         </div>
-      ` : `<div style="padding:14px;border:1px dashed rgba(0,229,255,.2);border-radius:12px;color:var(--muted);font-size:.82rem">No UTM campaigns tracked yet. Use links with utm_campaign to compare launch pushes and referral spikes.</div>`}
+      ` : `<div style="padding:14px;border:1px dashed rgba(45,106,95,.25);border-radius:12px;color:var(--muted);font-size:.82rem">No UTM campaigns tracked yet. Use links with utm_campaign to compare launch pushes and referral spikes.</div>`}
     </div>
-    <div style="padding:14px 16px;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);border-radius:14px;margin-top:16px;color:#d9ccff;font-size:.82rem">
+    <div style="padding:14px 16px;background:rgba(45,106,95,.09);border:1px solid rgba(45,106,95,.23);border-radius:14px;margin-top:16px;color:var(--text);font-size:.82rem">
       Pro tip: run weekly launch sprints using different campaign tags (example: <strong>reel-week1</strong>, <strong>linkedin-case-study</strong>) and keep whichever source drives the highest response volume.
     </div>
   </div>`;
@@ -539,7 +539,7 @@ function renderSettingsTab(user, billing) {
     ? formatDate(subscription.current_period_end)
     : 'No renewal date';
   const cancelState = subscription?.cancel_at_period_end
-    ? '<div style="font-size:.74rem;color:#fb923c;margin-top:4px">Cancellation scheduled at period end</div>'
+    ? '<div style="font-size:.74rem;color:#8f5e11;margin-top:4px">Cancellation scheduled at period end</div>'
     : '<div style="font-size:.74rem;color:var(--muted2);margin-top:4px">Auto-renew is active</div>';
 
   return `<div>

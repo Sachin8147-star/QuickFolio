@@ -781,19 +781,23 @@ async function renderDashboard(user) {
   return `
   <div class="dash-layout" style="padding-top:var(--nav-h)">
     <aside class="dash-side">
-      <div style="padding:16px 8px 20px">
-        <div style="width:48px;height:48px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;color:#000;margin-bottom:10px">${(user.name||'?')[0].toUpperCase()}</div>
+      <div class="dash-profile-card" style="padding:16px 8px 20px">
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:10px">${(user.name||'?')[0].toUpperCase()}</div>
         <div style="font-weight:700;font-size:.9rem">${user.name}</div>
         <div style="color:var(--muted);font-size:.73rem">${user.email}</div>
         <div style="margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
           <span class="tag tag-c">${planLabel}</span>
           <span class="pill-live">● ${firstName} Workspace</span>
         </div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;color:var(--muted2);font-size:.71rem">
+          <div>Workflow: Dashboard → Builder → Publish</div>
+          <div>Tip: Keep headline and top project updated weekly.</div>
+        </div>
       </div>
       <div class="dash-nav-h">Workspace</div>
       <button class="dash-nav-a active" onclick="showDashTab('overview',this)"><span class="dash-nav-ico">🏠</span> Overview</button>
       <button class="dash-nav-a" onclick="showDashTab('analytics',this)"><span class="dash-nav-ico">📈</span> Analytics</button>
-      <button class="dash-nav-a" onclick="showDashTab('contacts',this)"><span class="dash-nav-ico">💬</span> Contacts <span id="unread-badge" style="display:none;background:var(--accent);color:#000;border-radius:10px;padding:1px 6px;font-size:.65rem;font-weight:800;margin-left:auto">${user.unread_contacts||0}</span></button>
+      <button class="dash-nav-a" onclick="showDashTab('contacts',this)"><span class="dash-nav-ico">💬</span> Contacts <span id="unread-badge" style="display:none;background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;font-size:.65rem;font-weight:800;margin-left:auto">${user.unread_contacts||0}</span></button>
       <div class="dash-nav-h">Portfolio</div>
       <button class="dash-nav-a" onclick="window.location.href='/builder'"><span class="dash-nav-ico">🛠️</span> Builder</button>
       <button class="dash-nav-a" onclick="window.location.href='/resume-editor'"><span class="dash-nav-ico">📄</span> Resume Editor</button>
@@ -803,7 +807,7 @@ async function renderDashboard(user) {
       <button class="dash-nav-a" onclick="window.location.href='/billing'"><span class="dash-nav-ico">💳</span> Billing</button>
       <button class="dash-nav-a" onclick="window.location.href='/pricing'"><span class="dash-nav-ico">⭐</span> Plans</button>
       <button class="dash-nav-a" onclick="showDashTab('settings',this)"><span class="dash-nav-ico">⚙️</span> Settings</button>
-      <button class="dash-nav-a" onclick="Auth.logout()" style="color:#ef4444"><span class="dash-nav-ico">🚪</span> Logout</button>
+      <button class="dash-nav-a" onclick="Auth.logout()" style="color:#b4232f"><span class="dash-nav-ico">🚪</span> Logout</button>
     </aside>
     <div class="dash-content">
       <div id="dash-tab-content"></div>
@@ -818,14 +822,44 @@ function renderDashOverview(user, analytics, billing) {
   const planName = plan?.name || String(user?.plan || 'free').toUpperCase();
   const renewalLabel = subscription?.current_period_end ? formatDate(subscription.current_period_end) : 'No renewal date';
   const renewalState = subscription?.cancel_at_period_end
-    ? '<span style="color:#fb923c">Auto-renew off</span>'
+    ? '<span style="color:#8f5e11">Auto-renew off</span>'
     : '<span style="color:var(--a3)">Auto-renew on</span>';
   const topSignals = (plan?.features || []).slice(0, 3);
+
+  const views = Number(a.total_views || 0);
+  const contacts = Number(a.total_contacts || 0);
+  const published = Boolean(a.is_published);
+  const growthScore = Math.min(100,
+    (published ? 38 : 0)
+    + Math.min(32, views * 2)
+    + Math.min(20, contacts * 5)
+    + (topSignals.length ? 10 : 0)
+  );
+  const growthLabel = growthScore >= 75 ? 'Strong' : (growthScore >= 45 ? 'On Track' : 'Needs Work');
+  const conversionHint = views > 0 ? `${((contacts / Math.max(views, 1)) * 100).toFixed(1)}% inquiry rate` : 'No visitor data yet';
 
   return `
   <div class="dash-overview-2026">
     <div class="dash-hello font-h">Good ${getGreeting()}, ${(user.name||'Developer').split(' ')[0]}.</div>
-    <div class="dash-sub">Your portfolio is ${a.is_published ? `<span style="color:var(--a3)">live at</span> <a href="${a.portfolio_url}" target="_blank" style="color:var(--accent)">${window.location.origin}${a.portfolio_url}</a>` : '<span style="color:#fb923c">in draft mode - publish to go live</span>'}</div>
+    <div class="dash-sub">Your portfolio is ${a.is_published ? `<span style="color:var(--a3)">live at</span> <a href="${a.portfolio_url}" target="_blank" style="color:var(--accent)">${window.location.origin}${a.portfolio_url}</a>` : '<span style="color:#8f5e11">in draft mode - publish to go live</span>'}</div>
+
+    <div class="chart-wrap" style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:.72rem;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;font-weight:800">Workspace Score</div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:5px">
+            <div style="font-family:var(--fd);font-size:1.5rem;font-weight:900">${growthScore}</div>
+            <span class="tag tag-c" style="font-size:.68rem">${growthLabel}</span>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:3px">${conversionHint}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" onclick="window.location.href='/builder'">Edit Portfolio</button>
+          <button class="btn btn-outline btn-sm" id="pub-btn" onclick="togglePublish()">${a.is_published ? 'Unpublish' : 'Publish Portfolio'}</button>
+          ${a.portfolio_url ? `<a href="${a.portfolio_url}" target="_blank" class="btn btn-ghost btn-sm">View Live</a>` : ''}
+        </div>
+      </div>
+    </div>
 
     <div class="stat-cards dash-kpi-grid">
       ${[
@@ -840,7 +874,7 @@ function renderDashOverview(user, analytics, billing) {
         <div class="stat-lbl">${lbl}</div>
         <div style="color:var(--muted2);font-size:.7rem;margin-top:4px">${hint}</div>
       </div>`).join('')}
-      <div class="stat-card" style="border-color:rgba(0,229,255,.2);background:linear-gradient(135deg,rgba(0,229,255,.04),rgba(180,79,255,.04));cursor:pointer" onclick="window.location.href='/builder'">
+      <div class="stat-card" style="border-color:rgba(45,106,95,.22);background:linear-gradient(135deg,rgba(45,106,95,.08),rgba(53,95,154,.07));cursor:pointer" onclick="window.location.href='/builder'">
         <div class="stat-ico">✍️</div>
         <span class="stat-num" style="font-size:1.2rem">Edit</span>
         <div class="stat-lbl">Open Builder</div>
@@ -848,7 +882,7 @@ function renderDashOverview(user, analytics, billing) {
       </div>
     </div>
 
-    <div class="chart-wrap" style="border-color:rgba(0,229,255,.22);background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(180,79,255,.05));margin-bottom:20px">
+    <div class="chart-wrap" style="border-color:rgba(45,106,95,.2);background:linear-gradient(135deg,rgba(45,106,95,.08),rgba(53,95,154,.07));margin-bottom:20px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
         <div>
           <div style="font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:800">Membership Health</div>
@@ -862,13 +896,22 @@ function renderDashOverview(user, analytics, billing) {
       </div>
     </div>
 
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px">
-      <button class="btn btn-primary" onclick="window.location.href='/builder'">Edit Portfolio</button>
-      <button class="btn btn-outline" id="pub-btn" onclick="togglePublish()">
-        ${a.is_published ? 'Unpublish' : 'Publish Portfolio'}
-      </button>
-      ${a.portfolio_url ? `<a href="${a.portfolio_url}" target="_blank" class="btn btn-ghost">View Live</a>` : ''}
-      <a href="/pricing" class="btn btn-ghost">Compare Plans</a>
+    <div class="chart-wrap" style="margin-bottom:16px">
+      <div class="chart-title"><span>Growth Checklist</span><span style="font-size:.72rem;color:var(--muted)">Weekly execution</span></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+        <div style="padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface)">
+          <div style="font-size:.72rem;color:var(--muted2);text-transform:uppercase;font-weight:800">Publish Status</div>
+          <div style="margin-top:5px;font-weight:700">${published ? 'Live and indexed' : 'Draft mode'}</div>
+        </div>
+        <div style="padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface)">
+          <div style="font-size:.72rem;color:var(--muted2);text-transform:uppercase;font-weight:800">Visitor Momentum</div>
+          <div style="margin-top:5px;font-weight:700">${views} views this cycle</div>
+        </div>
+        <div style="padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface)">
+          <div style="font-size:.72rem;color:var(--muted2);text-transform:uppercase;font-weight:800">Response Signals</div>
+          <div style="margin-top:5px;font-weight:700">${contacts} incoming contact${contacts === 1 ? '' : 's'}</div>
+        </div>
+      </div>
     </div>
 
     <div class="chart-wrap">

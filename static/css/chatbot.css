@@ -76,3 +76,88 @@
 
 /* Portfolio view CSS variables (set by JS) */
 #pf-root{--bg:#07111d;--surface:#0d1725;--card:#122033;--border:#233347;--accent:#4bb8ff;--a2:#5f87ff;--text:#f5f8ff;--muted:#8ea2bd;--grad:linear-gradient(135deg,#4bb8ff,#5f87ff);--fn:'Orbitron',monospace;--fb:'Outfit',sans-serif}
+
+/* Chatbot UI refresh overrides */
+.cb-fab{
+	width:58px;
+	height:58px;
+	background:linear-gradient(135deg,#2d6a5f,#355f9a);
+	box-shadow:0 10px 28px rgba(53,95,154,.36);
+	color:#f8f8f2;
+}
+
+.cb-fab:hover{box-shadow:0 16px 38px rgba(53,95,154,.44)}
+
+.cb-fab .cb-notif{border-color:#fff9ef}
+
+.cb-win{
+	background:linear-gradient(180deg,#fffaf2,#f8efe2);
+	border:1px solid rgba(182,151,115,.38);
+	box-shadow:0 20px 60px rgba(20,31,47,.22);
+}
+
+.cb-head{
+	background:linear-gradient(135deg,rgba(45,106,95,.12),rgba(53,95,154,.12));
+	border-bottom:1px solid rgba(182,151,115,.34);
+}
+
+.cb-av{background:linear-gradient(135deg,#2d6a5f,#355f9a);color:#f8f8f2}
+
+.cb-head-info .cb-name,
+.cb-msg,
+.cb-close,
+.cb-inp,
+.cb-send,
+.cb-sug{color:#1b2735}
+
+.cb-head-info .cb-status{color:#586c81}
+
+.cb-bot-msg{
+	background:rgba(255,255,255,.84);
+	border:1px solid rgba(182,151,115,.34);
+	color:#1b2735;
+}
+
+.cb-user-msg{
+	background:linear-gradient(135deg,#2d6a5f,#355f9a);
+	color:#f7f8f2;
+}
+
+.cb-bot-msg strong{color:#2d6a5f}
+
+.cb-q,
+.cb-sug{
+	background:rgba(45,106,95,.08);
+	border-color:rgba(45,106,95,.24);
+	color:#2d6a5f;
+}
+
+.cb-q:hover,
+.cb-sug:hover{background:rgba(45,106,95,.14)}
+
+.cb-foot{
+	background:rgba(255,255,255,.66);
+	border-top:1px solid rgba(182,151,115,.32);
+}
+
+.cb-inp{
+	background:rgba(255,255,255,.88);
+	border-color:rgba(182,151,115,.38);
+}
+
+.cb-inp:focus{border-color:#2d6a5f;box-shadow:0 0 0 2px rgba(45,106,95,.14)}
+
+.cb-send{
+	background:linear-gradient(135deg,#2d6a5f,#355f9a);
+	color:#f8f8f2;
+}
+
+@media(max-width:700px){
+	.cb-fab{right:12px;bottom:12px}
+	.cb-win{left:10px;right:10px;bottom:76px;width:auto;height:calc(100vh - 96px);max-height:520px}
+}
+
+@media(max-width:420px){
+	.cb-win{border-radius:16px}
+	.cb-msg{font-size:.78rem;line-height:1.5}
+}
